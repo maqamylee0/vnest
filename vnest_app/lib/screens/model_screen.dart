@@ -73,8 +73,30 @@ class _ModelScreenState extends State<ModelScreen> {
                   'adb shell mv /data/local/tmp/${llm.model.id} ${llm.modelDir}'),
               OutlinedButton(onPressed: llm.refresh, child: const Text('Check again')),
             ],
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Write exercises automatically'),
+              subtitle: const Text('Turn off to test a new model with the buttons below first.'),
+              value: llm.autoWrite,
+              onChanged: llm.setAutoWrite,
+            ),
             if (llm.state == ModelState.notLoaded || llm.state == ModelState.error)
               FilledButton(onPressed: llm.load, child: const Text('Start the helper')),
+            if (llm.isReady) ...[
+              const SizedBox(height: 8),
+              Text('Self-test (tiny request)', style: t.titleMedium),
+              Wrap(spacing: 8, runSpacing: 8, children: [
+                OutlinedButton(
+                  onPressed: llm.selfTestRunning || sc.writingVerb != null ? null : () => llm.selfTest(jsonRule: false),
+                  child: const Text('Say hello (no JSON rule)'),
+                ),
+                OutlinedButton(
+                  onPressed: llm.selfTestRunning || sc.writingVerb != null ? null : () => llm.selfTest(jsonRule: true),
+                  child: const Text('Say hello (with JSON rule)'),
+                ),
+              ]),
+            ],
+            if (llm.selfTestResult != null) _kv('Test', llm.selfTestResult!),
             const SizedBox(height: 24),
 
             Text('Add a verb', style: t.titleLarge),

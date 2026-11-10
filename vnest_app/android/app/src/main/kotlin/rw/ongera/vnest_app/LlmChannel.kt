@@ -74,7 +74,7 @@ class LlmChannel(private val context: Context, messenger: BinaryMessenger) :
                 generateJson(
                     system = call.argument("system")!!,
                     user = call.argument("user")!!,
-                    schema = call.argument("schema")!!,
+                    schema = call.argument<String>("schema")?.takeIf { it.isNotEmpty() }, // null = no JSON rule (self-test)
                     maxTokens = call.argument<Int>("maxTokens") ?: 120,
                 )
             }
@@ -123,7 +123,7 @@ class LlmChannel(private val context: Context, messenger: BinaryMessenger) :
      * One chat completion with grammar-constrained decoding: MLC only lets the model emit tokens
      * that keep the output valid against `schema`. Content is still checked on the Dart side.
      */
-    private suspend fun generateJson(system: String, user: String, schema: String, maxTokens: Int): Map<String, Any?> {
+    private suspend fun generateJson(system: String, user: String, schema: String?, maxTokens: Int): Map<String, Any?> {
         checkEngineAlive()
         val e = engine ?: error("Model not loaded")
         e.reset() // each request is independent; no chat history
@@ -136,9 +136,9 @@ class LlmChannel(private val context: Context, messenger: BinaryMessenger) :
             temperature = 0.3f,
             max_tokens = maxTokens,
             stream_options = StreamOptions(include_usage = true),
-            response_format = ResponseFormat(type = "json_object", schema = schema),
+            response_format = schema?.let { ResponseFormat(type = "json_object", schema = it) },
         )
-        Log.i("VnestLlm", "generate start (prompt ${system.length + user.length} chars, max $maxTokens tokens)")
+        Log.i("VnestLlm", "generate start (prompt ${system.length + user.length} chars, max $maxTokens tokens, json rule ${schema != null})")
         val out = StringBuilder()
         var completionTokens: Int? = null
         var decodeTps: Float? = null

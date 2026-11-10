@@ -69,6 +69,42 @@ class LlmService extends ChangeNotifier {
   LlmModel model = models.first;
   bool _restored = false;
 
+  /// Off = the model loads but the background writer stays idle (for self-tests on a new model).
+  // Off by default while Qwen hangs on the Note10 (RESEARCH_LOG Entry 6); turn back on once models pass the self-test.
+  bool autoWrite = false;
+  void setAutoWrite(bool v) {
+    autoWrite = v;
+    notifyListeners();
+  }
+
+  /// Result of the last self-test, shown on the Model screen.
+  String? selfTestResult;
+  bool selfTestRunning = false;
+
+  /// Tiny request to tell a stuck GPU from a stuck JSON rule: "say hello", with or without the schema.
+  Future<void> selfTest({required bool jsonRule}) async {
+    if (!isReady || selfTestRunning) return;
+    selfTestRunning = true;
+    selfTestResult = 'running (${jsonRule ? 'with' : 'no'} JSON rule)…';
+    notifyListeners();
+    try {
+      final r = Map<String, dynamic>.from(await _channel.invokeMethod('generateJson', {
+        'system': 'You are a helpful assistant.',
+        'user': jsonRule ? 'Reply with JSON: {"greeting": "hello"}' : 'Say hello in one short sentence.',
+        'schema': jsonRule
+            ? jsonEncode({'type': 'object', 'properties': {'greeting': {'type': 'string'}}, 'required': ['greeting']})
+            : '',
+        'maxTokens': 24,
+      }).timeout(const Duration(minutes: 3)));
+      selfTestResult = '${model.label}, ${jsonRule ? 'with' : 'no'} JSON rule: "${r['text']}" · '
+          '${r['ms']} ms · ${r['completionTokens']} tokens · ${(r['decodeTps'] as num?)?.toStringAsFixed(1)} tok/s';
+    } catch (e) {
+      selfTestResult = '${model.label}, ${jsonRule ? 'with' : 'no'} JSON rule: failed: $e';
+    }
+    selfTestRunning = false;
+    notifyListeners();
+  }
+
   ModelState state = ModelState.checking;
   String? modelDir;
   String? error;

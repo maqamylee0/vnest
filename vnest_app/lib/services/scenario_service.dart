@@ -119,10 +119,10 @@ class ScenarioService extends ChangeNotifier {
 
   /// Background writer: one scenario at a time while the model is ready.
   Future<void> _pump() async {
-    if (_running || !llm.isReady || stopping) return;
+    if (_running || !llm.isReady || !llm.autoWrite || stopping) return;
     _running = true;
     try {
-      while (llm.isReady && !stopping) {
+      while (llm.isReady && llm.autoWrite && !stopping) {
         // Least-covered verb first, skipping verbs that failed 3 times in a row.
         final todo = verbs.where((v) => modelScenarios(v).length < target && (_failures[v] ?? 0) < 3).toList()
           ..sort((a, b) => modelScenarios(a).length.compareTo(modelScenarios(b).length));
