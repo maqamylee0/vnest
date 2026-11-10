@@ -1,0 +1,724 @@
+{"verb": "bake", "agent": "baker", "patient": "bread", "ok": true, "where": "in the bakery", "when": "every day", "why": "to sell bread", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "bake", "agent": "baker", "patient": "cake", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "bake", "agent": "chemist", "patient": "bread", "ok": true, "where": "in the kitchen", "when": "every morning", "why": "to make breakfast", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "bake", "agent": "cook", "patient": "bread", "ok": true, "where": "in the kitchen", "when": "every morning", "why": "to make breakfast", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "bake", "agent": "cook", "patient": "cake", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to make dessert", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "bake", "agent": "mother", "patient": "bread", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "architect", "patient": "house", "ok": true, "where": "in the city", "when": "every day", "why": "to make people happy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "builder", "patient": "cathedral", "ok": true, "where": "in the town", "when": "every day", "why": "to make a home", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "builder", "patient": "house", "ok": true, "where": "in the neighborhood", "when": "every day", "why": "to make a living", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "carpenter", "patient": "deck", "ok": true, "where": "in the backyard", "when": "on saturday morning", "why": "to make a patio", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "carpenter", "patient": "outhouse", "ok": true, "where": "in the backyard", "when": "on saturday morning", "why": "to fix the bathroom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "carpenter", "patient": "roof", "ok": true, "where": "on the house", "when": "in the morning", "why": "to make a home", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "carpenter", "patient": "stable", "ok": true, "where": "in the backyard", "when": "in the afternoon", "why": "to make a home", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "child", "patient": "brick tower", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to show off skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "child", "patient": "brick towers", "ok": true, "where": "in the sandbox", "when": "on a sunny day", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "child", "patient": "sand castle", "ok": true, "where": "on the beach", "when": "in the afternoon", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "child", "patient": "tower", "ok": true, "where": "in the sandbox", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "engineer", "patient": "bridge", "ok": true, "where": "in the city", "when": "every day", "why": "to help people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "engineer", "patient": "computer", "ok": true, "where": "in the office", "when": "every working day", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "farmer", "patient": "barn", "ok": true, "where": "in the farm", "when": "every day", "why": "to store the hay", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "farmer", "patient": "barns", "ok": true, "where": "in the farm", "when": "every day", "why": "to store the hay", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "worker", "patient": "bridge", "ok": true, "where": "on the river", "when": "in the morning", "why": "to help the town", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "build", "agent": "worker", "patient": "wall", "ok": true, "where": "in the yard", "when": "in the afternoon", "why": "to make a fence", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "cook", "patient": "fresh vegetable", "ok": true, "where": "in the garden", "when": "every day", "why": "to make a salad", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "cook", "patient": "fresh vegetables", "ok": true, "where": "in the garden", "when": "every morning", "why": "to make a salad", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "customer", "patient": "mini", "ok": true, "where": "in the store", "when": "during the sale", "why": "to save money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "homeowner", "patient": "new carpet", "ok": true, "where": "in the living room", "when": "after the party", "why": "to make it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "husband", "patient": "present", "ok": true, "where": "in the store", "when": "on saturday", "why": "to surprise her", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "man", "patient": "car", "ok": true, "where": "in the parking lot", "when": "on saturday", "why": "to drive to work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "mother", "patient": "baby formula", "ok": true, "where": "in the house", "when": "in the morning", "why": "to feed the baby", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "mother", "patient": "groceries", "ok": true, "where": "in the store", "when": "every week", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "mother", "patient": "grocery", "ok": false, "where": "in the store", "when": "every week", "why": "to buy food", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "buy", "agent": "painter", "patient": "canvas", "ok": true, "where": "in the studio", "when": "every day", "why": "to make art", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "woman", "patient": "new clothe", "ok": true, "where": "in the store", "when": "today afternoon", "why": "to get a gift", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "woman", "patient": "new clothing", "ok": true, "where": "in the store", "when": "today", "why": "to get new dress", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "boy", "patient": "groceries", "ok": true, "where": "in the house", "when": "after work", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "boy", "patient": "grocery", "ok": true, "where": "in the store", "when": "after work", "why": "to buy food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "child", "patient": "bag", "ok": true, "where": "in the park", "when": "after school", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "child", "patient": "bags", "ok": true, "where": "in the park", "when": "after school", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "fisherman", "patient": "fish pole", "ok": true, "where": "on the dock", "when": "in the afternoon", "why": "to catch dinner", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "man", "patient": "bag", "ok": false, "where": "in the park", "when": "on a walk", "why": "to carry groceries", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "carry", "agent": "man", "patient": "load", "ok": true, "where": "in the garden", "when": "after breakfast", "why": "to help his friend", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "man", "patient": "suitcase", "ok": true, "where": "in the airport", "when": "before the trip", "why": "to go on vacation", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "mother", "patient": "babies", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "mother", "patient": "baby", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with her", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "singer", "patient": "tune", "ok": true, "where": "on stage", "when": "during the concert", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "soldier", "patient": "machine gun", "ok": true, "where": "on the battlefield", "when": "during the exercise", "why": "to protect the team", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "student", "patient": "heavy load", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to help the teacher", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "tourist", "patient": "subway map", "ok": true, "where": "in the subway", "when": "during the trip", "why": "to find the way", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "woman", "patient": "babies", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to take them for a walk", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "woman", "patient": "baby", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to take a walk", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "woman", "patient": "briefcase", "ok": true, "where": "in the office", "when": "at work", "why": "to go to meeting", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "carry", "agent": "woman", "patient": "purse", "ok": true, "where": "in the store", "when": "on saturday", "why": "to buy groceries", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "child", "patient": "butterflies", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to watch them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "child", "patient": "butterfly", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to watch it fly", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "doctor", "patient": "cold", "ok": true, "where": "in the office", "when": "during the day", "why": "to help patients", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "fisherman", "patient": "catfish", "ok": true, "where": "on the river", "when": "in the morning", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "fisherman", "patient": "pike", "ok": true, "where": "on the lake", "when": "in the morning", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "fisherman", "patient": "shark", "ok": true, "where": "on the boat", "when": "in the morning", "why": "to make a living", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "fisherman", "patient": "trout", "ok": true, "where": "in the river", "when": "in the morning", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "catch", "agent": "girl", "patient": "ball", "ok": true, "where": "in the park", "when": "on saturday", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "check", "agent": "doctor", "patient": "blood pressure", "ok": true, "where": "in the office", "when": "every morning", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "check", "agent": "electrician", "patient": "wire", "ok": true, "where": "in the house", "when": "every morning", "why": "to fix the problem", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "check", "agent": "electrician", "patient": "wiring", "ok": true, "where": "in the house", "when": "every day", "why": "to keep safe", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "check", "agent": "teacher", "patient": "homework", "ok": true, "where": "in the classroom", "when": "after school", "why": "to make sure", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "chop", "agent": "cook", "patient": "vegetable", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make a salad", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "chop", "agent": "cook", "patient": "vegetables", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to prepare the meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "chemist", "patient": "lab", "ok": false, "where": "in the lab", "when": "every morning", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "child", "patient": "room", "ok": true, "where": "in the bedroom", "when": "after bedtime", "why": "to make it tidy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "cleaner", "patient": "drape", "ok": false, "where": "in the house", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "cleaner", "patient": "office", "ok": false, "where": "in the office", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "dentist", "patient": "teeth", "ok": true, "where": "in the office", "when": "every morning", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "dentist", "patient": "tooth", "ok": true, "where": "in the office", "when": "every day", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "hunter", "patient": "gun", "ok": true, "where": "in the workshop", "when": "after hunting", "why": "to keep it safe", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "husband", "patient": "house", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to make it tidy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "janitor", "patient": "sink", "ok": false, "where": "in the bathroom", "when": "after breakfast", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "janitor", "patient": "toilet", "ok": false, "where": "in the school", "when": "after lunch", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "janitor", "patient": "toilets", "ok": false, "where": "in the school", "when": "after school", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "janitor", "patient": "urinal", "ok": false, "where": "in the bathroom", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "maid", "patient": "bathroom", "ok": false, "where": "in the house", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "maid", "patient": "coffee table", "ok": false, "where": "in the living room", "when": "after breakfast", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "maid", "patient": "house", "ok": true, "where": "in the house", "when": "every day", "why": "to help us", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "maid", "patient": "room", "ok": false, "where": "in the house", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "maid", "patient": "window", "ok": true, "where": "in the house", "when": "every day", "why": "to make it shine", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "man", "patient": "house", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to make it tidy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "man", "patient": "toilet", "ok": false, "where": "in the bathroom", "when": "every morning", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "man", "patient": "toilets", "ok": false, "where": "in the house", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "clean", "agent": "woman", "patient": "glass", "ok": true, "where": "in the house", "when": "after breakfast", "why": "to make it shine", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "clean", "agent": "woman", "patient": "glasses", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to see clearly", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "climb", "agent": "child", "patient": "tree", "ok": true, "where": "in the backyard", "when": "on a sunny day", "why": "to play outside", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "climb", "agent": "man", "patient": "tree", "ok": true, "where": "in the backyard", "when": "on a sunny day", "why": "to pick apples", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "climb", "agent": "man", "patient": "trees", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to pick fruit", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "child", "patient": "door", "ok": true, "where": "in the house", "when": "after bedtime", "why": "to keep warm", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "clerk", "patient": "account", "ok": true, "where": "in the bank", "when": "during business hours", "why": "to help the customer", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "man", "patient": "eye", "ok": true, "where": "in bed", "when": "at night", "why": "to sleep", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "man", "patient": "eyes", "ok": true, "where": "in bed", "when": "at night", "why": "to sleep", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "parent", "patient": "box", "ok": true, "where": "in the playroom", "when": "after naptime", "why": "to put toys away", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "student", "patient": "book", "ok": true, "where": "in the classroom", "when": "at the end of class", "why": "to finish the lesson", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "student", "patient": "eye", "ok": true, "where": "in the classroom", "when": "during the lesson", "why": "to relax", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "student", "patient": "eyes", "ok": true, "where": "in the classroom", "when": "at the end", "why": "to relax", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "close", "agent": "wife", "patient": "door", "ok": true, "where": "in the bedroom", "when": "at night", "why": "to go to sleep", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "dinner", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "dish", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make dinner", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "dishes", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make dinner", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "egg", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to make breakfast", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "excellent meal", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make people happy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "food", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "good food", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to make people happy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "gourmet food", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "gourmet meal", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make people happy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "poorly", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "professionally", "ok": true, "where": "in the kitchen", "when": "every day", "why": "to make food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "tasty dish", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make people happy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "very well", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "chef", "patient": "well", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to prepare breakfast", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "cook", "patient": "dinner", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "cook", "patient": "food", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to make breakfast", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "cook", "patient": "lasagne", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "cook", "patient": "meal", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "dad", "patient": "well", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to make dinner", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "grandma", "patient": "turnip", "ok": true, "where": "in the garden", "when": "after lunch", "why": "to make a soup", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "grandma", "patient": "turnips", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to make a soup", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "man", "patient": "breakfast", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to feed his wife", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "man", "patient": "dinner", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed his wife", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "mom", "patient": "chicken soup", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed her family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "mom", "patient": "cookie", "ok": true, "where": "in the kitchen", "when": "after school", "why": "to make a snack", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "mom", "patient": "dinner", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "mother", "patient": "great food", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed her children", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "teenager", "patient": "pie", "ok": true, "where": "in the kitchen", "when": "after school", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cook", "agent": "wife", "patient": "dinner", "ok": true, "where": "in the kitchen", "when": "in the evening", "why": "to feed her husband", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "cashier", "patient": "till", "ok": false, "where": "in the store", "when": "at closing time", "why": "to count the money", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "count", "agent": "child", "patient": "finger", "ok": true, "where": "in the park", "when": "after school", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "child", "patient": "fingers", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to learn numbers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "child", "patient": "number", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to learn the numbers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "child", "patient": "numbers", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to learn the numbers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "child", "patient": "toy", "ok": true, "where": "in the playroom", "when": "after breakfast", "why": "to play with it", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "child", "patient": "toys", "ok": true, "where": "in the playroom", "when": "after breakfast", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "kid", "patient": "marble", "ok": true, "where": "in the backyard", "when": "after breakfast", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "kid", "patient": "marbles", "ok": true, "where": "in the backyard", "when": "after school", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "man", "patient": "day", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to watch the flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "man", "patient": "days", "ok": true, "where": "in the garden", "when": "every morning", "why": "to watch flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "shepherd", "patient": "sheep", "ok": true, "where": "in the field", "when": "in the morning", "why": "to know their numbers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "count", "agent": "worker", "patient": "money", "ok": true, "where": "in the office", "when": "during work hours", "why": "to get paid", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "butcher", "patient": "beef quarter", "ok": true, "where": "in the shop", "when": "every day", "why": "to sell meat", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "butcher", "patient": "meat", "ok": true, "where": "in the shop", "when": "every day", "why": "to sell it", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "child", "patient": "and paste", "ok": true, "where": "in the craft room", "when": "after school", "why": "to make a picture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "child", "patient": "paper doilies", "ok": true, "where": "in the craft room", "when": "on saturday afternoon", "why": "to make decorations", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "child", "patient": "paper doily", "ok": true, "where": "in the craft room", "when": "after school", "why": "to make a gift", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "cook", "patient": "cheese", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make a sandwich", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "cook", "patient": "string bean", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make a salad", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "cook", "patient": "string beans", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to prepare the salad", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "dancer", "patient": "rug", "ok": true, "where": "on the dance floor", "when": "at the party", "why": "to entertain the guests", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "homeowner", "patient": "grass", "ok": true, "where": "in the backyard", "when": "on the weekend", "why": "to keep it neat", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "player", "patient": "mustard", "ok": true, "where": "in the ballpark", "when": "during the game", "why": "to add flavor", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "student", "patient": "class", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to get some fresh air", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "cut", "agent": "student", "patient": "construction paper", "ok": true, "where": "in the classroom", "when": "during art time", "why": "to make a project", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "deliver", "agent": "postman", "patient": "mail", "ok": true, "where": "in the neighborhood", "when": "every day", "why": "to bring packages", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "dancer", "patient": "beat", "ok": true, "where": "on the stage", "when": "during the concert", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "farmer", "patient": "ditch", "ok": true, "where": "in the field", "when": "after the rain", "why": "to make irrigation", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "gardener", "patient": "hole", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to plant flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "man", "patient": "grave", "ok": true, "where": "in the garden", "when": "on saturday", "why": "to bury his pet", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "man", "patient": "graves", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to plant flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "man", "patient": "hole", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to plant flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "man", "patient": "holes", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to plant flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "soldier", "patient": "trench", "ok": true, "where": "in the army camp", "when": "during the war", "why": "to protect himself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "dig", "agent": "worker", "patient": "hole", "ok": true, "where": "in the garden", "when": "in the morning", "why": "to plant flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "draw", "agent": "artist", "patient": "someone", "ok": true, "where": "in the studio", "when": "every day", "why": "to make a picture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "child", "patient": "juice", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to get energy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "child", "patient": "milk", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to eat breakfast", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "man", "patient": "ice tea", "ok": true, "where": "in the garden", "when": "on a hot day", "why": "to cool down", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "man", "patient": "iced tea", "ok": true, "where": "in the garden", "when": "on a hot day", "why": "to cool down", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "man", "patient": "water", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to stay cool", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "man", "patient": "wine", "ok": true, "where": "in the garden", "when": "on a saturday", "why": "to enjoy himself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "mother", "patient": "tea", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to warm up", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "pilot", "patient": "coffee", "ok": true, "where": "in the cockpit", "when": "after the flight", "why": "to stay awake", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "priest", "patient": "coffee", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to wake up", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "sister", "patient": "coffee", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to wake up", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "teenager", "patient": "coke", "ok": true, "where": "in the living room", "when": "after school", "why": "to satisfy his thirst", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drink", "agent": "woman", "patient": "wine", "ok": true, "where": "in the garden", "when": "in the evening", "why": "to enjoy herself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "child", "patient": "bike", "ok": true, "where": "in the park", "when": "on saturday", "why": "to practice riding", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "child", "patient": "you crazy", "ok": true, "where": "in the car", "when": "on the way home", "why": "to get home quickly", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "driver", "patient": "car", "ok": true, "where": "in the city", "when": "on the way home", "why": "to pick up groceries", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "engineer", "patient": "train", "ok": true, "where": "in the station", "when": "in the morning", "why": "to take passengers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "farmer", "patient": "tractor", "ok": true, "where": "in the field", "when": "every day", "why": "to plant crops", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "girl", "patient": "you crazy", "ok": true, "where": "in the car", "when": "every day", "why": "to go to school", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "golfer", "patient": "ball", "ok": true, "where": "on the course", "when": "on a sunny day", "why": "to win the game", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "golfer", "patient": "golf ball", "ok": true, "where": "on the course", "when": "on sundays", "why": "to practice his swing", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "man", "patient": "car", "ok": true, "where": "in the garage", "when": "on the weekend", "why": "to go shopping", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "shepherd", "patient": "sheep", "ok": true, "where": "in the field", "when": "in the morning", "why": "to keep them safe", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "soldier", "patient": "tank", "ok": true, "where": "on the battlefield", "when": "during the parade", "why": "to show his skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "drive", "agent": "woman", "patient": "car", "ok": true, "where": "in the city", "when": "every day", "why": "to go shopping", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "child", "patient": "fish", "ok": true, "where": "in the backyard", "when": "in the afternoon", "why": "to have a snack", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "child", "patient": "potato", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to have a snack", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "child", "patient": "potatoes", "ok": false, "where": "in the kitchen", "when": "at dinner time", "why": "to eat his meal", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "eat", "agent": "child", "patient": "spaghetti", "ok": true, "where": "in the kitchen", "when": "at dinner time", "why": "to be hungry", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "child", "patient": "too much", "ok": false, "where": "in the kitchen", "when": "after breakfast", "why": "to eat the food", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "eat", "agent": "man", "patient": "pussy", "ok": true, "where": "in the garden", "when": "after breakfast", "why": "to feed the cat", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "man", "patient": "spaghetti", "ok": true, "where": "in the dining room", "when": "at dinner time", "why": "to be hungry", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "neighbor", "patient": "food", "ok": true, "where": "in the backyard", "when": "in the afternoon", "why": "to share with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "sister", "patient": "spaghetti", "ok": false, "where": "in the dining room", "when": "at dinner time", "why": "to eat it", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "eat", "agent": "toddler", "patient": "banana", "ok": true, "where": "in the backyard", "when": "after breakfast", "why": "to have a snack", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "eat", "agent": "woman", "patient": "spaghetti", "ok": true, "where": "in the kitchen", "when": "at lunchtime", "why": "to have a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "child", "patient": "goldfish", "ok": true, "where": "in the tank", "when": "every day", "why": "to keep it alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "farmer", "patient": "animals", "ok": true, "where": "in the farm", "when": "every day", "why": "to give food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "farmer", "patient": "chickens", "ok": true, "where": "in the farmyard", "when": "every day", "why": "to give them food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "farmer", "patient": "pigs", "ok": true, "where": "in the farmyard", "when": "every day", "why": "to give them food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "father", "patient": "baby", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to give him milk", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "man", "patient": "canary", "ok": true, "where": "in the backyard", "when": "every morning", "why": "to give it food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "mother", "patient": "baby", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to give her milk", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "mother", "patient": "child", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to give her milk", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "mother", "patient": "infant", "ok": true, "where": "in the nursery", "when": "after breakfast", "why": "to give her milk", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "parent", "patient": "child", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to give him food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "feed", "agent": "parent", "patient": "pets", "ok": true, "where": "in the house", "when": "after breakfast", "why": "to take care", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fill", "agent": "child", "patient": "bottle", "ok": true, "where": "in the garden", "when": "after breakfast", "why": "to give to grandma", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fill", "agent": "pharmacist", "patient": "prescription", "ok": true, "where": "in the store", "when": "during work hours", "why": "to help patients", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fish", "agent": "child", "patient": "during summer", "ok": false, "where": "in the lake", "when": "during vacation", "why": "to catch fish", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fish", "agent": "fisherman", "patient": "lake", "ok": true, "where": "on the lake", "when": "in the morning", "why": "to catch food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fish", "agent": "fisherman", "patient": "stream", "ok": true, "where": "in the river", "when": "in the morning", "why": "to catch food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "child", "patient": "breakfast", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "cook", "patient": "breakfast", "ok": true, "where": "in the kitchen", "when": "in the morning", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "dentist", "patient": "break tooth", "ok": true, "where": "in the office", "when": "every day", "why": "to make it strong", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "dentist", "patient": "broken tooth", "ok": true, "where": "in the office", "when": "every morning", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "dentist", "patient": "teeth", "ok": true, "where": "in the office", "when": "every day", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "dentist", "patient": "tooth", "ok": true, "where": "in the office", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "electrician", "patient": "dead connection", "ok": true, "where": "in the house", "when": "every day", "why": "to have power", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "electrician", "patient": "short", "ok": false, "where": "in the house", "when": "after the storm", "why": "to fix the lights", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fix", "agent": "electrician", "patient": "wire", "ok": true, "where": "in the house", "when": "every day", "why": "to make it work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "electrician", "patient": "wiring", "ok": true, "where": "in the house", "when": "every day", "why": "to keep safe", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "judge", "patient": "speed ticket", "ok": true, "where": "in the courtroom", "when": "at the hearing", "why": "to make it fair", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "judge", "patient": "speeding ticket", "ok": true, "where": "in the courtroom", "when": "after the trial", "why": "to keep the roads safe", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "judge", "patient": "ticket", "ok": true, "where": "in the courtroom", "when": "during the trial", "why": "to follow the law", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "mechanic", "patient": "automobile", "ok": true, "where": "in the garage", "when": "every day", "why": "to earn money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "mechanic", "patient": "leaky radiator", "ok": true, "where": "in the garage", "when": "every day", "why": "to keep the car safe", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "plumber", "patient": "faucet", "ok": false, "where": "in the bathroom", "when": "in the morning", "why": "to fix the leak", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fix", "agent": "plumber", "patient": "leak", "ok": true, "where": "in the house", "when": "every day", "why": "to stop water", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "plumber", "patient": "leak faucet", "ok": false, "where": "in the bathroom", "when": "in the morning", "why": "to fix the leak", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fix", "agent": "plumber", "patient": "leaking faucet", "ok": false, "where": "in the bathroom", "when": "in the evening", "why": "to fix the leak", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fix", "agent": "plumber", "patient": "leaky pipe", "ok": false, "where": "in the house", "when": "every day", "why": "to fix the leak", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fix", "agent": "plumber", "patient": "plumb", "ok": true, "where": "in the house", "when": "every day", "why": "to make it work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "plumber", "patient": "plumbing", "ok": true, "where": "in the house", "when": "every day", "why": "to make it work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "plumber", "patient": "sink", "ok": true, "where": "in the bathroom", "when": "in the morning", "why": "to make it work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "teacher", "patient": "laminate machine", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to repair it", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "teacher", "patient": "laminating machine", "ok": true, "where": "in the classroom", "when": "before school", "why": "to make handouts", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "veterinarian", "patient": "animal", "ok": true, "where": "in the clinic", "when": "every day", "why": "to help the pet", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "veterinarian", "patient": "cat", "ok": true, "where": "in the clinic", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "veterinarian", "patient": "pet", "ok": true, "where": "in the clinic", "when": "every day", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "wife", "patient": "hair", "ok": true, "where": "in the bathroom", "when": "every morning", "why": "to make her look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "woman", "patient": "car", "ok": true, "where": "in the garage", "when": "on saturday", "why": "to help her husband", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fix", "agent": "woman", "patient": "flat tire", "ok": true, "where": "on the road", "when": "after driving", "why": "to get home", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "child", "patient": "kite", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "child", "patient": "kites", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "kid", "patient": "kite", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "aircraft", "ok": true, "where": "in the airport", "when": "during the flight", "why": "to reach the destination", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "biplane", "ok": true, "where": "at the airfield", "when": "on a sunny day", "why": "to show off skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "blimp", "ok": true, "where": "at the airshow", "when": "on a sunny day", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "bomber", "ok": false, "where": "in the airfield", "when": "during the morning", "why": "to practice flying", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fly", "agent": "pilot", "patient": "bombers", "ok": true, "where": "in the airfield", "when": "during the day", "why": "to train the crew", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "crop duster", "ok": true, "where": "in the countryside", "when": "in the summer", "why": "to help the farmer", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "dirigible", "ok": true, "where": "on the airfield", "when": "every sunny day", "why": "to show people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "fighter aircraft", "ok": true, "where": "at the airport", "when": "every day", "why": "to protect the country", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "fighter plane", "ok": true, "where": "at the airport", "when": "every day", "why": "to protect the country", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "fly boat", "ok": true, "where": "on the lake", "when": "in the summer", "why": "to show off skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "flying boat", "ok": true, "where": "on the lake", "when": "in the summer", "why": "to show tourists", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "glider", "ok": false, "where": "in the airfield", "when": "on a sunny day", "why": "to practice flying", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fly", "agent": "pilot", "patient": "gliders", "ok": false, "where": "at the airfield", "when": "on a sunny day", "why": "to practice flying", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "fly", "agent": "pilot", "patient": "hang glider", "ok": true, "where": "on the beach", "when": "in the afternoon", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "hang gliders", "ok": true, "where": "at the beach", "when": "on a sunny day", "why": "to show off skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "helium balloon", "ok": true, "where": "at the festival", "when": "in the afternoon", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "high", "ok": true, "where": "in the airport", "when": "during the flight", "why": "to show people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "jet", "ok": true, "where": "in the airport", "when": "every day", "why": "to transport people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "low", "ok": true, "where": "in the air", "when": "every day", "why": "to help people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "piper cub", "ok": true, "where": "at the airport", "when": "every day", "why": "to deliver mail", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "supersonic", "ok": true, "where": "in the air", "when": "during the flight", "why": "to deliver the package", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "fly", "agent": "pilot", "patient": "transport aircraft", "ok": true, "where": "at the airport", "when": "every day", "why": "to deliver packages", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "farmer", "patient": "corn", "ok": true, "where": "in the field", "when": "every summer", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "farmer", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to make food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "farmer", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to sell them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "farmer", "patient": "vegetable", "ok": true, "where": "in the garden", "when": "every day", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "farmer", "patient": "vegetables", "ok": true, "where": "in the garden", "when": "every day", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "gardener", "patient": "garden", "ok": true, "where": "in the backyard", "when": "every sunny day", "why": "to make flowers bloom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "gardener", "patient": "healthy plant", "ok": true, "where": "in the garden", "when": "every sunny day", "why": "to make food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "gardener", "patient": "healthy plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to make food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "gardener", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to make food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "gardener", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to make food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "man", "patient": "beard", "ok": true, "where": "in his house", "when": "every day", "why": "to look good", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "man", "patient": "beards", "ok": true, "where": "in his house", "when": "every day", "why": "to look handsome", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "man", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to have food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "man", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "grow", "agent": "mother", "patient": "garden", "ok": true, "where": "in the backyard", "when": "every weekend", "why": "to have fresh vegetables", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hammer", "agent": "carpenter", "patient": "nail", "ok": true, "where": "in the workshop", "when": "in the afternoon", "why": "to build a house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hammer", "agent": "carpenter", "patient": "nails", "ok": true, "where": "in the workshop", "when": "during the day", "why": "to build a house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hang", "agent": "homeowner", "patient": "picture", "ok": true, "where": "in the living room", "when": "after dinner", "why": "to decorate the house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hang", "agent": "judge", "patient": "horse thieve", "ok": true, "where": "in the courtroom", "when": "at the trial", "why": "to punish the crime", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hang", "agent": "maid", "patient": "clothe", "ok": true, "where": "in the laundry room", "when": "after the wash", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hang", "agent": "maid", "patient": "clothes", "ok": true, "where": "in the laundry room", "when": "after the wash", "why": "to keep them clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hang", "agent": "man", "patient": "picture", "ok": true, "where": "in the living room", "when": "after dinner", "why": "to decorate the house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "housekeeper", "patient": "clothe", "ok": true, "where": "in the laundry room", "when": "in the afternoon", "why": "to make it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "housekeeper", "patient": "clothes", "ok": true, "where": "in the laundry room", "when": "after breakfast", "why": "to make them clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "maid", "patient": "clothe", "ok": true, "where": "in the laundry room", "when": "after work", "why": "to make it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "maid", "patient": "clothes", "ok": true, "where": "in the laundry room", "when": "every day", "why": "to make them look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "maid", "patient": "shirt", "ok": true, "where": "in the laundry room", "when": "after breakfast", "why": "to make it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "maid", "patient": "wrinkle clothe", "ok": true, "where": "in the laundry room", "when": "after the party", "why": "to make it smooth", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "maid", "patient": "wrinkled clothes", "ok": true, "where": "in the laundry room", "when": "after the wash", "why": "to make them look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "man", "patient": "clothe", "ok": true, "where": "in the laundry room", "when": "after work", "why": "to make it look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "man", "patient": "clothe too", "ok": true, "where": "in the laundry room", "when": "after work", "why": "to make it smooth", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "man", "patient": "clothes", "ok": true, "where": "in the laundry room", "when": "every sunday morning", "why": "to keep his clothes clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "man", "patient": "clothes too", "ok": true, "where": "in the laundry room", "when": "every sunday morning", "why": "to keep his clothes clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "man", "patient": "slack", "ok": true, "where": "in the laundry room", "when": "after work", "why": "to get his clothes ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "man", "patient": "slacks", "ok": true, "where": "in the laundry room", "when": "after work", "why": "to look neat", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "mother", "patient": "child shirt", "ok": true, "where": "in the laundry room", "when": "after breakfast", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "mother", "patient": "clothe", "ok": true, "where": "in the laundry room", "when": "after breakfast", "why": "to make it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "mother", "patient": "clothes", "ok": true, "where": "in the laundry room", "when": "after breakfast", "why": "to keep them clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "mother", "patient": "laundry", "ok": true, "where": "in the laundry room", "when": "after work", "why": "to keep clothes clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "mother", "patient": "shirt", "ok": true, "where": "in the laundry room", "when": "after breakfast", "why": "to make it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "tailor", "patient": "clothe", "ok": true, "where": "in the shop", "when": "every day", "why": "to make clothes", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "tailor", "patient": "clothing", "ok": true, "where": "in the shop", "when": "every day", "why": "to make clothes", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "tailor", "patient": "shirt", "ok": true, "where": "in the shop", "when": "after work", "why": "to make it nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "tailor", "patient": "suit", "ok": true, "where": "in the shop", "when": "every day", "why": "to make it nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "lift", "agent": "child", "patient": "cup", "ok": true, "where": "in the dining room", "when": "at breakfast time", "why": "to drink juice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "lift", "agent": "man", "patient": "weight", "ok": true, "where": "in the gym", "when": "every morning", "why": "to get strong", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "lift", "agent": "man", "patient": "weights", "ok": true, "where": "in the gym", "when": "every day", "why": "to get strong", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "carpenter", "patient": "board", "ok": true, "where": "in the workshop", "when": "every day", "why": "to build a house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "cook", "patient": "flour", "ok": true, "where": "in the kitchen", "when": "before baking", "why": "to make a cake", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "cook", "patient": "ingredient", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "cook", "patient": "ingredients", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "cook", "patient": "water", "ok": true, "where": "in the kitchen", "when": "before breakfast", "why": "to make soup", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "doctor", "patient": "height", "ok": true, "where": "in the office", "when": "every morning", "why": "to check growth", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "scientist", "patient": "variable", "ok": true, "where": "in the lab", "when": "every day", "why": "to find answers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "scientist", "patient": "variables", "ok": true, "where": "in the lab", "when": "every day", "why": "to find answers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "measure", "agent": "singer", "patient": "breath", "ok": true, "where": "in the studio", "when": "before the concert", "why": "to warm up voice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "actor", "patient": "part", "ok": true, "where": "on the set", "when": "during rehearsal", "why": "to practice the role", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "farmer", "patient": "dairy cow", "ok": true, "where": "in the barn", "when": "every morning", "why": "to make cheese", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "farmer", "patient": "dairy cows", "ok": true, "where": "in the barn", "when": "every morning", "why": "to make cheese", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "farmer", "patient": "goat", "ok": true, "where": "in the barn", "when": "every morning", "why": "to make cheese", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "lawyer", "patient": "defendant", "ok": true, "where": "in the courtroom", "when": "during the trial", "why": "to get information", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "woman", "patient": "cow", "ok": true, "where": "in the barn", "when": "every morning", "why": "to make cheese", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "milk", "agent": "worker", "patient": "job", "ok": true, "where": "in the dairy", "when": "every morning", "why": "to make cheese", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "mix", "agent": "bartender", "patient": "drink", "ok": false, "where": "behind the bar", "when": "at night", "why": "to make money", "teacher": "llama3.1:8b", "reason": "where: not a place phrase"}
+{"verb": "mop", "agent": "janitor", "patient": "floor", "ok": true, "where": "in the office", "when": "after work", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "cook", "patient": "can", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "doctor", "patient": "practice", "ok": true, "where": "in the office", "when": "every weekday", "why": "to help patients", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "driver", "patient": "car door", "ok": true, "where": "in the parking lot", "when": "after work", "why": "to pick up kids", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "husband", "patient": "can", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "kid", "patient": "door", "ok": true, "where": "in the house", "when": "after school", "why": "to let mom in", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "man", "patient": "door", "ok": true, "where": "in the house", "when": "in the morning", "why": "to let the cat out", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "man", "patient": "doors", "ok": true, "where": "in the house", "when": "in the morning", "why": "to let in guests", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "man", "patient": "own shop", "ok": true, "where": "in his town", "when": "every day", "why": "to sell things", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "secretary", "patient": "mail", "ok": true, "where": "in the office", "when": "at work", "why": "to answer letters", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "teacher", "patient": "box", "ok": true, "where": "in the classroom", "when": "at the start", "why": "to show the lesson", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "open", "agent": "teacher", "patient": "boxes", "ok": true, "where": "in the classroom", "when": "at the start", "why": "to show the students", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "artist", "patient": "canvas", "ok": true, "where": "in the studio", "when": "every afternoon", "why": "to create a picture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "artist", "patient": "fruit", "ok": true, "where": "in the studio", "when": "every morning", "why": "to make a picture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "artist", "patient": "landscape", "ok": true, "where": "in the studio", "when": "every day", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "artist", "patient": "masterpiece", "ok": true, "where": "in the studio", "when": "every day", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "artist", "patient": "mural", "ok": true, "where": "in the studio", "when": "every day", "why": "to make art", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "artist", "patient": "picture", "ok": true, "where": "in the studio", "when": "every day", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "boy", "patient": "picture", "ok": true, "where": "in the studio", "when": "after school", "why": "to make art", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "father", "patient": "lovely picture", "ok": true, "where": "in the studio", "when": "in the afternoon", "why": "to relax himself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "father", "patient": "lovely pictures", "ok": true, "where": "in the studio", "when": "every weekend", "why": "to relax himself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "homeowner", "patient": "fence", "ok": true, "where": "in the backyard", "when": "on the weekend", "why": "to keep it nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "homeowner", "patient": "house", "ok": true, "where": "on the porch", "when": "in the summer", "why": "to protect it", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "man", "patient": "wall", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to decorate the house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "painter", "patient": "ceiling", "ok": true, "where": "in the house", "when": "every day", "why": "to make it nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "painter", "patient": "door", "ok": true, "where": "in the house", "when": "every day", "why": "to make it look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "painter", "patient": "house", "ok": true, "where": "in the backyard", "when": "on saturday morning", "why": "to sell the house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "painter", "patient": "picture", "ok": true, "where": "in the studio", "when": "every day", "why": "to make art", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "painter", "patient": "wall", "ok": true, "where": "in the house", "when": "in the morning", "why": "to make it pretty", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "paint", "agent": "woman", "patient": "fence", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to decorate the yard", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "child", "patient": "nose", "ok": true, "where": "in the park", "when": "after lunch", "why": "to get attention", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "farmer", "patient": "carrot", "ok": true, "where": "in the garden", "when": "in the morning", "why": "to eat tonight", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "farmer", "patient": "vegetable", "ok": true, "where": "in the garden", "when": "in the morning", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "farmer", "patient": "vegetables", "ok": true, "where": "in the garden", "when": "in the morning", "why": "to sell at market", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "gardener", "patient": "berries", "ok": true, "where": "in the garden", "when": "in the summer", "why": "to make jam", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "gardener", "patient": "berry", "ok": true, "where": "in the garden", "when": "in the summer", "why": "to eat fresh", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "gardener", "patient": "flower", "ok": true, "where": "in the garden", "when": "in the morning", "why": "to make it pretty", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "gardener", "patient": "flowers", "ok": true, "where": "in the garden", "when": "in the morning", "why": "to make them look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "gardener", "patient": "weed", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "gardener", "patient": "weeds", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "judge", "patient": "winner", "ok": true, "where": "in the courtroom", "when": "at the contest", "why": "to decide the prize", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "man", "patient": "apple", "ok": true, "where": "in the orchard", "when": "in the afternoon", "why": "to eat lunch", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "man", "patient": "apples", "ok": true, "where": "in the orchard", "when": "in the afternoon", "why": "to make a pie", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "man", "patient": "cherries", "ok": true, "where": "in the garden", "when": "in the summer", "why": "to make jam", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "man", "patient": "cherry", "ok": true, "where": "in the garden", "when": "in the summer", "why": "to eat fresh", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pick", "agent": "man", "patient": "rock", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to make a garden", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "child", "patient": "flower", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to make it grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "farmer", "patient": "marijuana", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow medicine", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "farmer", "patient": "seed", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "farmer", "patient": "seeds", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "farmer", "patient": "tomato", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "farmer", "patient": "tomatoes", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "farmer", "patient": "wheat", "ok": true, "where": "in the field", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "cabbage", "ok": true, "where": "in the garden", "when": "every day", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "cabbages", "ok": true, "where": "in the garden", "when": "every day", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to make it grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to make it look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "rose", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to make it grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "roses", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to make them grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "seed", "ok": true, "where": "in the garden", "when": "every day", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "seeds", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "shrub", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to make it grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "tree", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to make it grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plant", "agent": "gardener", "patient": "vegetable", "ok": true, "where": "in the garden", "when": "every day", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "actor", "patient": "part", "ok": true, "where": "on stage", "when": "at night", "why": "to entertain people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "artist", "patient": "guitar", "ok": true, "where": "in the studio", "when": "every evening", "why": "to relax", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "athlete", "patient": "baseball", "ok": true, "where": "in the park", "when": "on saturday", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "athlete", "patient": "lacrosse", "ok": true, "where": "on the field", "when": "in the afternoon", "why": "to practice skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "athlete", "patient": "sport", "ok": true, "where": "in the stadium", "when": "on weekends", "why": "to stay healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "baby", "patient": "peekaboo", "ok": true, "where": "in the park", "when": "in the afternoon", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "boy", "patient": "hockey", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to have fun with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "boy", "patient": "video game", "ok": true, "where": "in his room", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "boy", "patient": "video games", "ok": true, "where": "in his room", "when": "after school", "why": "to relax", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "chemist", "patient": "harmonica", "ok": true, "where": "in the backyard", "when": "on sundays", "why": "to relax after work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "around", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "ball", "ok": true, "where": "in the park", "when": "on saturday", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "board game", "ok": true, "where": "in the living room", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "board games", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "chess", "ok": true, "where": "in the park", "when": "after school", "why": "to learn strategy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "computer game", "ok": true, "where": "in the living room", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "computer games", "ok": true, "where": "in the living room", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "leapfrog", "ok": true, "where": "in the park", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "outside", "ok": true, "where": "in the park", "when": "in the afternoon", "why": "to get exercise", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "recorder", "ok": true, "where": "in the music class", "when": "during recess", "why": "to learn a new skill", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "tag", "ok": true, "where": "in the park", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "video game", "ok": true, "where": "in the living room", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "child", "patient": "video games", "ok": true, "where": "in the living room", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "girl", "patient": "sport", "ok": true, "where": "in the park", "when": "on saturday", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "girl", "patient": "sports", "ok": true, "where": "in the park", "when": "on saturday", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "guitarist", "patient": "exercise", "ok": true, "where": "in the studio", "when": "every morning", "why": "to practice music", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "guitarist", "patient": "guitar", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to entertain friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "guitarist", "patient": "riff", "ok": true, "where": "in the concert", "when": "at night", "why": "to entertain people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "jockey", "patient": "game", "ok": true, "where": "in the stable", "when": "after the race", "why": "to win the prize", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "kid", "patient": "hard", "ok": true, "where": "in the park", "when": "in the afternoon", "why": "to ride a bike", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "kid", "patient": "soccer", "ok": true, "where": "in the park", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "kid", "patient": "sport", "ok": true, "where": "in the park", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "kid", "patient": "sports", "ok": true, "where": "in the park", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "fiddle", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to entertain the guests", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "guitar", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to entertain friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "harp", "ok": true, "where": "in the concert hall", "when": "during the festival", "why": "to entertain the audience", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "instrument", "ok": true, "where": "in the concert hall", "when": "at night", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "oboe", "ok": true, "where": "in the concert hall", "when": "during the performance", "why": "to entertain the audience", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "ocarina", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to entertain friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "song", "ok": true, "where": "in the park", "when": "in the evening", "why": "to entertain people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "musician", "patient": "violin", "ok": true, "where": "in the concert hall", "when": "at night", "why": "to entertain the audience", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "play", "agent": "son", "patient": "piano", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to practice for a concert", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plow", "agent": "farmer", "patient": "field", "ok": true, "where": "in the field", "when": "in the spring", "why": "to plant crops", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "plow", "agent": "farmer", "patient": "fields", "ok": true, "where": "in the fields", "when": "in the spring", "why": "to grow the crops", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pour", "agent": "bartender", "patient": "beer", "ok": true, "where": "in the bar", "when": "after work", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "baby", "patient": "hair", "ok": true, "where": "in the playground", "when": "during recess", "why": "to get attention", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "boy", "patient": "wagon", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "dentist", "patient": "teeth", "ok": true, "where": "in the office", "when": "every six months", "why": "to keep healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "dentist", "patient": "tooth", "ok": true, "where": "in the office", "when": "in the afternoon", "why": "to fix the pain", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "firefighter", "patient": "hose", "ok": true, "where": "in the fire station", "when": "during a fire drill", "why": "to practice emergency skills", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "kid", "patient": "prank", "ok": true, "where": "in the park", "when": "after school", "why": "to play a trick", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "pull", "agent": "kid", "patient": "pranks", "ok": true, "where": "in the park", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "child", "patient": "another child", "ok": true, "where": "in the playground", "when": "after recess", "why": "to make friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "child", "patient": "limit", "ok": true, "where": "in the playground", "when": "after recess", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "child", "patient": "limits", "ok": true, "where": "in the playground", "when": "after school", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "coach", "patient": "players", "ok": true, "where": "on the field", "when": "during practice", "why": "to teach them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "father", "patient": "stroller", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to take the baby", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "nanny", "patient": "stroller", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to take the baby", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "shopper", "patient": "shop cart", "ok": true, "where": "in the store", "when": "on saturday", "why": "to buy food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "shopper", "patient": "shopping cart", "ok": true, "where": "in the store", "when": "on saturday", "why": "to buy food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "woman", "patient": "cart", "ok": true, "where": "in the store", "when": "after shopping", "why": "to buy groceries", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "worker", "patient": "lever", "ok": true, "where": "in the factory", "when": "during the shift", "why": "to start the machine", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "push", "agent": "worker", "patient": "levers", "ok": true, "where": "in the factory", "when": "during work hours", "why": "to make the machine work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "book", "ok": true, "where": "in the library", "when": "after school", "why": "to learn new words", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "newspaper", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to learn about news", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "newspapers", "ok": true, "where": "in the living room", "when": "in the afternoon", "why": "to learn about news", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "picture book", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to learn new words", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "simple book", "ok": true, "where": "in the living room", "when": "after school", "why": "to learn new words", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "stories", "ok": true, "where": "in the library", "when": "after school", "why": "to learn new words", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "child", "patient": "story", "ok": true, "where": "in the library", "when": "after school", "why": "to learn new words", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "girl", "patient": "book", "ok": true, "where": "in the library", "when": "after school", "why": "to learn new things", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "girl", "patient": "magazine", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to relax herself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "man", "patient": "newspaper", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to relax", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "man", "patient": "newspapers", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to relax", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "mother", "patient": "child story", "ok": true, "where": "in the living room", "when": "in the evening", "why": "to help the child learn", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "parent", "patient": "bedtime stories", "ok": true, "where": "in the bedroom", "when": "before sleep", "why": "to help the child", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "parent", "patient": "bedtime story", "ok": true, "where": "in the bedroom", "when": "at night", "why": "to help the child", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "parent", "patient": "child book", "ok": true, "where": "in the living room", "when": "after dinner", "why": "to help the child", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "pianist", "patient": "sheet music", "ok": true, "where": "in the concert hall", "when": "during the performance", "why": "to play the melody", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "book", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to learn new things", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "manual", "ok": true, "where": "in the classroom", "when": "after school", "why": "to learn the lesson", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "manuals", "ok": true, "where": "in the library", "when": "after class", "why": "to learn new things", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "newspaper", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to learn about news", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "newspapers", "ok": true, "where": "in the library", "when": "after school", "why": "to learn more", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "textbook", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to learn the lesson", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "read", "agent": "student", "patient": "textbooks", "ok": true, "where": "in the classroom", "when": "after school", "why": "to learn new things", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "repair", "agent": "plumber", "patient": "fountain", "ok": true, "where": "in the park", "when": "in the afternoon", "why": "to make it pretty", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ride", "agent": "jockey", "patient": "fast horse", "ok": true, "where": "at the track", "when": "on saturday", "why": "to win the race", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ride", "agent": "jockey", "patient": "horse", "ok": true, "where": "in the stable", "when": "in the morning", "why": "to win the race", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ride", "agent": "kid", "patient": "bike", "ok": true, "where": "in the park", "when": "on saturday", "why": "to get exercise", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ride", "agent": "man", "patient": "bike", "ok": true, "where": "in the park", "when": "on saturday", "why": "to get exercise", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ride", "agent": "man", "patient": "bikes", "ok": true, "where": "in the park", "when": "on the weekend", "why": "to get exercise", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ride", "agent": "policeman", "patient": "motorcycle", "ok": true, "where": "in the city", "when": "in the afternoon", "why": "to help people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "captain", "patient": "bell", "ok": true, "where": "on the ship", "when": "before the storm", "why": "to warn the crew", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "child", "patient": "doorbell", "ok": true, "where": "at the front door", "when": "in the afternoon", "why": "to get help", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "cook", "patient": "bell", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to call the guests", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "cook", "patient": "dinner bell", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to feed the family", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "kid", "patient": "doorbell", "ok": true, "where": "at the house", "when": "in the afternoon", "why": "to visit grandma", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "postman", "patient": "bell", "ok": true, "where": "at the door", "when": "in the morning", "why": "to deliver the mail", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "postman", "patient": "doorbell", "ok": true, "where": "at the door", "when": "in the morning", "why": "to deliver mail", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "postman", "patient": "twice", "ok": true, "where": "at the door", "when": "in the morning", "why": "to bring mail", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "ring", "agent": "priest", "patient": "bell", "ok": true, "where": "in the church", "when": "before the service", "why": "to call the people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "roll", "agent": "baker", "patient": "dough", "ok": true, "where": "in the bakery", "when": "every morning", "why": "to make bread", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "roll", "agent": "banker", "patient": "change", "ok": true, "where": "in the bank", "when": "at closing time", "why": "to give back money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "roll", "agent": "child", "patient": "ball", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "roll", "agent": "cook", "patient": "pie crust", "ok": true, "where": "in the kitchen", "when": "before baking", "why": "to make it pretty", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "roll", "agent": "cowboy", "patient": "cigarette", "ok": true, "where": "in the saloon", "when": "after a long ride", "why": "to calm his nerves", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "roll", "agent": "kid", "patient": "ball", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sell", "agent": "butcher", "patient": "meat", "ok": false, "where": "in the shop", "when": "every day", "why": "to sell food", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "sell", "agent": "grocer", "patient": "vegetable", "ok": false, "where": "in the store", "when": "every day", "why": "to sell food", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "sell", "agent": "grocer", "patient": "vegetables", "ok": false, "where": "in the market", "when": "every day", "why": "to sell food", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "sell", "agent": "pharmacist", "patient": "drug", "ok": true, "where": "in the store", "when": "every day", "why": "to help people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "bartender", "patient": "alcoholic drink", "ok": true, "where": "in the bar", "when": "at night", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "bartender", "patient": "beer", "ok": true, "where": "in the bar", "when": "at night", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "bartender", "patient": "berry martini", "ok": true, "where": "in the bar", "when": "at night", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "grandma", "patient": "boil turnip", "ok": true, "where": "in the garden", "when": "after lunch", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "grandma", "patient": "boiled turnips", "ok": true, "where": "in the garden", "when": "after lunch", "why": "to make a meal", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "customers", "ok": true, "where": "in the restaurant", "when": "during lunch", "why": "to take orders", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "diner", "ok": true, "where": "in the restaurant", "when": "during lunchtime", "why": "to give food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "diners", "ok": true, "where": "in the restaurant", "when": "during lunchtime", "why": "to help the customers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "food", "ok": true, "where": "in the restaurant", "when": "at lunchtime", "why": "to feed the customers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "human", "ok": true, "where": "in the restaurant", "when": "during the meal", "why": "to help the customers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "meal", "ok": true, "where": "in the restaurant", "when": "at lunchtime", "why": "to feed the guests", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "serve", "agent": "waiter", "patient": "table", "ok": true, "where": "in the restaurant", "when": "at lunchtime", "why": "to take orders", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sharpen", "agent": "student", "patient": "pencil", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to make a picture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "shave", "agent": "man", "patient": "facial hair", "ok": true, "where": "in the bathroom", "when": "every morning", "why": "to look neat", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "actor", "patient": "song", "ok": true, "where": "on stage", "when": "at night", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "actor", "patient": "songs", "ok": true, "where": "on stage", "when": "at night", "why": "to entertain people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "boy", "patient": "very high", "ok": true, "where": "in the shower", "when": "after his bath", "why": "to relax himself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "child", "patient": "song", "ok": true, "where": "in the park", "when": "in the afternoon", "why": "to entertain friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "child", "patient": "songs", "ok": true, "where": "in the park", "when": "in the afternoon", "why": "to entertain friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "man", "patient": "song", "ok": true, "where": "in the park", "when": "on saturday", "why": "to entertain friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "singer", "patient": "ballad", "ok": true, "where": "in the concert hall", "when": "at night", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sing", "agent": "singer", "patient": "loud", "ok": true, "where": "on the stage", "when": "during the concert", "why": "to entertain the crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "smell", "agent": "child", "patient": "cookie", "ok": true, "where": "in the kitchen", "when": "after baking", "why": "to eat it", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "smell", "agent": "child", "patient": "cookies", "ok": true, "where": "in the kitchen", "when": "after baking", "why": "to eat them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "smell", "agent": "child", "patient": "flower", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to learn about nature", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "smell", "agent": "child", "patient": "smoke", "ok": true, "where": "in the backyard", "when": "on a sunny day", "why": "to play outside", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "smell", "agent": "florist", "patient": "rose", "ok": true, "where": "in the shop", "when": "in the morning", "why": "to make perfume", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "smell", "agent": "florist", "patient": "roses", "ok": true, "where": "in the shop", "when": "in the morning", "why": "to make the shop pretty", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "chemist", "patient": "chemical", "ok": true, "where": "in the laboratory", "when": "every working day", "why": "to make medicines", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "chemist", "patient": "chemicals", "ok": true, "where": "in the laboratory", "when": "during work hours", "why": "to make medicines", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "clerk", "patient": "paper", "ok": true, "where": "in the office", "when": "during work hours", "why": "to do her job", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "clerk", "patient": "papers", "ok": true, "where": "in the office", "when": "during work hours", "why": "to organize the files", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "librarian", "patient": "book", "ok": true, "where": "in the library", "when": "every day", "why": "to help people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "librarian", "patient": "books", "ok": true, "where": "in the library", "when": "during work hours", "why": "to keep them organized", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "mailman", "patient": "mail", "ok": true, "where": "in the post office", "when": "every day", "why": "to deliver to homes", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "postman", "patient": "mail", "ok": true, "where": "in the office", "when": "every day", "why": "to deliver packages", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "sort", "agent": "secretary", "patient": "through file", "ok": true, "where": "in the office", "when": "during work hours", "why": "to find important papers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "child", "patient": "wing", "ok": true, "where": "in the garden", "when": "in the summer", "why": "to attract a mate", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "child", "patient": "wings", "ok": true, "where": "on the swing", "when": "in the afternoon", "why": "to play outside", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "farmer", "patient": "seed", "ok": true, "where": "in the field", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "farmer", "patient": "seeds", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "woman", "patient": "gossip", "ok": true, "where": "at the party", "when": "tonight", "why": "to be friendly", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "woman", "patient": "leg", "ok": true, "where": "in the garden", "when": "in the afternoon", "why": "to water flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "woman", "patient": "legs", "ok": true, "where": "in the garden", "when": "after breakfast", "why": "to dry clothes", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "spread", "agent": "woman", "patient": "pussy", "ok": true, "where": "in the garden", "when": "in the spring", "why": "to plant flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "child", "patient": "adult", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to learn from", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "child", "patient": "parent", "ok": true, "where": "in the classroom", "when": "after school", "why": "to learn from", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "child", "patient": "parents", "ok": true, "where": "in the classroom", "when": "during recess", "why": "to show them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "father", "patient": "child", "ok": true, "where": "in the classroom", "when": "after school", "why": "to help him learn", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "father", "patient": "children", "ok": true, "where": "in the backyard", "when": "after school", "why": "to play with them", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "mother", "patient": "child", "ok": true, "where": "in the classroom", "when": "after school", "why": "to help her learn", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "child", "ok": true, "where": "in the classroom", "when": "during lessons", "why": "to help the child", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "children", "ok": true, "where": "in the classroom", "when": "during lessons", "why": "to help them learn", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "discipline", "ok": true, "where": "in the classroom", "when": "every weekday", "why": "to help the students", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "math", "ok": true, "where": "in the classroom", "when": "during the lesson", "why": "to help the students", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "mathematical system", "ok": true, "where": "in the classroom", "when": "every weekday", "why": "to help the students", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "pupil", "ok": true, "where": "in the classroom", "when": "during lessons", "why": "to help them learn", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "teach", "agent": "teacher", "patient": "pupils", "ok": true, "where": "in the classroom", "when": "during lessons", "why": "to help them learn", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "athlete", "patient": "pretty far", "ok": true, "where": "on the field", "when": "during the game", "why": "to win the match", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "baby", "patient": "food everywhere", "ok": true, "where": "in the playroom", "when": "during playtime", "why": "to have fun", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "boy", "patient": "ball", "ok": true, "where": "in the park", "when": "on saturday", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "boy", "patient": "baseball", "ok": true, "where": "in the backyard", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "boy", "patient": "baseballs", "ok": true, "where": "in the backyard", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "child", "patient": "ball", "ok": true, "where": "in the park", "when": "on saturday", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "child", "patient": "fit", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "child", "patient": "fits", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "child", "patient": "party", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to celebrate birthday", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "child", "patient": "small television", "ok": true, "where": "in the living room", "when": "after the movie", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "kid", "patient": "tantrum", "ok": true, "where": "in the park", "when": "after lunch", "why": "to get attention", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "kid", "patient": "toy", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "man", "patient": "party", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to celebrate his birthday", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "man", "patient": "stone", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play with his son", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "pitcher", "patient": "ball", "ok": true, "where": "on the field", "when": "during the game", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "pitcher", "patient": "curve", "ok": true, "where": "on the mound", "when": "during the game", "why": "to confuse the batter", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "pitcher", "patient": "fast ball", "ok": true, "where": "on the mound", "when": "during the game", "why": "to win the match", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "son", "patient": "baseball", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "throw", "agent": "student", "patient": "ball", "ok": false, "where": "in the playground", "when": "after recess", "why": "to practice throwing", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "tie", "agent": "child", "patient": "knot", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to make a bow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "child", "patient": "own shoe", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "child", "patient": "own shoes", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "child", "patient": "shoe", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "child", "patient": "shoelace", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "child", "patient": "shoelaces", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "child", "patient": "shoes", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "girl", "patient": "bow", "ok": true, "where": "on her shoe", "when": "on saturday", "why": "to decorate her dress", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "kid", "patient": "shoe", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "kid", "patient": "shoelace", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "kid", "patient": "shoelaces", "ok": true, "where": "in the bedroom", "when": "after waking up", "why": "to get dressed", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "man", "patient": "knot", "ok": true, "where": "in the garden", "when": "on saturday", "why": "to decorate the house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "man", "patient": "necktie", "ok": true, "where": "in the bedroom", "when": "before work", "why": "to look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "man", "patient": "shoe", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "man", "patient": "shoes", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get ready", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "man", "patient": "tie", "ok": true, "where": "in the bathroom", "when": "after a shower", "why": "to look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "tie", "agent": "sailor", "patient": "rope", "ok": true, "where": "on the boat", "when": "before sailing", "why": "to secure the cargo", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "type", "agent": "typist", "patient": "companies documents", "ok": true, "where": "in the office", "when": "during the day", "why": "to finish the work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "type", "agent": "typist", "patient": "company document", "ok": true, "where": "in the office", "when": "during work hours", "why": "to finish the project", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "athlete", "patient": "car", "ok": true, "where": "in the driveway", "when": "on saturday afternoon", "why": "to clean the car", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "chemist", "patient": "glassware", "ok": true, "where": "in the lab", "when": "every day", "why": "to keep clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "chemist", "patient": "test tube", "ok": true, "where": "in the lab", "when": "every day", "why": "to make medicine", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "child", "patient": "before dinner", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "child", "patient": "dish", "ok": true, "where": "in the kitchen", "when": "after dinner", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "child", "patient": "dishes", "ok": true, "where": "in the kitchen", "when": "after school", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "cook", "patient": "vegetable", "ok": true, "where": "in the kitchen", "when": "before dinner", "why": "to make salad", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "dentist", "patient": "hand", "ok": true, "where": "in the office", "when": "after the cleaning", "why": "to keep it clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "dentist", "patient": "hands", "ok": true, "where": "in the office", "when": "before patients arrive", "why": "to keep clean", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "maid", "patient": "floor", "ok": true, "where": "in the house", "when": "every day", "why": "to clean the house", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "man", "patient": "car", "ok": true, "where": "in the driveway", "when": "on saturday", "why": "to clean it", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "man", "patient": "cars", "ok": true, "where": "in the driveway", "when": "on saturday", "why": "to earn money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "man", "patient": "dish", "ok": true, "where": "in the kitchen", "when": "after breakfast", "why": "to clean up", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "man", "patient": "dishes", "ok": true, "where": "in the kitchen", "when": "after dinner", "why": "to help his wife", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "mother", "patient": "child", "ok": true, "where": "in the bathroom", "when": "after the bath", "why": "to clean the baby", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "student", "patient": "dish", "ok": true, "where": "in the kitchen", "when": "after dinner", "why": "to clean up", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "student", "patient": "dishes", "ok": true, "where": "in the kitchen", "when": "after dinner", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wash", "agent": "teenager", "patient": "car", "ok": true, "where": "in the driveway", "when": "on saturday", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "boy", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "boy", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "child", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "child", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "cowboy", "patient": "horse", "ok": true, "where": "in the corral", "when": "after a ride", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "cowboy", "patient": "horses", "ok": true, "where": "in the corral", "when": "after the ride", "why": "to keep them healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "farmer", "patient": "crop", "ok": true, "where": "in the field", "when": "every day", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "farmer", "patient": "crops", "ok": true, "where": "in the field", "when": "every day", "why": "to grow food", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "farmer", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "farmer", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "farmer", "patient": "tomato patch", "ok": true, "where": "in the garden", "when": "every day", "why": "to grow big tomatoes", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "friend", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "garden", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "herb garden", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep fresh", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "rose", "ok": true, "where": "in the garden", "when": "every day", "why": "to make it grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "roses", "ok": true, "where": "in the garden", "when": "every day", "why": "to make them grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "gardener", "patient": "seed bed", "ok": true, "where": "in the garden", "when": "every day", "why": "to help plants grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "girl", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "girl", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "kid", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "kid", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to help mom", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "man", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "man", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "student", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "student", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "woman", "patient": "garden", "ok": true, "where": "in the backyard", "when": "every saturday", "why": "to grow flowers", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "woman", "patient": "plant", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep it healthy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "woman", "patient": "plants", "ok": true, "where": "in the garden", "when": "every day", "why": "to keep them alive", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "woman", "patient": "rose", "ok": true, "where": "in the garden", "when": "every day", "why": "to make it beautiful", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "water", "agent": "woman", "patient": "roses", "ok": true, "where": "in the garden", "when": "every day", "why": "to make them grow", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "actor", "patient": "costume", "ok": true, "where": "on stage", "when": "at night", "why": "to entertain crowd", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "aunt", "patient": "jewelry", "ok": true, "where": "in her room", "when": "every sunday", "why": "to show off", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "child", "patient": "dress", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get dressed", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "child", "patient": "jacket", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to play outside", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "child", "patient": "silly hat", "ok": true, "where": "in the backyard", "when": "on saturday afternoon", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "child", "patient": "silly hats", "ok": true, "where": "in the park", "when": "on saturday", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "cowboy", "patient": "boot", "ok": true, "where": "in the stable", "when": "every morning", "why": "to protect his foot", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "cowboy", "patient": "cowboy hat", "ok": true, "where": "on his head", "when": "every day", "why": "to protect himself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "doctor", "patient": "white coat", "ok": true, "where": "in the hospital", "when": "every day", "why": "to help patients", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "doctor", "patient": "white coats", "ok": true, "where": "in the hospital", "when": "every day", "why": "to help patients", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "fireman", "patient": "hat", "ok": true, "where": "in the fire station", "when": "every day", "why": "to help people", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "girl", "patient": "hair up", "ok": true, "where": "in the bedroom", "when": "in the evening", "why": "to get ready for bed", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "girl", "patient": "skirt", "ok": true, "where": "in the garden", "when": "on a sunny day", "why": "to play outside", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "girl", "patient": "skirts", "ok": true, "where": "in her room", "when": "every morning", "why": "to play outside", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "kid", "patient": "sunglasses", "ok": true, "where": "in the park", "when": "on a sunny day", "why": "to protect his eyes", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "hat", "ok": true, "where": "in the garden", "when": "in the summer", "why": "to keep cool", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "hats", "ok": true, "where": "in the garden", "when": "on sundays", "why": "to show off", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "kilt", "ok": true, "where": "in scotland", "when": "on sundays", "why": "to honor his heritage", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "kilts", "ok": true, "where": "in the house", "when": "every sunday", "why": "to show his culture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "short", "ok": true, "where": "in the house", "when": "in the morning", "why": "to get dressed", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "shorts", "ok": true, "where": "in the garden", "when": "on a sunny day", "why": "to play with friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "skirt", "ok": true, "where": "in the garden", "when": "on sundays", "why": "to show his art", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "skirts", "ok": true, "where": "in the garden", "when": "on sundays", "why": "to show his culture", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "suit", "ok": true, "where": "in the office", "when": "every monday", "why": "to go to work", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "trouser", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get dressed", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "man", "patient": "trousers", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to get dressed", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "postman", "patient": "postal uniform", "ok": true, "where": "at the office", "when": "every working day", "why": "to deliver the mail", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "rancher", "patient": "boot", "ok": true, "where": "on the farm", "when": "every day", "why": "to protect his foot", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "soldier", "patient": "uniform", "ok": true, "where": "in the army", "when": "every day", "why": "to show pride", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "swimmer", "patient": "suit", "ok": true, "where": "in the pool", "when": "in the summer", "why": "to stay cool", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "swimmer", "patient": "swimsuit", "ok": true, "where": "at the pool", "when": "in the summer", "why": "to exercise every day", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "waiter", "patient": "black", "ok": true, "where": "in the restaurant", "when": "during service", "why": "to serve the guests", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "woman", "patient": "diamond choker", "ok": true, "where": "at the party", "when": "tonight", "why": "to impress her friends", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "woman", "patient": "earring", "ok": true, "where": "in the bedroom", "when": "in the morning", "why": "to match her dress", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "woman", "patient": "earrings", "ok": true, "where": "in her bedroom", "when": "in the evening", "why": "to match her dress", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "woman", "patient": "makeup", "ok": true, "where": "in the bathroom", "when": "every morning", "why": "to look pretty", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "woman", "patient": "necklace", "ok": true, "where": "in her room", "when": "every day", "why": "to feel happy", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wear", "agent": "woman", "patient": "necklaces", "ok": true, "where": "in her room", "when": "every evening", "why": "to remember her mother", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wipe", "agent": "mother", "patient": "nose", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to calm the baby", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "wipe", "agent": "mother", "patient": "noses", "ok": true, "where": "in the living room", "when": "after breakfast", "why": "to clean the children", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "author", "patient": "essay", "ok": true, "where": "in the office", "when": "in the morning", "why": "to finish the project", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "author", "patient": "new book", "ok": true, "where": "in the office", "when": "every day", "why": "to earn money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "friend", "patient": "letter", "ok": true, "where": "in the office", "when": "during lunch", "why": "to say hello", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "poet", "patient": "poem", "ok": true, "where": "in the study", "when": "every morning", "why": "to express feelings", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "poet", "patient": "short story", "ok": false, "where": "in the studio", "when": "every afternoon", "why": "to practice writing", "teacher": "llama3.1:8b", "reason": "why: repeats the verb"}
+{"verb": "write", "agent": "poet", "patient": "sonnet", "ok": true, "where": "in the study", "when": "in the afternoon", "why": "to express feelings", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "poet", "patient": "verse", "ok": true, "where": "in the study", "when": "in the morning", "why": "to express feelings", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "secretary", "patient": "letter", "ok": true, "where": "in the office", "when": "during working hours", "why": "to send to the boss", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "secretary", "patient": "memo", "ok": true, "where": "in the office", "when": "at work", "why": "to inform the boss", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "secretary", "patient": "note", "ok": true, "where": "in the office", "when": "during work hours", "why": "to remind the boss", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "soldier", "patient": "letter home", "ok": true, "where": "in the barracks", "when": "after duty", "why": "to tell family news", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "student", "patient": "term paper", "ok": true, "where": "in the library", "when": "during the semester", "why": "to get a good grade", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "student", "patient": "term papers", "ok": true, "where": "in the library", "when": "during the semester", "why": "to learn new things", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "woman", "patient": "novel", "ok": true, "where": "in the library", "when": "every afternoon", "why": "to relax herself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "woman", "patient": "poem", "ok": true, "where": "in her room", "when": "in the evening", "why": "to relax herself", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "writer", "patient": "letter", "ok": true, "where": "in the office", "when": "during work hours", "why": "to finish the task", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "writer", "patient": "novel", "ok": true, "where": "in the office", "when": "every morning", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "writer", "patient": "novels", "ok": true, "where": "in the office", "when": "every day", "why": "to make money", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "writer", "patient": "poem", "ok": true, "where": "in the study", "when": "in the afternoon", "why": "to express feelings", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "write", "agent": "writer", "patient": "poems", "ok": true, "where": "in the study", "when": "every morning", "why": "to express feelings", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "buy", "agent": "woman", "patient": "new clothes", "ok": true, "where": "in the store", "when": "today", "why": "to look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "hang", "agent": "judge", "patient": "horse thieves", "ok": true, "where": "in the courtroom", "when": "at the trial", "why": "to punish the crime", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "maid", "patient": "wrinkle clothes", "ok": true, "where": "in the laundry room", "when": "after the guests arrive", "why": "to make the clothes look nice", "teacher": "llama3.1:8b", "reason": null}
+{"verb": "iron", "agent": "tailor", "patient": "clothes", "ok": true, "where": "in the shop", "when": "every day", "why": "to make them nice", "teacher": "llama3.1:8b", "reason": null}

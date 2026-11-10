@@ -1,0 +1,711 @@
+{"verb": "bake", "agent": "baker", "patient": "bread", "count": 2}
+{"verb": "bake", "agent": "baker", "patient": "cake", "count": 2}
+{"verb": "bake", "agent": "chemist", "patient": "bread", "count": 2}
+{"verb": "bake", "agent": "cook", "patient": "bread", "count": 2}
+{"verb": "bake", "agent": "cook", "patient": "cake", "count": 2}
+{"verb": "bake", "agent": "mother", "patient": "bread", "count": 2}
+{"verb": "build", "agent": "architect", "patient": "house", "count": 2}
+{"verb": "build", "agent": "builder", "patient": "cathedral", "count": 2}
+{"verb": "build", "agent": "builder", "patient": "house", "count": 1}
+{"verb": "build", "agent": "carpenter", "patient": "deck", "count": 2}
+{"verb": "build", "agent": "carpenter", "patient": "outhouse", "count": 1}
+{"verb": "build", "agent": "carpenter", "patient": "roof", "count": 2}
+{"verb": "build", "agent": "carpenter", "patient": "stable", "count": 2}
+{"verb": "build", "agent": "child", "patient": "brick tower", "count": 1}
+{"verb": "build", "agent": "child", "patient": "brick towers", "count": 1}
+{"verb": "build", "agent": "child", "patient": "sand castle", "count": 2}
+{"verb": "build", "agent": "child", "patient": "tower", "count": 2}
+{"verb": "build", "agent": "engineer", "patient": "bridge", "count": 2}
+{"verb": "build", "agent": "engineer", "patient": "computer", "count": 2}
+{"verb": "build", "agent": "farmer", "patient": "barn", "count": 1}
+{"verb": "build", "agent": "farmer", "patient": "barns", "count": 1}
+{"verb": "build", "agent": "worker", "patient": "bridge", "count": 2}
+{"verb": "build", "agent": "worker", "patient": "wall", "count": 2}
+{"verb": "buy", "agent": "cook", "patient": "fresh vegetable", "count": 1}
+{"verb": "buy", "agent": "cook", "patient": "fresh vegetables", "count": 1}
+{"verb": "buy", "agent": "customer", "patient": "mini", "count": 2}
+{"verb": "buy", "agent": "homeowner", "patient": "new carpet", "count": 2}
+{"verb": "buy", "agent": "husband", "patient": "present", "count": 2}
+{"verb": "buy", "agent": "man", "patient": "car", "count": 2}
+{"verb": "buy", "agent": "mother", "patient": "baby formula", "count": 2}
+{"verb": "buy", "agent": "mother", "patient": "groceries", "count": 1}
+{"verb": "buy", "agent": "mother", "patient": "grocery", "count": 1}
+{"verb": "buy", "agent": "painter", "patient": "canvas", "count": 2}
+{"verb": "buy", "agent": "woman", "patient": "new clothes", "count": 1}
+{"verb": "buy", "agent": "woman", "patient": "new clothing", "count": 1}
+{"verb": "carry", "agent": "boy", "patient": "groceries", "count": 1}
+{"verb": "carry", "agent": "boy", "patient": "grocery", "count": 1}
+{"verb": "carry", "agent": "child", "patient": "bag", "count": 1}
+{"verb": "carry", "agent": "child", "patient": "bags", "count": 1}
+{"verb": "carry", "agent": "fisherman", "patient": "fish pole", "count": 1}
+{"verb": "carry", "agent": "man", "patient": "bag", "count": 2}
+{"verb": "carry", "agent": "man", "patient": "load", "count": 2}
+{"verb": "carry", "agent": "man", "patient": "suitcase", "count": 2}
+{"verb": "carry", "agent": "mother", "patient": "babies", "count": 1}
+{"verb": "carry", "agent": "mother", "patient": "baby", "count": 1}
+{"verb": "carry", "agent": "singer", "patient": "tune", "count": 2}
+{"verb": "carry", "agent": "soldier", "patient": "machine gun", "count": 1}
+{"verb": "carry", "agent": "student", "patient": "heavy load", "count": 2}
+{"verb": "carry", "agent": "tourist", "patient": "subway map", "count": 1}
+{"verb": "carry", "agent": "woman", "patient": "babies", "count": 1}
+{"verb": "carry", "agent": "woman", "patient": "baby", "count": 1}
+{"verb": "carry", "agent": "woman", "patient": "briefcase", "count": 2}
+{"verb": "carry", "agent": "woman", "patient": "purse", "count": 2}
+{"verb": "catch", "agent": "child", "patient": "butterflies", "count": 1}
+{"verb": "catch", "agent": "child", "patient": "butterfly", "count": 1}
+{"verb": "catch", "agent": "doctor", "patient": "cold", "count": 2}
+{"verb": "catch", "agent": "fisherman", "patient": "catfish", "count": 2}
+{"verb": "catch", "agent": "fisherman", "patient": "pike", "count": 2}
+{"verb": "catch", "agent": "fisherman", "patient": "shark", "count": 1}
+{"verb": "catch", "agent": "fisherman", "patient": "trout", "count": 1}
+{"verb": "catch", "agent": "girl", "patient": "ball", "count": 2}
+{"verb": "check", "agent": "doctor", "patient": "blood pressure", "count": 2}
+{"verb": "check", "agent": "electrician", "patient": "wire", "count": 1}
+{"verb": "check", "agent": "electrician", "patient": "wiring", "count": 1}
+{"verb": "check", "agent": "teacher", "patient": "homework", "count": 2}
+{"verb": "chop", "agent": "cook", "patient": "vegetable", "count": 1}
+{"verb": "chop", "agent": "cook", "patient": "vegetables", "count": 1}
+{"verb": "clean", "agent": "chemist", "patient": "lab", "count": 2}
+{"verb": "clean", "agent": "child", "patient": "room", "count": 4}
+{"verb": "clean", "agent": "cleaner", "patient": "drape", "count": 1}
+{"verb": "clean", "agent": "cleaner", "patient": "office", "count": 1}
+{"verb": "clean", "agent": "dentist", "patient": "teeth", "count": 1}
+{"verb": "clean", "agent": "dentist", "patient": "tooth", "count": 1}
+{"verb": "clean", "agent": "hunter", "patient": "gun", "count": 2}
+{"verb": "clean", "agent": "husband", "patient": "house", "count": 2}
+{"verb": "clean", "agent": "janitor", "patient": "sink", "count": 2}
+{"verb": "clean", "agent": "janitor", "patient": "toilet", "count": 1}
+{"verb": "clean", "agent": "janitor", "patient": "toilets", "count": 1}
+{"verb": "clean", "agent": "janitor", "patient": "urinal", "count": 2}
+{"verb": "clean", "agent": "maid", "patient": "bathroom", "count": 2}
+{"verb": "clean", "agent": "maid", "patient": "coffee table", "count": 2}
+{"verb": "clean", "agent": "maid", "patient": "house", "count": 3}
+{"verb": "clean", "agent": "maid", "patient": "room", "count": 2}
+{"verb": "clean", "agent": "maid", "patient": "window", "count": 1}
+{"verb": "clean", "agent": "man", "patient": "house", "count": 2}
+{"verb": "clean", "agent": "man", "patient": "toilet", "count": 1}
+{"verb": "clean", "agent": "man", "patient": "toilets", "count": 1}
+{"verb": "clean", "agent": "woman", "patient": "glass", "count": 1}
+{"verb": "clean", "agent": "woman", "patient": "glasses", "count": 1}
+{"verb": "climb", "agent": "child", "patient": "tree", "count": 2}
+{"verb": "climb", "agent": "man", "patient": "tree", "count": 1}
+{"verb": "climb", "agent": "man", "patient": "trees", "count": 1}
+{"verb": "close", "agent": "child", "patient": "door", "count": 2}
+{"verb": "close", "agent": "clerk", "patient": "account", "count": 2}
+{"verb": "close", "agent": "man", "patient": "eye", "count": 1}
+{"verb": "close", "agent": "man", "patient": "eyes", "count": 1}
+{"verb": "close", "agent": "parent", "patient": "box", "count": 2}
+{"verb": "close", "agent": "student", "patient": "book", "count": 2}
+{"verb": "close", "agent": "student", "patient": "eye", "count": 1}
+{"verb": "close", "agent": "student", "patient": "eyes", "count": 1}
+{"verb": "close", "agent": "wife", "patient": "door", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "dinner", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "dish", "count": 1}
+{"verb": "cook", "agent": "chef", "patient": "dishes", "count": 1}
+{"verb": "cook", "agent": "chef", "patient": "egg", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "excellent meal", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "food", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "good food", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "gourmet food", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "gourmet meal", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "poorly", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "professionally", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "tasty dish", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "very well", "count": 2}
+{"verb": "cook", "agent": "chef", "patient": "well", "count": 2}
+{"verb": "cook", "agent": "cook", "patient": "dinner", "count": 2}
+{"verb": "cook", "agent": "cook", "patient": "food", "count": 2}
+{"verb": "cook", "agent": "cook", "patient": "lasagne", "count": 2}
+{"verb": "cook", "agent": "cook", "patient": "meal", "count": 2}
+{"verb": "cook", "agent": "dad", "patient": "well", "count": 2}
+{"verb": "cook", "agent": "grandma", "patient": "turnip", "count": 1}
+{"verb": "cook", "agent": "grandma", "patient": "turnips", "count": 1}
+{"verb": "cook", "agent": "man", "patient": "breakfast", "count": 2}
+{"verb": "cook", "agent": "man", "patient": "dinner", "count": 2}
+{"verb": "cook", "agent": "mom", "patient": "chicken soup", "count": 1}
+{"verb": "cook", "agent": "mom", "patient": "cookie", "count": 1}
+{"verb": "cook", "agent": "mom", "patient": "dinner", "count": 2}
+{"verb": "cook", "agent": "mother", "patient": "great food", "count": 2}
+{"verb": "cook", "agent": "teenager", "patient": "pie", "count": 2}
+{"verb": "cook", "agent": "wife", "patient": "dinner", "count": 2}
+{"verb": "count", "agent": "cashier", "patient": "till", "count": 2}
+{"verb": "count", "agent": "child", "patient": "finger", "count": 1}
+{"verb": "count", "agent": "child", "patient": "fingers", "count": 1}
+{"verb": "count", "agent": "child", "patient": "number", "count": 1}
+{"verb": "count", "agent": "child", "patient": "numbers", "count": 1}
+{"verb": "count", "agent": "child", "patient": "toy", "count": 1}
+{"verb": "count", "agent": "child", "patient": "toys", "count": 1}
+{"verb": "count", "agent": "kid", "patient": "marble", "count": 1}
+{"verb": "count", "agent": "kid", "patient": "marbles", "count": 1}
+{"verb": "count", "agent": "man", "patient": "day", "count": 1}
+{"verb": "count", "agent": "man", "patient": "days", "count": 1}
+{"verb": "count", "agent": "shepherd", "patient": "sheep", "count": 2}
+{"verb": "count", "agent": "worker", "patient": "money", "count": 2}
+{"verb": "cut", "agent": "butcher", "patient": "beef quarter", "count": 1}
+{"verb": "cut", "agent": "butcher", "patient": "meat", "count": 1}
+{"verb": "cut", "agent": "child", "patient": "and paste", "count": 2}
+{"verb": "cut", "agent": "child", "patient": "paper doilies", "count": 1}
+{"verb": "cut", "agent": "child", "patient": "paper doily", "count": 1}
+{"verb": "cut", "agent": "cook", "patient": "cheese", "count": 2}
+{"verb": "cut", "agent": "cook", "patient": "string bean", "count": 1}
+{"verb": "cut", "agent": "cook", "patient": "string beans", "count": 1}
+{"verb": "cut", "agent": "dancer", "patient": "rug", "count": 4}
+{"verb": "cut", "agent": "homeowner", "patient": "grass", "count": 2}
+{"verb": "cut", "agent": "player", "patient": "mustard", "count": 2}
+{"verb": "cut", "agent": "student", "patient": "class", "count": 2}
+{"verb": "cut", "agent": "student", "patient": "construction paper", "count": 2}
+{"verb": "deliver", "agent": "postman", "patient": "mail", "count": 2}
+{"verb": "dig", "agent": "dancer", "patient": "beat", "count": 2}
+{"verb": "dig", "agent": "farmer", "patient": "ditch", "count": 2}
+{"verb": "dig", "agent": "gardener", "patient": "hole", "count": 2}
+{"verb": "dig", "agent": "man", "patient": "grave", "count": 1}
+{"verb": "dig", "agent": "man", "patient": "graves", "count": 1}
+{"verb": "dig", "agent": "man", "patient": "hole", "count": 5}
+{"verb": "dig", "agent": "man", "patient": "holes", "count": 1}
+{"verb": "dig", "agent": "soldier", "patient": "trench", "count": 2}
+{"verb": "dig", "agent": "worker", "patient": "hole", "count": 2}
+{"verb": "draw", "agent": "artist", "patient": "someone", "count": 2}
+{"verb": "drink", "agent": "child", "patient": "juice", "count": 2}
+{"verb": "drink", "agent": "child", "patient": "milk", "count": 2}
+{"verb": "drink", "agent": "man", "patient": "ice tea", "count": 1}
+{"verb": "drink", "agent": "man", "patient": "iced tea", "count": 1}
+{"verb": "drink", "agent": "man", "patient": "water", "count": 2}
+{"verb": "drink", "agent": "man", "patient": "wine", "count": 4}
+{"verb": "drink", "agent": "mother", "patient": "tea", "count": 2}
+{"verb": "drink", "agent": "pilot", "patient": "coffee", "count": 2}
+{"verb": "drink", "agent": "priest", "patient": "coffee", "count": 2}
+{"verb": "drink", "agent": "sister", "patient": "coffee", "count": 2}
+{"verb": "drink", "agent": "teenager", "patient": "coke", "count": 1}
+{"verb": "drink", "agent": "woman", "patient": "wine", "count": 2}
+{"verb": "drive", "agent": "child", "patient": "bike", "count": 2}
+{"verb": "drive", "agent": "child", "patient": "you crazy", "count": 2}
+{"verb": "drive", "agent": "driver", "patient": "car", "count": 2}
+{"verb": "drive", "agent": "engineer", "patient": "train", "count": 2}
+{"verb": "drive", "agent": "farmer", "patient": "tractor", "count": 2}
+{"verb": "drive", "agent": "girl", "patient": "you crazy", "count": 2}
+{"verb": "drive", "agent": "golfer", "patient": "ball", "count": 2}
+{"verb": "drive", "agent": "golfer", "patient": "golf ball", "count": 2}
+{"verb": "drive", "agent": "man", "patient": "car", "count": 2}
+{"verb": "drive", "agent": "shepherd", "patient": "sheep", "count": 2}
+{"verb": "drive", "agent": "soldier", "patient": "tank", "count": 2}
+{"verb": "drive", "agent": "woman", "patient": "car", "count": 2}
+{"verb": "eat", "agent": "child", "patient": "fish", "count": 2}
+{"verb": "eat", "agent": "child", "patient": "potato", "count": 1}
+{"verb": "eat", "agent": "child", "patient": "potatoes", "count": 1}
+{"verb": "eat", "agent": "child", "patient": "spaghetti", "count": 2}
+{"verb": "eat", "agent": "child", "patient": "too much", "count": 2}
+{"verb": "eat", "agent": "man", "patient": "pussy", "count": 2}
+{"verb": "eat", "agent": "man", "patient": "spaghetti", "count": 2}
+{"verb": "eat", "agent": "neighbor", "patient": "food", "count": 1}
+{"verb": "eat", "agent": "sister", "patient": "spaghetti", "count": 2}
+{"verb": "eat", "agent": "toddler", "patient": "banana", "count": 2}
+{"verb": "eat", "agent": "woman", "patient": "spaghetti", "count": 2}
+{"verb": "feed", "agent": "child", "patient": "goldfish", "count": 1}
+{"verb": "feed", "agent": "farmer", "patient": "animals", "count": 1}
+{"verb": "feed", "agent": "farmer", "patient": "chickens", "count": 1}
+{"verb": "feed", "agent": "farmer", "patient": "pigs", "count": 1}
+{"verb": "feed", "agent": "father", "patient": "baby", "count": 1}
+{"verb": "feed", "agent": "man", "patient": "canary", "count": 1}
+{"verb": "feed", "agent": "mother", "patient": "baby", "count": 2}
+{"verb": "feed", "agent": "mother", "patient": "child", "count": 1}
+{"verb": "feed", "agent": "mother", "patient": "infant", "count": 1}
+{"verb": "feed", "agent": "parent", "patient": "child", "count": 2}
+{"verb": "feed", "agent": "parent", "patient": "pets", "count": 1}
+{"verb": "fill", "agent": "child", "patient": "bottle", "count": 2}
+{"verb": "fill", "agent": "pharmacist", "patient": "prescription", "count": 2}
+{"verb": "fish", "agent": "child", "patient": "during summer", "count": 1}
+{"verb": "fish", "agent": "fisherman", "patient": "lake", "count": 1}
+{"verb": "fish", "agent": "fisherman", "patient": "stream", "count": 2}
+{"verb": "fix", "agent": "child", "patient": "breakfast", "count": 2}
+{"verb": "fix", "agent": "cook", "patient": "breakfast", "count": 2}
+{"verb": "fix", "agent": "dentist", "patient": "break tooth", "count": 1}
+{"verb": "fix", "agent": "dentist", "patient": "broken tooth", "count": 1}
+{"verb": "fix", "agent": "dentist", "patient": "teeth", "count": 1}
+{"verb": "fix", "agent": "dentist", "patient": "tooth", "count": 1}
+{"verb": "fix", "agent": "electrician", "patient": "dead connection", "count": 2}
+{"verb": "fix", "agent": "electrician", "patient": "short", "count": 2}
+{"verb": "fix", "agent": "electrician", "patient": "wire", "count": 1}
+{"verb": "fix", "agent": "electrician", "patient": "wiring", "count": 1}
+{"verb": "fix", "agent": "judge", "patient": "speed ticket", "count": 1}
+{"verb": "fix", "agent": "judge", "patient": "speeding ticket", "count": 1}
+{"verb": "fix", "agent": "judge", "patient": "ticket", "count": 2}
+{"verb": "fix", "agent": "mechanic", "patient": "automobile", "count": 1}
+{"verb": "fix", "agent": "mechanic", "patient": "leaky radiator", "count": 2}
+{"verb": "fix", "agent": "plumber", "patient": "faucet", "count": 1}
+{"verb": "fix", "agent": "plumber", "patient": "leak", "count": 1}
+{"verb": "fix", "agent": "plumber", "patient": "leak faucet", "count": 1}
+{"verb": "fix", "agent": "plumber", "patient": "leaking faucet", "count": 1}
+{"verb": "fix", "agent": "plumber", "patient": "leaky pipe", "count": 2}
+{"verb": "fix", "agent": "plumber", "patient": "plumb", "count": 1}
+{"verb": "fix", "agent": "plumber", "patient": "plumbing", "count": 1}
+{"verb": "fix", "agent": "plumber", "patient": "sink", "count": 1}
+{"verb": "fix", "agent": "teacher", "patient": "laminate machine", "count": 1}
+{"verb": "fix", "agent": "teacher", "patient": "laminating machine", "count": 1}
+{"verb": "fix", "agent": "veterinarian", "patient": "animal", "count": 2}
+{"verb": "fix", "agent": "veterinarian", "patient": "cat", "count": 2}
+{"verb": "fix", "agent": "veterinarian", "patient": "pet", "count": 2}
+{"verb": "fix", "agent": "wife", "patient": "hair", "count": 2}
+{"verb": "fix", "agent": "woman", "patient": "car", "count": 2}
+{"verb": "fix", "agent": "woman", "patient": "flat tire", "count": 2}
+{"verb": "fly", "agent": "child", "patient": "kite", "count": 1}
+{"verb": "fly", "agent": "child", "patient": "kites", "count": 1}
+{"verb": "fly", "agent": "kid", "patient": "kite", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "aircraft", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "biplane", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "blimp", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "bomber", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "bombers", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "crop duster", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "dirigible", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "fighter aircraft", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "fighter plane", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "fly boat", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "flying boat", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "glider", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "gliders", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "hang glider", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "hang gliders", "count": 1}
+{"verb": "fly", "agent": "pilot", "patient": "helium balloon", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "high", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "jet", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "low", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "piper cub", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "supersonic", "count": 2}
+{"verb": "fly", "agent": "pilot", "patient": "transport aircraft", "count": 2}
+{"verb": "grow", "agent": "farmer", "patient": "corn", "count": 2}
+{"verb": "grow", "agent": "farmer", "patient": "plant", "count": 1}
+{"verb": "grow", "agent": "farmer", "patient": "plants", "count": 1}
+{"verb": "grow", "agent": "farmer", "patient": "vegetable", "count": 1}
+{"verb": "grow", "agent": "farmer", "patient": "vegetables", "count": 1}
+{"verb": "grow", "agent": "gardener", "patient": "garden", "count": 2}
+{"verb": "grow", "agent": "gardener", "patient": "healthy plant", "count": 1}
+{"verb": "grow", "agent": "gardener", "patient": "healthy plants", "count": 1}
+{"verb": "grow", "agent": "gardener", "patient": "plant", "count": 1}
+{"verb": "grow", "agent": "gardener", "patient": "plants", "count": 1}
+{"verb": "grow", "agent": "man", "patient": "beard", "count": 3}
+{"verb": "grow", "agent": "man", "patient": "beards", "count": 1}
+{"verb": "grow", "agent": "man", "patient": "plant", "count": 1}
+{"verb": "grow", "agent": "man", "patient": "plants", "count": 1}
+{"verb": "grow", "agent": "mother", "patient": "garden", "count": 2}
+{"verb": "hammer", "agent": "carpenter", "patient": "nail", "count": 1}
+{"verb": "hammer", "agent": "carpenter", "patient": "nails", "count": 1}
+{"verb": "hang", "agent": "homeowner", "patient": "picture", "count": 2}
+{"verb": "hang", "agent": "judge", "patient": "horse thieves", "count": 1}
+{"verb": "hang", "agent": "maid", "patient": "clothes", "count": 2}
+{"verb": "hang", "agent": "man", "patient": "picture", "count": 2}
+{"verb": "iron", "agent": "housekeeper", "patient": "clothes", "count": 2}
+{"verb": "iron", "agent": "maid", "patient": "clothes", "count": 2}
+{"verb": "iron", "agent": "maid", "patient": "shirt", "count": 1}
+{"verb": "iron", "agent": "maid", "patient": "wrinkle clothes", "count": 1}
+{"verb": "iron", "agent": "maid", "patient": "wrinkled clothes", "count": 1}
+{"verb": "iron", "agent": "man", "patient": "clothes", "count": 4}
+{"verb": "iron", "agent": "man", "patient": "clothes too", "count": 2}
+{"verb": "iron", "agent": "man", "patient": "slacks", "count": 2}
+{"verb": "iron", "agent": "mother", "patient": "child shirt", "count": 1}
+{"verb": "iron", "agent": "mother", "patient": "clothes", "count": 2}
+{"verb": "iron", "agent": "mother", "patient": "laundry", "count": 2}
+{"verb": "iron", "agent": "mother", "patient": "shirt", "count": 2}
+{"verb": "iron", "agent": "tailor", "patient": "clothes", "count": 1}
+{"verb": "iron", "agent": "tailor", "patient": "clothing", "count": 1}
+{"verb": "iron", "agent": "tailor", "patient": "shirt", "count": 2}
+{"verb": "iron", "agent": "tailor", "patient": "suit", "count": 2}
+{"verb": "lift", "agent": "child", "patient": "cup", "count": 2}
+{"verb": "lift", "agent": "man", "patient": "weight", "count": 1}
+{"verb": "lift", "agent": "man", "patient": "weights", "count": 1}
+{"verb": "measure", "agent": "carpenter", "patient": "board", "count": 2}
+{"verb": "measure", "agent": "cook", "patient": "flour", "count": 4}
+{"verb": "measure", "agent": "cook", "patient": "ingredient", "count": 1}
+{"verb": "measure", "agent": "cook", "patient": "ingredients", "count": 1}
+{"verb": "measure", "agent": "cook", "patient": "water", "count": 2}
+{"verb": "measure", "agent": "doctor", "patient": "height", "count": 2}
+{"verb": "measure", "agent": "scientist", "patient": "variable", "count": 1}
+{"verb": "measure", "agent": "scientist", "patient": "variables", "count": 1}
+{"verb": "measure", "agent": "singer", "patient": "breath", "count": 2}
+{"verb": "milk", "agent": "actor", "patient": "part", "count": 2}
+{"verb": "milk", "agent": "farmer", "patient": "dairy cow", "count": 1}
+{"verb": "milk", "agent": "farmer", "patient": "dairy cows", "count": 1}
+{"verb": "milk", "agent": "farmer", "patient": "goat", "count": 2}
+{"verb": "milk", "agent": "lawyer", "patient": "defendant", "count": 1}
+{"verb": "milk", "agent": "woman", "patient": "cow", "count": 2}
+{"verb": "milk", "agent": "worker", "patient": "job", "count": 2}
+{"verb": "mix", "agent": "bartender", "patient": "drink", "count": 2}
+{"verb": "mop", "agent": "janitor", "patient": "floor", "count": 2}
+{"verb": "open", "agent": "cook", "patient": "can", "count": 2}
+{"verb": "open", "agent": "doctor", "patient": "practice", "count": 2}
+{"verb": "open", "agent": "driver", "patient": "car door", "count": 2}
+{"verb": "open", "agent": "husband", "patient": "can", "count": 2}
+{"verb": "open", "agent": "kid", "patient": "door", "count": 2}
+{"verb": "open", "agent": "man", "patient": "door", "count": 1}
+{"verb": "open", "agent": "man", "patient": "doors", "count": 1}
+{"verb": "open", "agent": "man", "patient": "own shop", "count": 2}
+{"verb": "open", "agent": "secretary", "patient": "mail", "count": 2}
+{"verb": "open", "agent": "teacher", "patient": "box", "count": 1}
+{"verb": "open", "agent": "teacher", "patient": "boxes", "count": 1}
+{"verb": "paint", "agent": "artist", "patient": "canvas", "count": 2}
+{"verb": "paint", "agent": "artist", "patient": "fruit", "count": 1}
+{"verb": "paint", "agent": "artist", "patient": "landscape", "count": 2}
+{"verb": "paint", "agent": "artist", "patient": "masterpiece", "count": 2}
+{"verb": "paint", "agent": "artist", "patient": "mural", "count": 2}
+{"verb": "paint", "agent": "artist", "patient": "picture", "count": 1}
+{"verb": "paint", "agent": "boy", "patient": "picture", "count": 2}
+{"verb": "paint", "agent": "father", "patient": "lovely picture", "count": 1}
+{"verb": "paint", "agent": "father", "patient": "lovely pictures", "count": 1}
+{"verb": "paint", "agent": "homeowner", "patient": "fence", "count": 2}
+{"verb": "paint", "agent": "homeowner", "patient": "house", "count": 4}
+{"verb": "paint", "agent": "man", "patient": "wall", "count": 2}
+{"verb": "paint", "agent": "painter", "patient": "ceiling", "count": 1}
+{"verb": "paint", "agent": "painter", "patient": "door", "count": 1}
+{"verb": "paint", "agent": "painter", "patient": "house", "count": 1}
+{"verb": "paint", "agent": "painter", "patient": "picture", "count": 2}
+{"verb": "paint", "agent": "painter", "patient": "wall", "count": 1}
+{"verb": "paint", "agent": "woman", "patient": "fence", "count": 2}
+{"verb": "pick", "agent": "child", "patient": "nose", "count": 2}
+{"verb": "pick", "agent": "farmer", "patient": "carrot", "count": 2}
+{"verb": "pick", "agent": "farmer", "patient": "vegetable", "count": 1}
+{"verb": "pick", "agent": "farmer", "patient": "vegetables", "count": 1}
+{"verb": "pick", "agent": "gardener", "patient": "berries", "count": 1}
+{"verb": "pick", "agent": "gardener", "patient": "berry", "count": 1}
+{"verb": "pick", "agent": "gardener", "patient": "flower", "count": 1}
+{"verb": "pick", "agent": "gardener", "patient": "flowers", "count": 1}
+{"verb": "pick", "agent": "gardener", "patient": "weed", "count": 1}
+{"verb": "pick", "agent": "gardener", "patient": "weeds", "count": 1}
+{"verb": "pick", "agent": "judge", "patient": "winner", "count": 1}
+{"verb": "pick", "agent": "man", "patient": "apple", "count": 1}
+{"verb": "pick", "agent": "man", "patient": "apples", "count": 1}
+{"verb": "pick", "agent": "man", "patient": "cherries", "count": 1}
+{"verb": "pick", "agent": "man", "patient": "cherry", "count": 1}
+{"verb": "pick", "agent": "man", "patient": "rock", "count": 2}
+{"verb": "plant", "agent": "child", "patient": "flower", "count": 2}
+{"verb": "plant", "agent": "farmer", "patient": "marijuana", "count": 2}
+{"verb": "plant", "agent": "farmer", "patient": "seed", "count": 1}
+{"verb": "plant", "agent": "farmer", "patient": "seeds", "count": 1}
+{"verb": "plant", "agent": "farmer", "patient": "tomato", "count": 1}
+{"verb": "plant", "agent": "farmer", "patient": "tomatoes", "count": 1}
+{"verb": "plant", "agent": "farmer", "patient": "wheat", "count": 2}
+{"verb": "plant", "agent": "gardener", "patient": "cabbage", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "cabbages", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "plant", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "plants", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "rose", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "roses", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "seed", "count": 3}
+{"verb": "plant", "agent": "gardener", "patient": "seeds", "count": 1}
+{"verb": "plant", "agent": "gardener", "patient": "shrub", "count": 2}
+{"verb": "plant", "agent": "gardener", "patient": "tree", "count": 2}
+{"verb": "plant", "agent": "gardener", "patient": "vegetable", "count": 2}
+{"verb": "play", "agent": "actor", "patient": "part", "count": 2}
+{"verb": "play", "agent": "artist", "patient": "guitar", "count": 1}
+{"verb": "play", "agent": "athlete", "patient": "baseball", "count": 2}
+{"verb": "play", "agent": "athlete", "patient": "lacrosse", "count": 2}
+{"verb": "play", "agent": "athlete", "patient": "sport", "count": 1}
+{"verb": "play", "agent": "baby", "patient": "peekaboo", "count": 2}
+{"verb": "play", "agent": "boy", "patient": "hockey", "count": 2}
+{"verb": "play", "agent": "boy", "patient": "video game", "count": 1}
+{"verb": "play", "agent": "boy", "patient": "video games", "count": 1}
+{"verb": "play", "agent": "chemist", "patient": "harmonica", "count": 2}
+{"verb": "play", "agent": "child", "patient": "around", "count": 2}
+{"verb": "play", "agent": "child", "patient": "ball", "count": 2}
+{"verb": "play", "agent": "child", "patient": "board game", "count": 1}
+{"verb": "play", "agent": "child", "patient": "board games", "count": 1}
+{"verb": "play", "agent": "child", "patient": "chess", "count": 2}
+{"verb": "play", "agent": "child", "patient": "computer game", "count": 1}
+{"verb": "play", "agent": "child", "patient": "computer games", "count": 1}
+{"verb": "play", "agent": "child", "patient": "leapfrog", "count": 2}
+{"verb": "play", "agent": "child", "patient": "outside", "count": 2}
+{"verb": "play", "agent": "child", "patient": "recorder", "count": 2}
+{"verb": "play", "agent": "child", "patient": "tag", "count": 2}
+{"verb": "play", "agent": "child", "patient": "video game", "count": 1}
+{"verb": "play", "agent": "child", "patient": "video games", "count": 1}
+{"verb": "play", "agent": "girl", "patient": "sport", "count": 1}
+{"verb": "play", "agent": "girl", "patient": "sports", "count": 1}
+{"verb": "play", "agent": "guitarist", "patient": "exercise", "count": 2}
+{"verb": "play", "agent": "guitarist", "patient": "guitar", "count": 2}
+{"verb": "play", "agent": "guitarist", "patient": "riff", "count": 2}
+{"verb": "play", "agent": "jockey", "patient": "game", "count": 2}
+{"verb": "play", "agent": "kid", "patient": "hard", "count": 2}
+{"verb": "play", "agent": "kid", "patient": "soccer", "count": 2}
+{"verb": "play", "agent": "kid", "patient": "sport", "count": 1}
+{"verb": "play", "agent": "kid", "patient": "sports", "count": 1}
+{"verb": "play", "agent": "musician", "patient": "fiddle", "count": 2}
+{"verb": "play", "agent": "musician", "patient": "guitar", "count": 2}
+{"verb": "play", "agent": "musician", "patient": "harp", "count": 2}
+{"verb": "play", "agent": "musician", "patient": "instrument", "count": 1}
+{"verb": "play", "agent": "musician", "patient": "oboe", "count": 2}
+{"verb": "play", "agent": "musician", "patient": "ocarina", "count": 2}
+{"verb": "play", "agent": "musician", "patient": "song", "count": 2}
+{"verb": "play", "agent": "musician", "patient": "violin", "count": 2}
+{"verb": "play", "agent": "son", "patient": "piano", "count": 2}
+{"verb": "plow", "agent": "farmer", "patient": "field", "count": 1}
+{"verb": "plow", "agent": "farmer", "patient": "fields", "count": 1}
+{"verb": "pour", "agent": "bartender", "patient": "beer", "count": 2}
+{"verb": "pull", "agent": "baby", "patient": "hair", "count": 2}
+{"verb": "pull", "agent": "boy", "patient": "wagon", "count": 2}
+{"verb": "pull", "agent": "dentist", "patient": "teeth", "count": 1}
+{"verb": "pull", "agent": "dentist", "patient": "tooth", "count": 1}
+{"verb": "pull", "agent": "firefighter", "patient": "hose", "count": 2}
+{"verb": "pull", "agent": "kid", "patient": "prank", "count": 1}
+{"verb": "pull", "agent": "kid", "patient": "pranks", "count": 1}
+{"verb": "push", "agent": "child", "patient": "another child", "count": 2}
+{"verb": "push", "agent": "child", "patient": "limit", "count": 1}
+{"verb": "push", "agent": "child", "patient": "limits", "count": 1}
+{"verb": "push", "agent": "coach", "patient": "players", "count": 1}
+{"verb": "push", "agent": "father", "patient": "stroller", "count": 2}
+{"verb": "push", "agent": "nanny", "patient": "stroller", "count": 2}
+{"verb": "push", "agent": "shopper", "patient": "shop cart", "count": 1}
+{"verb": "push", "agent": "shopper", "patient": "shopping cart", "count": 1}
+{"verb": "push", "agent": "woman", "patient": "cart", "count": 2}
+{"verb": "push", "agent": "worker", "patient": "lever", "count": 1}
+{"verb": "push", "agent": "worker", "patient": "levers", "count": 1}
+{"verb": "read", "agent": "child", "patient": "book", "count": 2}
+{"verb": "read", "agent": "child", "patient": "newspaper", "count": 1}
+{"verb": "read", "agent": "child", "patient": "newspapers", "count": 1}
+{"verb": "read", "agent": "child", "patient": "picture book", "count": 2}
+{"verb": "read", "agent": "child", "patient": "simple book", "count": 2}
+{"verb": "read", "agent": "child", "patient": "stories", "count": 1}
+{"verb": "read", "agent": "child", "patient": "story", "count": 1}
+{"verb": "read", "agent": "girl", "patient": "book", "count": 2}
+{"verb": "read", "agent": "girl", "patient": "magazine", "count": 2}
+{"verb": "read", "agent": "man", "patient": "newspaper", "count": 1}
+{"verb": "read", "agent": "man", "patient": "newspapers", "count": 1}
+{"verb": "read", "agent": "mother", "patient": "child story", "count": 1}
+{"verb": "read", "agent": "parent", "patient": "bedtime stories", "count": 1}
+{"verb": "read", "agent": "parent", "patient": "bedtime story", "count": 1}
+{"verb": "read", "agent": "parent", "patient": "child book", "count": 1}
+{"verb": "read", "agent": "pianist", "patient": "sheet music", "count": 2}
+{"verb": "read", "agent": "student", "patient": "book", "count": 2}
+{"verb": "read", "agent": "student", "patient": "manual", "count": 1}
+{"verb": "read", "agent": "student", "patient": "manuals", "count": 1}
+{"verb": "read", "agent": "student", "patient": "newspaper", "count": 1}
+{"verb": "read", "agent": "student", "patient": "newspapers", "count": 1}
+{"verb": "read", "agent": "student", "patient": "textbook", "count": 1}
+{"verb": "read", "agent": "student", "patient": "textbooks", "count": 1}
+{"verb": "repair", "agent": "plumber", "patient": "fountain", "count": 2}
+{"verb": "ride", "agent": "jockey", "patient": "fast horse", "count": 1}
+{"verb": "ride", "agent": "jockey", "patient": "horse", "count": 2}
+{"verb": "ride", "agent": "kid", "patient": "bike", "count": 2}
+{"verb": "ride", "agent": "man", "patient": "bike", "count": 1}
+{"verb": "ride", "agent": "man", "patient": "bikes", "count": 1}
+{"verb": "ride", "agent": "policeman", "patient": "motorcycle", "count": 1}
+{"verb": "ring", "agent": "captain", "patient": "bell", "count": 2}
+{"verb": "ring", "agent": "child", "patient": "doorbell", "count": 2}
+{"verb": "ring", "agent": "cook", "patient": "bell", "count": 2}
+{"verb": "ring", "agent": "cook", "patient": "dinner bell", "count": 2}
+{"verb": "ring", "agent": "kid", "patient": "doorbell", "count": 2}
+{"verb": "ring", "agent": "postman", "patient": "bell", "count": 2}
+{"verb": "ring", "agent": "postman", "patient": "doorbell", "count": 2}
+{"verb": "ring", "agent": "postman", "patient": "twice", "count": 2}
+{"verb": "ring", "agent": "priest", "patient": "bell", "count": 1}
+{"verb": "roll", "agent": "baker", "patient": "dough", "count": 2}
+{"verb": "roll", "agent": "banker", "patient": "change", "count": 1}
+{"verb": "roll", "agent": "child", "patient": "ball", "count": 2}
+{"verb": "roll", "agent": "cook", "patient": "pie crust", "count": 2}
+{"verb": "roll", "agent": "cowboy", "patient": "cigarette", "count": 2}
+{"verb": "roll", "agent": "kid", "patient": "ball", "count": 2}
+{"verb": "sell", "agent": "butcher", "patient": "meat", "count": 1}
+{"verb": "sell", "agent": "grocer", "patient": "vegetable", "count": 1}
+{"verb": "sell", "agent": "grocer", "patient": "vegetables", "count": 1}
+{"verb": "sell", "agent": "pharmacist", "patient": "drug", "count": 1}
+{"verb": "serve", "agent": "bartender", "patient": "alcoholic drink", "count": 1}
+{"verb": "serve", "agent": "bartender", "patient": "beer", "count": 1}
+{"verb": "serve", "agent": "bartender", "patient": "berry martini", "count": 2}
+{"verb": "serve", "agent": "grandma", "patient": "boil turnip", "count": 1}
+{"verb": "serve", "agent": "grandma", "patient": "boiled turnips", "count": 1}
+{"verb": "serve", "agent": "waiter", "patient": "customers", "count": 1}
+{"verb": "serve", "agent": "waiter", "patient": "diner", "count": 1}
+{"verb": "serve", "agent": "waiter", "patient": "diners", "count": 1}
+{"verb": "serve", "agent": "waiter", "patient": "food", "count": 2}
+{"verb": "serve", "agent": "waiter", "patient": "human", "count": 1}
+{"verb": "serve", "agent": "waiter", "patient": "meal", "count": 1}
+{"verb": "serve", "agent": "waiter", "patient": "table", "count": 2}
+{"verb": "sharpen", "agent": "student", "patient": "pencil", "count": 2}
+{"verb": "shave", "agent": "man", "patient": "facial hair", "count": 2}
+{"verb": "sing", "agent": "actor", "patient": "song", "count": 1}
+{"verb": "sing", "agent": "actor", "patient": "songs", "count": 1}
+{"verb": "sing", "agent": "boy", "patient": "very high", "count": 2}
+{"verb": "sing", "agent": "child", "patient": "song", "count": 1}
+{"verb": "sing", "agent": "child", "patient": "songs", "count": 1}
+{"verb": "sing", "agent": "man", "patient": "song", "count": 2}
+{"verb": "sing", "agent": "singer", "patient": "ballad", "count": 2}
+{"verb": "sing", "agent": "singer", "patient": "loud", "count": 2}
+{"verb": "smell", "agent": "child", "patient": "cookie", "count": 1}
+{"verb": "smell", "agent": "child", "patient": "cookies", "count": 1}
+{"verb": "smell", "agent": "child", "patient": "flower", "count": 2}
+{"verb": "smell", "agent": "child", "patient": "smoke", "count": 2}
+{"verb": "smell", "agent": "florist", "patient": "rose", "count": 1}
+{"verb": "smell", "agent": "florist", "patient": "roses", "count": 1}
+{"verb": "sort", "agent": "chemist", "patient": "chemical", "count": 1}
+{"verb": "sort", "agent": "chemist", "patient": "chemicals", "count": 1}
+{"verb": "sort", "agent": "clerk", "patient": "paper", "count": 1}
+{"verb": "sort", "agent": "clerk", "patient": "papers", "count": 1}
+{"verb": "sort", "agent": "librarian", "patient": "book", "count": 1}
+{"verb": "sort", "agent": "librarian", "patient": "books", "count": 1}
+{"verb": "sort", "agent": "mailman", "patient": "mail", "count": 2}
+{"verb": "sort", "agent": "postman", "patient": "mail", "count": 2}
+{"verb": "sort", "agent": "secretary", "patient": "through file", "count": 1}
+{"verb": "spread", "agent": "child", "patient": "wing", "count": 1}
+{"verb": "spread", "agent": "child", "patient": "wings", "count": 1}
+{"verb": "spread", "agent": "farmer", "patient": "seed", "count": 1}
+{"verb": "spread", "agent": "farmer", "patient": "seeds", "count": 1}
+{"verb": "spread", "agent": "woman", "patient": "gossip", "count": 2}
+{"verb": "spread", "agent": "woman", "patient": "leg", "count": 1}
+{"verb": "spread", "agent": "woman", "patient": "legs", "count": 1}
+{"verb": "spread", "agent": "woman", "patient": "pussy", "count": 2}
+{"verb": "teach", "agent": "child", "patient": "adult", "count": 2}
+{"verb": "teach", "agent": "child", "patient": "parent", "count": 1}
+{"verb": "teach", "agent": "child", "patient": "parents", "count": 1}
+{"verb": "teach", "agent": "father", "patient": "child", "count": 1}
+{"verb": "teach", "agent": "father", "patient": "children", "count": 1}
+{"verb": "teach", "agent": "mother", "patient": "child", "count": 4}
+{"verb": "teach", "agent": "teacher", "patient": "child", "count": 1}
+{"verb": "teach", "agent": "teacher", "patient": "children", "count": 1}
+{"verb": "teach", "agent": "teacher", "patient": "discipline", "count": 2}
+{"verb": "teach", "agent": "teacher", "patient": "math", "count": 2}
+{"verb": "teach", "agent": "teacher", "patient": "mathematical system", "count": 2}
+{"verb": "teach", "agent": "teacher", "patient": "pupil", "count": 3}
+{"verb": "teach", "agent": "teacher", "patient": "pupils", "count": 1}
+{"verb": "throw", "agent": "athlete", "patient": "pretty far", "count": 1}
+{"verb": "throw", "agent": "baby", "patient": "food everywhere", "count": 2}
+{"verb": "throw", "agent": "boy", "patient": "ball", "count": 2}
+{"verb": "throw", "agent": "boy", "patient": "baseball", "count": 1}
+{"verb": "throw", "agent": "boy", "patient": "baseballs", "count": 1}
+{"verb": "throw", "agent": "child", "patient": "ball", "count": 2}
+{"verb": "throw", "agent": "child", "patient": "fit", "count": 1}
+{"verb": "throw", "agent": "child", "patient": "fits", "count": 1}
+{"verb": "throw", "agent": "child", "patient": "party", "count": 2}
+{"verb": "throw", "agent": "child", "patient": "small television", "count": 2}
+{"verb": "throw", "agent": "kid", "patient": "tantrum", "count": 2}
+{"verb": "throw", "agent": "kid", "patient": "toy", "count": 1}
+{"verb": "throw", "agent": "man", "patient": "party", "count": 2}
+{"verb": "throw", "agent": "man", "patient": "stone", "count": 2}
+{"verb": "throw", "agent": "pitcher", "patient": "ball", "count": 1}
+{"verb": "throw", "agent": "pitcher", "patient": "curve", "count": 2}
+{"verb": "throw", "agent": "pitcher", "patient": "fast ball", "count": 2}
+{"verb": "throw", "agent": "son", "patient": "baseball", "count": 2}
+{"verb": "throw", "agent": "student", "patient": "ball", "count": 2}
+{"verb": "tie", "agent": "child", "patient": "knot", "count": 2}
+{"verb": "tie", "agent": "child", "patient": "own shoe", "count": 1}
+{"verb": "tie", "agent": "child", "patient": "own shoes", "count": 1}
+{"verb": "tie", "agent": "child", "patient": "shoe", "count": 2}
+{"verb": "tie", "agent": "child", "patient": "shoelace", "count": 1}
+{"verb": "tie", "agent": "child", "patient": "shoelaces", "count": 1}
+{"verb": "tie", "agent": "child", "patient": "shoes", "count": 2}
+{"verb": "tie", "agent": "girl", "patient": "bow", "count": 2}
+{"verb": "tie", "agent": "kid", "patient": "shoe", "count": 2}
+{"verb": "tie", "agent": "kid", "patient": "shoelace", "count": 1}
+{"verb": "tie", "agent": "kid", "patient": "shoelaces", "count": 1}
+{"verb": "tie", "agent": "man", "patient": "knot", "count": 2}
+{"verb": "tie", "agent": "man", "patient": "necktie", "count": 2}
+{"verb": "tie", "agent": "man", "patient": "shoe", "count": 1}
+{"verb": "tie", "agent": "man", "patient": "shoes", "count": 1}
+{"verb": "tie", "agent": "man", "patient": "tie", "count": 2}
+{"verb": "tie", "agent": "sailor", "patient": "rope", "count": 2}
+{"verb": "type", "agent": "typist", "patient": "companies documents", "count": 1}
+{"verb": "type", "agent": "typist", "patient": "company document", "count": 1}
+{"verb": "wash", "agent": "athlete", "patient": "car", "count": 2}
+{"verb": "wash", "agent": "chemist", "patient": "glassware", "count": 2}
+{"verb": "wash", "agent": "chemist", "patient": "test tube", "count": 2}
+{"verb": "wash", "agent": "child", "patient": "before dinner", "count": 2}
+{"verb": "wash", "agent": "child", "patient": "dish", "count": 1}
+{"verb": "wash", "agent": "child", "patient": "dishes", "count": 1}
+{"verb": "wash", "agent": "cook", "patient": "vegetable", "count": 2}
+{"verb": "wash", "agent": "dentist", "patient": "hand", "count": 1}
+{"verb": "wash", "agent": "dentist", "patient": "hands", "count": 1}
+{"verb": "wash", "agent": "maid", "patient": "floor", "count": 2}
+{"verb": "wash", "agent": "man", "patient": "car", "count": 3}
+{"verb": "wash", "agent": "man", "patient": "cars", "count": 1}
+{"verb": "wash", "agent": "man", "patient": "dish", "count": 1}
+{"verb": "wash", "agent": "man", "patient": "dishes", "count": 1}
+{"verb": "wash", "agent": "mother", "patient": "child", "count": 2}
+{"verb": "wash", "agent": "student", "patient": "dish", "count": 1}
+{"verb": "wash", "agent": "student", "patient": "dishes", "count": 1}
+{"verb": "wash", "agent": "teenager", "patient": "car", "count": 1}
+{"verb": "water", "agent": "boy", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "boy", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "child", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "child", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "cowboy", "patient": "horse", "count": 1}
+{"verb": "water", "agent": "cowboy", "patient": "horses", "count": 1}
+{"verb": "water", "agent": "farmer", "patient": "crop", "count": 2}
+{"verb": "water", "agent": "farmer", "patient": "crops", "count": 2}
+{"verb": "water", "agent": "farmer", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "farmer", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "farmer", "patient": "tomato patch", "count": 2}
+{"verb": "water", "agent": "friend", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "gardener", "patient": "garden", "count": 4}
+{"verb": "water", "agent": "gardener", "patient": "herb garden", "count": 2}
+{"verb": "water", "agent": "gardener", "patient": "plant", "count": 2}
+{"verb": "water", "agent": "gardener", "patient": "plants", "count": 2}
+{"verb": "water", "agent": "gardener", "patient": "rose", "count": 1}
+{"verb": "water", "agent": "gardener", "patient": "roses", "count": 1}
+{"verb": "water", "agent": "gardener", "patient": "seed bed", "count": 2}
+{"verb": "water", "agent": "girl", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "girl", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "kid", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "kid", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "man", "patient": "plant", "count": 2}
+{"verb": "water", "agent": "man", "patient": "plants", "count": 2}
+{"verb": "water", "agent": "student", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "student", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "woman", "patient": "garden", "count": 2}
+{"verb": "water", "agent": "woman", "patient": "plant", "count": 1}
+{"verb": "water", "agent": "woman", "patient": "plants", "count": 1}
+{"verb": "water", "agent": "woman", "patient": "rose", "count": 1}
+{"verb": "water", "agent": "woman", "patient": "roses", "count": 1}
+{"verb": "wear", "agent": "actor", "patient": "costume", "count": 2}
+{"verb": "wear", "agent": "aunt", "patient": "jewelry", "count": 1}
+{"verb": "wear", "agent": "child", "patient": "dress", "count": 2}
+{"verb": "wear", "agent": "child", "patient": "jacket", "count": 2}
+{"verb": "wear", "agent": "child", "patient": "silly hat", "count": 1}
+{"verb": "wear", "agent": "child", "patient": "silly hats", "count": 1}
+{"verb": "wear", "agent": "cowboy", "patient": "boot", "count": 1}
+{"verb": "wear", "agent": "cowboy", "patient": "cowboy hat", "count": 2}
+{"verb": "wear", "agent": "doctor", "patient": "white coat", "count": 1}
+{"verb": "wear", "agent": "doctor", "patient": "white coats", "count": 1}
+{"verb": "wear", "agent": "fireman", "patient": "hat", "count": 2}
+{"verb": "wear", "agent": "girl", "patient": "hair up", "count": 2}
+{"verb": "wear", "agent": "girl", "patient": "skirt", "count": 1}
+{"verb": "wear", "agent": "girl", "patient": "skirts", "count": 1}
+{"verb": "wear", "agent": "kid", "patient": "sunglasses", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "hat", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "hats", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "kilt", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "kilts", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "shorts", "count": 2}
+{"verb": "wear", "agent": "man", "patient": "skirt", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "skirts", "count": 1}
+{"verb": "wear", "agent": "man", "patient": "suit", "count": 2}
+{"verb": "wear", "agent": "man", "patient": "trousers", "count": 2}
+{"verb": "wear", "agent": "postman", "patient": "postal uniform", "count": 2}
+{"verb": "wear", "agent": "rancher", "patient": "boot", "count": 1}
+{"verb": "wear", "agent": "soldier", "patient": "uniform", "count": 2}
+{"verb": "wear", "agent": "swimmer", "patient": "suit", "count": 2}
+{"verb": "wear", "agent": "swimmer", "patient": "swimsuit", "count": 1}
+{"verb": "wear", "agent": "waiter", "patient": "black", "count": 1}
+{"verb": "wear", "agent": "woman", "patient": "diamond choker", "count": 2}
+{"verb": "wear", "agent": "woman", "patient": "earring", "count": 1}
+{"verb": "wear", "agent": "woman", "patient": "earrings", "count": 1}
+{"verb": "wear", "agent": "woman", "patient": "makeup", "count": 2}
+{"verb": "wear", "agent": "woman", "patient": "necklace", "count": 1}
+{"verb": "wear", "agent": "woman", "patient": "necklaces", "count": 1}
+{"verb": "wipe", "agent": "mother", "patient": "nose", "count": 1}
+{"verb": "wipe", "agent": "mother", "patient": "noses", "count": 1}
+{"verb": "write", "agent": "author", "patient": "essay", "count": 2}
+{"verb": "write", "agent": "author", "patient": "new book", "count": 2}
+{"verb": "write", "agent": "friend", "patient": "letter", "count": 2}
+{"verb": "write", "agent": "poet", "patient": "poem", "count": 1}
+{"verb": "write", "agent": "poet", "patient": "short story", "count": 1}
+{"verb": "write", "agent": "poet", "patient": "sonnet", "count": 1}
+{"verb": "write", "agent": "poet", "patient": "verse", "count": 2}
+{"verb": "write", "agent": "secretary", "patient": "letter", "count": 2}
+{"verb": "write", "agent": "secretary", "patient": "memo", "count": 2}
+{"verb": "write", "agent": "secretary", "patient": "note", "count": 1}
+{"verb": "write", "agent": "soldier", "patient": "letter home", "count": 2}
+{"verb": "write", "agent": "student", "patient": "term paper", "count": 1}
+{"verb": "write", "agent": "student", "patient": "term papers", "count": 1}
+{"verb": "write", "agent": "woman", "patient": "novel", "count": 2}
+{"verb": "write", "agent": "woman", "patient": "poem", "count": 2}
+{"verb": "write", "agent": "writer", "patient": "letter", "count": 2}
+{"verb": "write", "agent": "writer", "patient": "novel", "count": 1}
+{"verb": "write", "agent": "writer", "patient": "novels", "count": 1}
+{"verb": "write", "agent": "writer", "patient": "poem", "count": 1}
+{"verb": "write", "agent": "writer", "patient": "poems", "count": 1}

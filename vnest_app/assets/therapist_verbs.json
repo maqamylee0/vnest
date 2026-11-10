@@ -1,0 +1,4 @@
+{
+  "_note": "Stand-in for the therapist's backend: verbs listed here are written into exercises by the on-device model. More can be added in the app (AI helper screen).",
+  "verbs": ["cook", "drink", "drive", "write", "read", "plant", "fix", "play", "wash", "paint", "cut", "feed", "open", "sweep"]
+}

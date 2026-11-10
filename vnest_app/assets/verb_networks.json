@@ -1,0 +1,420 @@
+{
+  "_status": "DRAFT English content written for the prototype. Needs review by a speech-language therapist before use with patients. Kinyarwanda content should be authored by a native-speaking SLP.",
+  "_fields": {
+    "pairs": "Correct (agent, patient) pairs. These are the only answers marked right.",
+    "also_valid": "Other patients that would also be correct for this verb. Never used as distractors.",
+    "wh": "Reviewed where/when/why answers for the FIRST pair. Used when the on-device model is unavailable.",
+    "not_wrong_agents": "Things that could sound like they do the action (the bus drives, plants drink water). Never offered as a wrong answer to \"Who ...?\"."
+  },
+  "verbs": [
+    {
+      "verb": "cook",
+      "verb3": "cooks",
+      "question_verb": "cook",
+      "pairs": [
+        [
+          "chef",
+          "soup"
+        ],
+        [
+          "mother",
+          "rice"
+        ],
+        [
+          "father",
+          "eggs"
+        ],
+        [
+          "grandmother",
+          "beans"
+        ],
+        [
+          "cook",
+          "dinner"
+        ],
+        [
+          "student",
+          "pasta"
+        ]
+      ],
+      "also_valid": [
+        "vegetables",
+        "fish",
+        "meat",
+        "potatoes",
+        "cassava",
+        "maize",
+        "breakfast",
+        "lunch",
+        "milk"
+      ],
+      "wh": {
+        "where": "in the kitchen",
+        "when": "before lunch",
+        "why": "for the guests"
+      },
+      "not_wrong_agents": []
+    },
+    {
+      "verb": "drink",
+      "verb3": "drinks",
+      "question_verb": "drink",
+      "pairs": [
+        [
+          "baby",
+          "milk"
+        ],
+        [
+          "runner",
+          "water"
+        ],
+        [
+          "grandfather",
+          "tea"
+        ],
+        [
+          "worker",
+          "coffee"
+        ],
+        [
+          "child",
+          "juice"
+        ],
+        [
+          "guest",
+          "soda"
+        ]
+      ],
+      "also_valid": [
+        "soup",
+        "medicine"
+      ],
+      "wh": {
+        "where": "at home",
+        "when": "in the morning",
+        "why": "to grow strong"
+      },
+      "not_wrong_agents": [
+        "tree",
+        "roses",
+        "flowers",
+        "seeds",
+        "maize",
+        "vegetables",
+        "engine",
+        "car",
+        "bus",
+        "truck",
+        "tractor",
+        "taxi",
+        "ambulance"
+      ]
+    },
+    {
+      "verb": "drive",
+      "verb3": "drives",
+      "question_verb": "drive",
+      "pairs": [
+        [
+          "driver",
+          "bus"
+        ],
+        [
+          "farmer",
+          "tractor"
+        ],
+        [
+          "taxi driver",
+          "taxi"
+        ],
+        [
+          "mother",
+          "car"
+        ],
+        [
+          "truck driver",
+          "truck"
+        ],
+        [
+          "nurse",
+          "ambulance"
+        ]
+      ],
+      "also_valid": [],
+      "wh": {
+        "where": "on the road",
+        "when": "every morning",
+        "why": "to take people to town"
+      },
+      "not_wrong_agents": [
+        "bus",
+        "tractor",
+        "taxi",
+        "car",
+        "truck",
+        "ambulance",
+        "engine"
+      ]
+    },
+    {
+      "verb": "write",
+      "verb3": "writes",
+      "question_verb": "write",
+      "pairs": [
+        [
+          "student",
+          "essay"
+        ],
+        [
+          "author",
+          "book"
+        ],
+        [
+          "teacher",
+          "notes"
+        ],
+        [
+          "child",
+          "letter"
+        ],
+        [
+          "doctor",
+          "prescription"
+        ],
+        [
+          "poet",
+          "poem"
+        ]
+      ],
+      "also_valid": [
+        "story",
+        "recipe",
+        "menu",
+        "newspaper",
+        "textbook",
+        "map",
+        "list",
+        "song",
+        "cards"
+      ],
+      "wh": {
+        "where": "at school",
+        "when": "after class",
+        "why": "for homework"
+      },
+      "not_wrong_agents": []
+    },
+    {
+      "verb": "read",
+      "verb3": "reads",
+      "question_verb": "read",
+      "pairs": [
+        [
+          "child",
+          "story"
+        ],
+        [
+          "grandmother",
+          "newspaper"
+        ],
+        [
+          "student",
+          "textbook"
+        ],
+        [
+          "chef",
+          "recipe"
+        ],
+        [
+          "driver",
+          "map"
+        ],
+        [
+          "customer",
+          "menu"
+        ]
+      ],
+      "also_valid": [
+        "essay",
+        "book",
+        "notes",
+        "letter",
+        "prescription",
+        "poem",
+        "cards"
+      ],
+      "wh": {
+        "where": "in bed",
+        "when": "at night",
+        "why": "to fall asleep"
+      },
+      "not_wrong_agents": []
+    },
+    {
+      "verb": "plant",
+      "verb3": "plants",
+      "question_verb": "plant",
+      "pairs": [
+        [
+          "farmer",
+          "maize"
+        ],
+        [
+          "gardener",
+          "roses"
+        ],
+        [
+          "child",
+          "seeds"
+        ],
+        [
+          "grandfather",
+          "tree"
+        ],
+        [
+          "neighbor",
+          "flowers"
+        ],
+        [
+          "mother",
+          "vegetables"
+        ]
+      ],
+      "also_valid": [
+        "beans",
+        "rice",
+        "potatoes",
+        "cassava",
+        "grass"
+      ],
+      "wh": {
+        "where": "in the field",
+        "when": "in the rainy season",
+        "why": "to grow food"
+      },
+      "not_wrong_agents": []
+    },
+    {
+      "verb": "fix",
+      "verb3": "fixes",
+      "question_verb": "fix",
+      "pairs": [
+        [
+          "mechanic",
+          "engine"
+        ],
+        [
+          "plumber",
+          "pipe"
+        ],
+        [
+          "tailor",
+          "dress"
+        ],
+        [
+          "electrician",
+          "light"
+        ],
+        [
+          "carpenter",
+          "chair"
+        ],
+        [
+          "shoemaker",
+          "shoe"
+        ]
+      ],
+      "also_valid": [
+        "car",
+        "bus",
+        "tractor",
+        "taxi",
+        "truck",
+        "ambulance",
+        "guitar",
+        "piano",
+        "drum",
+        "essay",
+        "notes",
+        "letter",
+        "poem",
+        "book",
+        "dinner",
+        "soup",
+        "pasta",
+        "rice",
+        "eggs",
+        "match",
+        "phone",
+        "roof",
+        "story",
+        "recipe",
+        "menu",
+        "textbook",
+        "tea",
+        "coffee",
+        "soda",
+        "juice",
+        "milk",
+        "football",
+        "prescription",
+        "map"
+      ],
+      "wh": {
+        "where": "in the garage",
+        "when": "after it breaks",
+        "why": "so the car can run"
+      },
+      "not_wrong_agents": []
+    },
+    {
+      "verb": "play",
+      "verb3": "plays",
+      "question_verb": "play",
+      "pairs": [
+        [
+          "child",
+          "football"
+        ],
+        [
+          "musician",
+          "guitar"
+        ],
+        [
+          "girl",
+          "piano"
+        ],
+        [
+          "boy",
+          "drum"
+        ],
+        [
+          "team",
+          "match"
+        ],
+        [
+          "grandfather",
+          "cards"
+        ]
+      ],
+      "also_valid": [
+        "game",
+        "music",
+        "song",
+        "ball",
+        "notes"
+      ],
+      "wh": {
+        "where": "in the park",
+        "when": "after school",
+        "why": "to have fun"
+      },
+      "not_wrong_agents": [
+        "guitar",
+        "piano",
+        "drum",
+        "cards"
+      ]
+    }
+  ]
+}

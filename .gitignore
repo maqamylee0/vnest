@@ -1,0 +1,30 @@
+# Project-wide ignores for vnest (vnest_app/ and vnest_app/android/ have their own .gitignore too)
+
+# Downloaded sources: re-download with vnest_dataset/docs/GENERATION.md §9 (SHA-256 recorded there)
+vnest_dataset/raw/
+
+# Prebuilt MLC LLM engine (98 MB binary, from MLC LLM Android release Android-09262024).
+# Origin and SHA-256 are in RESEARCH_LOG.md §2; copy it back into place before building the app.
+vnest_app/android/app/src/main/jniLibs/
+
+# Model weights and checkpoints live on Hugging Face, never in git
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.ckpt
+checkpoints/
+models/
+
+# Python / notebooks
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+__marimo__/
+wandb/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
