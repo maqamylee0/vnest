@@ -91,6 +91,10 @@
 | 2026-11-10 | 50/50 long (the app's) and short prompts in training | A fine-tuned model may not need the long prompt; prompt reading was ~40 of 124 s per exercise | Long prompt only |
 | 2026-11-10 | Put `vnest/` under git; raw downloads, build output, the MLC engine binary and model weights stay out | Trace every result to exact code; large/regenerable files would bloat the history | No version control (as in `cdli`) |
 | 2026-11-10 | Track the project like `cdli`: one `RESEARCH_LOG.md` with a notebook register, plus project skill `.claude/skills/vnest-exercise-llm/` | User wants every notebook, step and decision recorded for the paper; reuse a system that already works | Separate files per notebook |
+| 2026-11-10 | HF outputs repo `emmilly/vnest-exercise-llm-outputs` (private); W&B `team-me-and-me/vnest-exercise-llm` | Chosen by the user; private until licences are checked | |
+| 2026-11-10 | Dataset v1 uploaded to the outputs repo under `data/v1/` with `SHA256SUMS`; notebooks verify the checksums | Remote GPU machines only have the notebook file; checksums tie every run to the exact v1 files | Separate dataset repo |
+| 2026-11-10 | Baselines use **greedy** decoding (app: temperature 0.3), bf16 on GPU, 2 prompts × 2 decodings (schema-constrained like the app, and free) | Deterministic and batch-safe; the schema variant mirrors the app, the free one shows what the model does unaided | Sample at 0.3 with seeds |
+| 2026-11-10 | Automatic scorer only for now (`vnest_common.score_output`): acceptance (port of `Scenario.fromModel`), copying, generic who, who is a person, answers/distractors vs known valid ones | No judge model or therapist yet; every number says it is automatic | LLM judge (later) |
 
 ---
 
@@ -101,7 +105,7 @@ status after every run. Notebooks that produced results are never edited: fork t
 
 | NB | File | Purpose | Forked from | Status | Runs (W&B id / HF repo) | Log entry |
 |---|---|---|---|---|---|---|
-| | | | | | | |
+| 2.01 | `notebooks/marimo/2_evaluation/01_baseline_qwen25_untuned.py` | Baseline: untuned Qwen2.5-1.5B-Instruct on validation + test, long/short prompt × schema/free decoding, automatic scores | – | **done** 2026-11-10 (RTX PRO 6000, ~2 min generation); output export `2_evaluation/baseline_qwen_untuned_results.ipynb` | run `b1-qwen25-1.5b-instruct-untuned` (W&B id = run name); outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 5 |
 
 Status values: `draft` → `ready (offline checks pass)` → `running` → `done` / `failed` / `superseded by NB x`.
 
@@ -111,10 +115,18 @@ Status values: `draft` → `ready (offline checks pass)` → `running` → `done
 
 ### 6.1 Test verbs (cook, drive, paint, plant, wash), 85 exercises
 
-| Model | Prompt | App acceptance % | Copies example % | Answer correct % (review) | Bad distractors % | Notes / NB |
-|---|---|---|---|---|---|---|
-| Qwen2.5-1.5B (untuned) | long | | | | | |
-| Llama-3.2-3B (untuned) | long | | | | | |
+All numbers over **5 test verbs**; 95 % CIs resample verbs. All scores **automatic** (`vnest_common.score_output` 1.0.0) unless the column says review.
+Greedy decoding, bf16 on GPU (not the phone's 4-bit model).
+
+| Model | Prompt | Decoding | App acceptance % (CI) | Copies example % | Generic who % | Answer correct % (review) | Bad distractors % | Notes / NB |
+|---|---|---|---|---|---|---|---|---|
+| Qwen2.5-1.5B (untuned) | long | schema | 100.0 (100.0–100.0) | 0 | 43.5 | – | not copied yet¹ | NB 2.01, Entry 5 |
+| Qwen2.5-1.5B (untuned) | long | free | 72.9 (38.8–95.0) | 0 | 43.5 | – | not copied yet¹ | NB 2.01 |
+| Qwen2.5-1.5B (untuned) | short | schema | 2.4 (0.0–5.4) | 0 | 0.0 | – | – | NB 2.01 |
+| Qwen2.5-1.5B (untuned) | short | free | 0.0 (0.0–0.0) | 0 | 0.0 | – | – | NB 2.01 |
+| Llama-3.2-3B (untuned) | long | schema | | | | | | (b2, planned) |
+
+¹ In `tables/b1__2.01__summary.csv` on HF (`any_bad_distractor_pct`); the download from the laptop timed out on 2026-11-10. The automatic check only covers who/what and only knows the dataset's objects, so it is a **lower bound** (Entry 5).
 
 ### 6.2 On-device (Galaxy Note 10)
 
@@ -206,6 +218,59 @@ Kept: `vnest_dataset/out/` (1.9 MB): teacher step 2 isn't deterministic, so thes
 **Status:** ✅ Worked.
 
 **Takeaways / next steps:** Commit after each logged step; put the commit hash in each Experiment Log entry and notebook-register row from now on.
+
+### [2026-11-10] Entry 5: Baseline b1, untuned Qwen2.5-1.5B-Instruct (NB 2.01)
+**Goal:** Measure the untuned student model on the task with the project's one scorer, as the reference for fine-tuning.
+
+**Notebook / script:** `notebooks/marimo/2_evaluation/01_baseline_qwen25_untuned.py` (NB 2.01), shared module `vnest_common` 1.0.0.
+Run `b1-qwen25-1.5b-instruct-untuned`, W&B `team-me-and-me/vnest-exercise-llm/runs/b1-qwen25-1.5b-instruct-untuned`,
+outputs in HF `emmilly/vnest-exercise-llm-outputs` (`preds/b1__2.01__…`, `tables/b1__2.01__summary.csv`, `tables/b1__2.01__per-verb.csv`).
+Exported results: `notebooks/marimo/2_evaluation/baseline_qwen_untuned_results.ipynb`.
+
+**What we did:** Validation (45) and test (85) × 2 prompts (long = the app's, short = `VNeST exercise for the verb "x".`) × 2 decodings
+(schema = JSON-schema constrained like the app, via xgrammar; free) = 520 generations. Greedy, max 320 new tokens, bf16, batch 16.
+Data checksums verified against `data/v1/SHA256SUMS` (train `f18824fe04`, validation `e982f94ae1`, test `119fcaa2a5`); verb overlap between splits = 0.
+Environment: NVIDIA RTX PRO 6000 Blackwell Server Edition; Python 3.13.11, torch 2.11.0+cu130, transformers 5.14.1, xgrammar 0.2.9, pandas 3.0.3.
+
+**Results** (automatic scores; test = 5 verbs):
+
+| Split | Prompt | Decoding | Accepted % (95 % CI, verbs resampled) | Copies example % | Generic who % | Distinct outputs |
+|---|---|---|---|---|---|---|
+| test | long | schema | 100.0 (100.0–100.0) | 0 | 43.5 | 41 / 85 |
+| test | long | free | 72.9 (38.8–95.0) | 0 | 43.5 | 41 / 85 |
+| test | short | schema | 2.4 (0.0–5.4) | 0 | 0.0 | 35 / 85 |
+| test | short | free | 0.0 | 0 | 0.0 | 37 / 85 |
+| validation | long | schema | 97.8 (96.9–100.0) | 0 | 26.7 | 19 / 45 |
+| validation | long | free | 91.1 (72.7–100.0) | 0 | 24.4 | 19 / 45 |
+| validation | short | schema | 2.2 (0.0–10.3) | 0 | 6.7 | 20 / 45 |
+| validation | short | free | 0.0 | 0 | 0.0 | 18 / 45 |
+
+Cost: 0.037 GPU-hours in total for generation (≈ 2.2 min); peak GPU memory 3.72 GB; 476–657 tokens/s.
+Bad-distractor rates are in the HF summary table (not copied here; the laptop download timed out).
+
+**Status:** ✅ Worked (run complete, all 8 parts scored).
+
+**Issues & how we resolved them:**
+- The `404 … _done/generate.json` lines in the log are expected on a first run (no earlier stage marker to resume from).
+- Summary tables were exported as images only; exact CSVs are on HF.
+- **The exported `.ipynb` contained the real HF write token and W&B key** (pasted into the KEYS cell). Caught before any commit; replaced with
+  placeholders, and a git pre-commit hook (`.git/hooks/pre-commit`) now blocks commits containing HF/W&B key patterns. If that export was
+  shared anywhere else before 2026-11-10 ~16:30, rotate both keys.
+
+**Observations (from reading outputs, not automatic scores):**
+- **Long prompt: format is solved, content is not.** Accepted exercises often have *valid* wrong options, e.g. *drive*: what = a car / a bike / a plane / a boat;
+  why = for work / for fun / for school / for shopping. "who" = "a person" in 44 % of test exercises. "why" answers like "because I want to eat".
+- **Short prompt: the untuned model doesn't know the task** (writes sentence-repetition exercises or other JSON; with schema, only 2 "who" options).
+- **Copying the worked example: 0 %**, which contradicts Entry 0 (phone, 4-bit, temperature 0.3). Likely the 4-bit model or sampling; to be checked on the phone (Entry 6).
+- Greedy decoding gives near-identical exercises per verb (41 distinct of 85): the 85 test exercises are effectively ~5 verbs × a few "avoid people" variants. Small effective sample.
+- The automatic distractor check covers only who/what and only objects in our dataset, so it **misses** cases like "a bike" for *drive*: a lower bound.
+
+**Decisions made:** none new (setup decisions logged 2026-11-10 in §4).
+
+**Takeaways / next steps:**
+1. Acceptance is saturated with the long prompt, so it can't show that fine-tuning helps → need a content measure: human labels on ~50 b1 exercises + an LLM judge checked against them.
+2. Baseline b2 (Llama-3.2-3B) with the same notebook (fork as NB 2.02).
+3. Check the Qwen path on the phone (Entry 6).
 
 ---
 

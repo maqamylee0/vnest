@@ -15,11 +15,13 @@ places where this project differs. On a conflict, this file wins.
 | Student model | `Qwen/Qwen2.5-1.5B-Instruct` |
 | Current app model (baseline) | `Llama-3.2-3B-Instruct-q4f16_0-MLC` (`vnest_app/lib/services/llm_service.dart`) |
 | `HF_USER` | `emmilly` |
-| Outputs dataset | **TO DECIDE** (proposed `emmilly/vnest-exercise-llm-outputs`) |
+| Outputs dataset | `emmilly/vnest-exercise-llm-outputs` (private; decided 2026-11-10). Dataset v1 lives in it under `data/v1/` (+ `SHA256SUMS`) |
 | Model repos private? | **TO DECIDE** (check ConceptNet CC BY-SA and Llama 3.1 output terms first) |
-| W&B | **TO DECIDE** (proposed `team-me-and-me/vnest-exercise-llm`) |
+| W&B | `team-me-and-me/vnest-exercise-llm` (decided 2026-11-10) |
 | `DATA_VERSION` | `v1` = the 2026-11-10 build (SHA-256 in `vnest_dataset/docs/GENERATION.md` §9) |
-| Notebooks | `notebooks/marimo/<N_section>/NN_name.py` (`1_training`, `2_evaluation`, `3_export` …), numbered from 01 |
+| Notebooks | `notebooks/marimo/<N_section>/NN_name.py` (`1_training`, `2_evaluation`, `3_export` …), numbered from 01; `NOTEBOOK` id = `<section>.<NN>` (e.g. `2.01`) |
+| Shared module | `common/vnest_common.py` (one scorer, naming, HF I/O, stages); embed with `tools/make_standalone.py`; offline checks `common/test_vnest_common.py` |
+| Run names | `<exp>-<model>-<variant>`, e.g. `b1-qwen25-1.5b-instruct-untuned` (`wc.run_name`) |
 
 Until a TO DECIDE value is chosen by the user, ask; do not invent it in a notebook.
 
