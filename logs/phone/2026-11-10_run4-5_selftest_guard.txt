@@ -1,0 +1,9 @@
+GUARD 17:24:15 armed
+GUARD 17:24:36 ok after 21 s
+GUARD 17:24:48 armed
+GUARD 17:25:14 ok after 26 s
+GUARD 18:02:36 armed
+GUARD 18:02:42 ok after 6 s
+GUARD 18:02:45 armed
+GUARD 18:02:48 ok after 3 s
+GUARD 18:16:25 armed

@@ -1,0 +1,23 @@
+11-10 17:23:17.309 I/VnestLlm(24589): load start Qwen2.5-1.5B-Instruct-q4f16_1-MLC engine={max_single_sequence_length=2048, max_total_sequence_length=2048, prefill_chunk_size=256, max_num_sequence=1}
+11-10 17:23:27.104 I/VnestLlm(24589): load done Qwen2.5-1.5B-Instruct-q4f16_1-MLC in 9795 ms
+11-10 17:24:15.026 I/VnestLlm(24589): generate start (prompt 60 chars, max 24 tokens, json rule false)
+11-10 17:24:35.703 I/VnestLlm(24589): first token after 20683 ms
+11-10 17:24:37.390 I/VnestLlm(24589): usage prompt=26 completion=10 prefill_tps=1.2579021 decode_tps=5.3242836
+11-10 17:24:37.390 I/VnestLlm(24589): generate done in 22371 ms, 32 chars
+11-10 17:24:47.328 I/VnestLlm(24589): generate start (prompt 66 chars, max 24 tokens, json rule true)
+11-10 17:25:13.785 I/VnestLlm(24589): first token after 26458 ms
+11-10 17:25:27.613 I/VnestLlm(24589): usage prompt=30 completion=8 prefill_tps=1.1340781 decode_tps=0.50610393
+11-10 17:25:27.614 I/VnestLlm(24589): generate done in 40287 ms, 21 chars
+11-10 18:02:16.302 I/VnestLlm(24589): load start Llama-3.2-3B-Instruct-q4f16_0-MLC engine={}
+11-10 18:02:30.698 I/VnestLlm(24589): load done Llama-3.2-3B-Instruct-q4f16_0-MLC in 14397 ms
+11-10 18:02:35.226 I/VnestLlm(24589): generate start (prompt 60 chars, max 24 tokens, json rule false)
+11-10 18:02:39.805 I/VnestLlm(24589): first token after 4590 ms
+11-10 18:02:40.860 I/VnestLlm(24589): usage prompt=28 completion=3 prefill_tps=6.1247063 decode_tps=1.8869469
+11-10 18:02:40.860 I/VnestLlm(24589): generate done in 5644 ms, 6 chars
+11-10 18:02:44.630 I/VnestLlm(24589): generate start (prompt 66 chars, max 24 tokens, json rule true)
+11-10 18:02:47.459 I/VnestLlm(24589): first token after 2830 ms
+11-10 18:02:51.642 I/VnestLlm(24589): usage prompt=32 completion=8 prefill_tps=11.324793 decode_tps=1.6745492
+11-10 18:02:51.642 I/VnestLlm(24589): generate done in 7014 ms, 21 chars
+11-10 18:15:59.561 I/VnestLlm(24589): load start Qwen2.5-1.5B-Instruct-q4f16_1-MLC engine={max_single_sequence_length=2048, max_total_sequence_length=2048, prefill_chunk_size=256, max_num_sequence=1}
+11-10 18:16:08.018 I/VnestLlm(24589): load done Qwen2.5-1.5B-Instruct-q4f16_1-MLC in 8454 ms
+11-10 18:16:24.886 I/VnestLlm(24589): generate start (prompt 1533 chars, max 320 tokens, json rule true)
