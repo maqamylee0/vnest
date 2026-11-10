@@ -1,4 +1,4 @@
 {
-  "_note": "Stand-in for the therapist's backend: verbs listed here are written into exercises by the on-device model. More can be added in the app (AI helper screen).",
-  "verbs": ["cook", "drink", "drive", "write", "read", "plant", "fix", "play", "wash", "paint", "cut", "feed", "open", "sweep"]
+  "_note": "Stand-in for the therapist's backend: verbs listed here are written into exercises by the on-device model. More can be added in the app (AI helper screen). Reduced to one test verb on 2026-11-10 for on-phone model tests (was: cook, drink, drive, write, read, plant, fix, play, wash, paint, cut, feed, open, sweep).",
+  "verbs": ["cook"]
 }
