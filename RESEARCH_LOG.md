@@ -308,9 +308,21 @@ Logs: `logs/phone/2026-11-10_run1_qwen_defaults_filtered.txt`, `…_run2_qwen_li
 
 **Status:** ❌ Qwen does not run in the app on the Note10 yet. Two phone restarts caused; stop blind retries.
 
-**Next (to isolate the cause):** (a) find out how Entry 0's Qwen test was run on this phone; (b) run Qwen in the app *without* the JSON schema on a one-line
-prompt: if that also hangs, the q4f16_1 GPU kernels are the problem (→ Qwen built as q4f16_0, the layout this engine uses for Llama and Phi, needs our own engine build);
-if it works, the grammar setup is the problem.
+**Run 3 (17:18, same build, started by the user):** same hang (load 10.6 s, no first token after 75 s); stopped with `am force-stop` before the system watchdog; no restart.
+The user had uninstalled/reinstalled the app (deletes the weights in its folder); Qwen re-pushed, Llama re-downloaded (revision in `models/mlc/…/REVISION`).
+
+**Run 4: self-test (commit `59ef9ab`):** model screen buttons send a one-line prompt, max 24 tokens, with and without the JSON schema; automatic exercise writing
+off by default; a laptop-side guard force-stops the app if no first token arrives within 90 s. ✅ **Both answered → the GPU kernels work; Qwen is extremely slow, not hung.**
+
+| Request | Prompt tokens | First token after | Prefill tok/s | Decode tok/s | Completion tokens | Total |
+|---|---|---|---|---|---|---|
+| "Say hello", no JSON rule | 26 | 20.7 s | **1.26** | 5.32 | 10 | 22.4 s |
+| "Say hello", JSON rule | 30 | 26.5 s | **1.13** | **0.51** | 8 | 40.3 s |
+
+Load: 9.8 s. Interpretation: (1) **prefill ~1 tok/s** is ~100× below normal for a phone GPU; the ~400-token exercise prompt alone needs ≥ 5 min, during which the GPU blocks
+the system → watchdog. (2) The **JSON rule cuts decode 10×** for Qwen (probably the per-token grammar mask over the 151,936-token vocabulary on the phone CPU).
+Main suspect for (1): the `q4f16_1` weight layout of this engine's Qwen library on Adreno 640 (Llama in this engine is `q4f16_0`, the layout MLC recommends for Adreno).
+**Next:** same self-test on Llama-3.2-3B. Much faster prefill despite 2× the parameters → build Qwen as q4f16_0 with our own engine build. Equally slow → phone/engine limit.
 
 ---
 
