@@ -31,3 +31,4 @@ wandb/
 
 # Full phone logs contain personal device data (carrier config, installed apps): keep local only
 logs/phone/*_full.txt.gz
+.venv-mlc/
