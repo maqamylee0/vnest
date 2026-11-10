@@ -324,6 +324,22 @@ the system → watchdog. (2) The **JSON rule cuts decode 10×** for Qwen (probab
 Main suspect for (1): the `q4f16_1` weight layout of this engine's Qwen library on Adreno 640 (Llama in this engine is `q4f16_0`, the layout MLC recommends for Adreno).
 **Next:** same self-test on Llama-3.2-3B. Much faster prefill despite 2× the parameters → build Qwen as q4f16_0 with our own engine build. Equally slow → phone/engine limit.
 
+**Run 5: same self-test on Llama-3.2-3B (q4f16_0, MLC defaults), 18:02:** ✅ (Llama weights re-downloaded at revision `3cb00cd6cd2f698612d800ba01ecfd1742ec1bfd`, 58 shards verified.)
+
+| Model (layout) | Request | Prompt tokens | First token after | Prefill tok/s | Decode tok/s | Completion tokens | Total |
+|---|---|---|---|---|---|---|---|
+| Llama-3.2-3B (q4f16_0) | no JSON rule | 28 | 4.6 s | **6.12** | 1.89 | 3 | 5.6 s |
+| Llama-3.2-3B (q4f16_0) | JSON rule | 32 | 2.8 s | **11.32** | 1.67 | 8 | 7.0 s |
+| Qwen2.5-1.5B (q4f16_1) | no JSON rule | 26 | 20.7 s | 1.26 | **5.32** | 10 | 22.4 s |
+| Qwen2.5-1.5B (q4f16_1) | JSON rule | 30 | 26.5 s | 1.13 | **0.51** | 8 | 40.3 s |
+
+Load: Llama 14.4 s, Qwen 9.8 s. Tiny requests (3–10 output tokens), so rates are rough; the first Llama request may include warm-up.
+**Findings:** (1) Llama prefills **5–10× faster than Qwen with 2× the parameters** → the slow part is Qwen's `q4f16_1` library on Adreno 640, not the phone.
+(2) Without the JSON rule Qwen **decodes ~3× faster than Llama**, as expected for a smaller model. (3) The JSON rule costs Qwen ~10× in decode but Llama
+almost nothing (1.9 → 1.7) → a second, Qwen-specific problem (grammar with Qwen's tokenizer in this engine version). Llama's ~11 tok/s prefill matches Entry 0 (≈ 40 s for the long prompt).
+
+**Status:** ⚠️ Cause located; Qwen not yet usable in the app with this engine build.
+
 ---
 
 ## 8. What Failed / Dead Ends
