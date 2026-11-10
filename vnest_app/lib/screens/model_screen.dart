@@ -52,16 +52,25 @@ class _ModelScreenState extends State<ModelScreen> {
               style: t.bodyLarge,
             ),
             const SizedBox(height: 16),
-            _kv('Model', LlmService.modelId),
+            SegmentedButton<String>(
+              segments: [for (final m in LlmService.models) ButtonSegment(value: m.id, label: Text(m.label))],
+              selected: {llm.model.id},
+              showSelectedIcon: false,
+              onSelectionChanged: llm.state == ModelState.loading || sc.writingVerb != null
+                  ? null // switching waits for the current exercise; avoid a frozen-looking tap
+                  : (s) => llm.select(LlmService.models.firstWhere((m) => m.id == s.first)),
+            ),
+            const SizedBox(height: 8),
+            _kv('Model', llm.model.id),
             _kv('Status', llm.state.name + (llm.loadMs != null ? ' (started in ${(llm.loadMs! / 1000).toStringAsFixed(1)} s)' : '')),
             if (sc.writingVerb != null) _kv('Writing', '"${sc.writingVerb}" now (about 2 minutes each)'),
             if (llm.error != null) _kv('Error', llm.error!),
             if (llm.state == ModelState.missing && llm.modelDir != null) ...[
               const SizedBox(height: 8),
-              Text('Copy the model to the phone over USB (about 1.7 GB):', style: t.bodyLarge),
+              Text('Copy the model to the phone over USB (about ${llm.model.size}):', style: t.bodyLarge),
               const SizedBox(height: 8),
-              _command('adb push ${LlmService.modelId} /data/local/tmp/\n'
-                  'adb shell mv /data/local/tmp/${LlmService.modelId} ${llm.modelDir}'),
+              _command('adb push ${llm.model.id} /data/local/tmp/\n'
+                  'adb shell mv /data/local/tmp/${llm.model.id} ${llm.modelDir}'),
               OutlinedButton(onPressed: llm.refresh, child: const Text('Check again')),
             ],
             if (llm.state == ModelState.notLoaded || llm.state == ModelState.error)
@@ -150,6 +159,7 @@ class _ResultCard extends StatelessWidget {
     final t = Theme.of(context).textTheme;
     final s = r.scenario;
     final timing = [
+      if (r.model != null) r.model!,
       if (r.ms != null) '${(r.ms! / 1000).toStringAsFixed(0)} s',
       if (r.tokens != null) '${r.tokens} tokens',
       if (r.tps != null) '${r.tps!.toStringAsFixed(1)} tokens/s',
