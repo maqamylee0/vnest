@@ -1,0 +1,50 @@
+17:06:56 MemAvailable: 3094292 kB 14.72 
+17:07:02 MemAvailable: 2972464 kB 15.46 
+17:07:07 MemAvailable: 2927276 kB 14.94 
+17:07:13 MemAvailable: 3105092 kB 17.35 
+17:07:18 MemAvailable: 3158992 kB 18.44 
+17:07:23 MemAvailable: 3321120 kB 18.49 
+17:07:29 MemAvailable: 3440124 kB 17.89 
+17:07:34 MemAvailable: 3433692 kB 17.74 
+17:07:39 MemAvailable: 3413604 kB 17.28 
+17:07:44 MemAvailable: 3323864 kB 17.34 
+17:07:50 MemAvailable: 3279980 kB 18.35  Graphics: 35484 35484 
+17:07:55 MemAvailable: 2934124 kB 17.59  Graphics: 296472 296472 
+17:08:01 MemAvailable: 2466108 kB 16.58  Graphics: 879300 879300 
+17:08:06 MemAvailable: 2457924 kB 15.50  Graphics: 970312 970312 
+17:08:12 MemAvailable: 2280516 kB 15.30  Graphics: 1120024 1120024 
+17:08:17 MemAvailable: 2267516 kB 14.07  Graphics: 1163312 1163312 
+17:08:22 MemAvailable: 2257700 kB 13.18  Graphics: 1163312 1163312 
+17:08:28 MemAvailable: 2245304 kB 12.21  Graphics: 1163312 1163312 
+17:08:33 MemAvailable: 2247876 kB 11.31  Graphics: 1163312 1163312 
+17:08:38 MemAvailable: 2222616 kB 10.40  Graphics: 1163312 1163312 
+17:08:44 MemAvailable: 2194720 kB 9.73  Graphics: 1163312 1163312 
+17:08:49 MemAvailable: 2222784 kB 9.11  Graphics: 1163312 1163312 
+17:08:54 MemAvailable: 2191884 kB 8.62  Graphics: 1163312 1163312 
+17:09:00 MemAvailable: 2192900 kB 8.57  Graphics: 1163340 1163340 
+17:09:05 MemAvailable: 2205932 kB 7.48  Graphics: 1163340 1163340 
+17:09:10 MemAvailable: 2183240 kB 7.12  Graphics: 1163340 1163340 
+17:09:16 MemAvailable: 2189968 kB 6.63  Graphics: 1163340 1163340 
+17:09:21 MemAvailable: 2171324 kB 6.26  Graphics: 1163340 1163340 
+17:09:26 MemAvailable: 2151624 kB 5.92  Graphics: 1163340 1163340 
+17:09:32 MemAvailable: 2154644 kB 5.61  Graphics: 1163340 1163340 
+17:09:37 MemAvailable: 2164008 kB 5.24  Graphics: 1163340 1163340 
+17:09:42 MemAvailable: 2167532 kB 4.90  Graphics: 1163340 1163340 
+17:09:48 MemAvailable: 2180172 kB 4.66  Graphics: 1163340 1163340 
+17:09:53 MemAvailable: 2205040 kB 4.37  Graphics: 1163340 1163340 
+17:09:58 MemAvailable: 2188332 kB 4.10  Graphics: 1163340 1163340 
+17:10:04 MemAvailable: 2200228 kB 3.85  Graphics: 1163340 1163340 
+17:10:09 MemAvailable: 2178068 kB 3.78  Graphics: 1163340 1163340 
+17:10:14 MemAvailable: 2185588 kB 3.48  Graphics: 1163340 1163340 
+17:10:20 MemAvailable: 2174656 kB 3.20  Graphics: 1163340 1163340 
+17:10:25 MemAvailable: 2184708 kB 2.78  Graphics: 1163340 1163340 
+17:10:30 MemAvailable: 2192192 kB 2.64  Graphics: 1163340 1163340 
+17:10:36 MemAvailable: 2177172 kB 2.43 
+17:10:51 MemAvailable: 2167044 kB 1.97 
+17:11:06 MemAvailable: 2161972 kB 1.61 
+17:11:21 MemAvailable: 2156732 kB 1.46 
+17:11:36 MemAvailable: 2143420 kB 1.21 
+17:11:51 MemAvailable: 2147608 kB 1.08 
+17:12:07 MemAvailable: 2409604 kB 1.07 
+17:12:12 MemAvailable: 4254168 kB 44.86 
+17:12:17 MemAvailable: 4406280 kB 41.67 

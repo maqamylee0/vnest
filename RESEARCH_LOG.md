@@ -291,12 +291,26 @@ Bad-distractor rates are in the HF summary table (not copied here; the laptop do
 - The display server couldn't run for too long. Most likely cause: memory pressure and/or very long GPU jobs from the engine's defaults. **Not proven**: the log filter (app/TVM tags only) hid the low-memory killer and GPU driver messages.
 - Llama-3.2-3B runs in the same app with even larger defaults (131,072 context, 8,192 chunks), so the defaults alone don't explain it.
 
-**Fix being tested (run 2):** per-model MLC engine settings passed at load time, Qwen only: `max_num_sequence` 1, `max_total_sequence_length` 2048,
-`max_single_sequence_length` 2048, `prefill_chunk_size` 256 (an exercise needs < 1,100 tokens). Llama keeps the MLC defaults, so its baseline is unchanged.
-Added timing lines to the phone log (`VnestLlm`: load start/done, first token, prompt/completion tokens, prefill and decode tokens/s, total).
-Run 2 records the unfiltered log and memory.
+**Run 1b (same build, user closed all other apps, ~17:00–17:06):** stuck again. Unfiltered log: Android's low-memory killer (`lmkd`) killing app after app,
+"low watermark is breached and swap is low"; the app held **1.85 GB of GPU memory** (0.84 GB weights + ~1 GB KV cache for the 32,768-token default context);
+1.85 GB RAM left; load average 16–18 with the app at 2.5 % CPU (waiting, not computing). Stopped with `am force-stop`.
+→ Memory pressure confirmed for the default settings.
 
-**Status:** ⚠️ In progress.
+**Run 2 (commit `32a0fe1`, Qwen-only engine limits):** `max_num_sequence` 1, `max_total_sequence_length` 2048, `max_single_sequence_length` 2048,
+`prefill_chunk_size` 256 (an exercise needs < 1,100 tokens); Llama keeps the MLC defaults, so its baseline is unchanged. Timing lines added (`VnestLlm` tag). ❌
+- `load done … in 13406 ms` (17:08:07); GPU memory 1.16 GB; **RAM steady at ~2.2 GB free, no low-memory kills** → the memory fix worked.
+- `generate start (prompt 1533 chars, max 320 tokens)` at 17:08:07, then **no first token** ever. The app process was gone by ~17:10:36; at 17:11 Android's
+  `system_server` watchdog fired ("The system died") and the phone restarted again.
+- **Conclusion so far:** memory caused run 1's pressure but is **not** the root cause. With this engine build, Qwen's first GPU work (prefill, or the JSON-schema
+  grammar setup for Qwen's 151,936-token vocabulary) never finishes on the Note10 (Adreno 640), and blocks the system. Not yet known which.
+
+Logs: `logs/phone/2026-11-10_run1_qwen_defaults_filtered.txt`, `…_run2_qwen_limits_memory.txt` (in git); full system logs `…_full.txt.gz` kept local only (personal device data).
+
+**Status:** ❌ Qwen does not run in the app on the Note10 yet. Two phone restarts caused; stop blind retries.
+
+**Next (to isolate the cause):** (a) find out how Entry 0's Qwen test was run on this phone; (b) run Qwen in the app *without* the JSON schema on a one-line
+prompt: if that also hangs, the q4f16_1 GPU kernels are the problem (→ Qwen built as q4f16_0, the layout this engine uses for Llama and Phi, needs our own engine build);
+if it works, the grammar setup is the problem.
 
 ---
 

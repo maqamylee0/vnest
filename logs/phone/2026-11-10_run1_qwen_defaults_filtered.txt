@@ -1,0 +1,53 @@
+--------- beginning of main
+11-10 16:46:32.454 I/flutter ( 8923): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(62)] Using the Impeller rendering backend (Vulkan).
+11-10 16:46:32.463 I/flutter ( 8923): [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+11-10 16:47:03.993 W/TVM_RUNTIME( 8923): /home/mengshyu/workspace/project_mlc_llm/3rdparty/mlc-llm/android/mlc4j/../../3rdparty/tvm/src/runtime/threading_backend.cc:346: more than two frequencies detected! Forced big_count_ to 4
+11-10 16:47:03.993 W/TVM_RUNTIME( 8923): /home/mengshyu/workspace/project_mlc_llm/3rdparty/mlc-llm/android/mlc4j/../../3rdparty/tvm/src/runtime/threading_backend.cc:135: sched_setaffinity failed
+11-10 16:50:18.598 I/flutter (23661): [IMPORTANT:flutter/shell/platform/android/android_context_vk_impeller.cc(62)] Using the Impeller rendering backend (Vulkan).
+11-10 16:50:18.606 I/flutter (23661): [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+--------- beginning of crash
+11-10 16:52:55.253 F/libc    (  701): crash_dump helper failed to exec, or was killed
+11-10 16:54:16.692 F/libc    (  701): crash_dump helper failed to exec, or was killed
+11-10 16:54:17.107 F/libc    (  789): failed to wait for crash_dump helper: No child processes
+11-10 16:54:21.363 F/libc    (  956): Fatal signal 6 (SIGABRT), code -1 (SI_QUEUE) in tid 1036 (SFWatchDogThrea), pid 956 (surfaceflinger)
+11-10 16:54:21.806 F/DEBUG   (25885): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+11-10 16:54:21.806 F/DEBUG   (25885): Build fingerprint: 'samsung/d1que/d1q:12/SP1A.210812.016/N970U1UEU8HXE1:user/release-keys'
+11-10 16:54:21.806 F/DEBUG   (25885): Revision: '9'
+11-10 16:54:21.806 F/DEBUG   (25885): ABI: 'arm64'
+11-10 16:54:21.806 F/DEBUG   (25885): Processor: '0'
+11-10 16:54:21.806 F/DEBUG   (25885): Timestamp: 2026-11-10 16:54:21.506752468+0200
+11-10 16:54:21.806 F/DEBUG   (25885): Process uptime: 25810s
+11-10 16:54:21.806 F/DEBUG   (25885): Cmdline: /system/bin/surfaceflinger
+11-10 16:54:21.806 F/DEBUG   (25885): pid: 956, tid: 1036, name: SFWatchDogThrea  >>> /system/bin/surfaceflinger <<<
+11-10 16:54:21.806 F/DEBUG   (25885): uid: 1000
+11-10 16:54:21.806 F/DEBUG   (25885): signal 6 (SIGABRT), code -1 (SI_QUEUE), fault addr --------
+11-10 16:54:21.806 F/DEBUG   (25885): Abort message: 'SurfaceFlinger RESET by watchdog !!'
+11-10 16:54:21.806 F/DEBUG   (25885):     x0  0000000000000000  x1  000000000000040c  x2  0000000000000006  x3  0000007c305a4540
+11-10 16:54:21.806 F/DEBUG   (25885):     x4  0000007f3801b000  x5  0000007f3801b000  x6  0000007f3801b000  x7  000000000032c10e
+11-10 16:54:21.806 F/DEBUG   (25885):     x8  00000000000000f0  x9  ee5498a334b012b9  x10 0000000000000000  x11 ffffff80ffffffdf
+11-10 16:54:21.806 F/DEBUG   (25885):     x12 0000000000000001  x13 0000000000000024  x14 0000000000000000  x15 00009644047f09ce
+11-10 16:54:21.806 F/DEBUG   (25885):     x16 0000007f2e6fa060  x17 0000007f2e6d6980  x18 0000007c2e76c000  x19 00000000000003bc
+11-10 16:54:21.807 F/DEBUG   (25885):     x20 000000000000040c  x21 00000000ffffffff  x22 0000007c305a5000  x23 0000007f2e165484
+11-10 16:54:21.807 F/DEBUG   (25885):     x24 0000007c305a4cb0  x25 0000007c305a4cb0  x26 0000007c305a4ff8  x27 00000000000fc000
+11-10 16:54:21.807 F/DEBUG   (25885):     x28 0000007c304ac000  x29 0000007c305a45c0
+11-10 16:54:21.807 F/DEBUG   (25885):     lr  0000007f2e686af4  sp  0000007c305a4520  pc  0000007f2e686b20  pst 0000000000000000
+11-10 16:54:21.807 F/DEBUG   (25885): backtrace:
+11-10 16:54:21.807 F/DEBUG   (25885):       #00 pc 0000000000051b20  /apex/com.android.runtime/lib64/bionic/libc.so (abort+168) (BuildId: 73e145ce4e1dfca57a8eaf6d29c1d3fe)
+11-10 16:54:21.807 F/DEBUG   (25885):       #01 pc 00000000000063b8  /system/lib64/liblog.so (__android_log_default_aborter+16) (BuildId: ab2b527e7f74ea1b362a1e28cfb4faaa)
+11-10 16:54:21.807 F/DEBUG   (25885):       #02 pc 0000000000006f14  /system/lib64/liblog.so (__android_log_assert+312) (BuildId: ab2b527e7f74ea1b362a1e28cfb4faaa)
+11-10 16:54:21.807 F/DEBUG   (25885):       #03 pc 00000000001c1a54  /system/bin/surfaceflinger (android::SFWatchDogThread::threadLoop()+364) (BuildId: c2401b0a090678a0b19e177227e97d46)
+11-10 16:54:21.807 F/DEBUG   (25885):       #04 pc 0000000000013654  /system/lib64/libutils.so (android::Thread::_threadLoop(void*)+464) (BuildId: 748948a5650ad93d18b12eb1d9a51a89)
+11-10 16:54:21.807 F/DEBUG   (25885):       #05 pc 0000000000012de8  /system/lib64/libutils.so (thread_data_t::trampoline(thread_data_t const*)+408) (BuildId: 748948a5650ad93d18b12eb1d9a51a89)
+11-10 16:54:21.807 F/DEBUG   (25885):       #06 pc 00000000000b6e44  /apex/com.android.runtime/lib64/bionic/libc.so (__pthread_start(void*)+264) (BuildId: 73e145ce4e1dfca57a8eaf6d29c1d3fe)
+11-10 16:54:21.807 F/DEBUG   (25885):       #07 pc 0000000000053454  /apex/com.android.runtime/lib64/bionic/libc.so (__start_thread+68) (BuildId: 73e145ce4e1dfca57a8eaf6d29c1d3fe)
+11-10 16:54:32.717 E/AndroidRuntime(26398): !@*** FATAL EXCEPTION IN SYSTEM PROCESS: main
+11-10 16:54:32.717 E/AndroidRuntime(26398): DeadSystemException: The system died; earlier logs will point to the root cause
+11-10 16:54:33.377 F/libc    (26171): Fatal signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x2c in tid 26171 (perfsdkserver), pid 26171 (perfsdkserver)
+11-10 16:54:37.727 E/AndroidRuntime(26664): !@*** FATAL EXCEPTION IN SYSTEM PROCESS: main
+11-10 16:54:37.727 E/AndroidRuntime(26664): DeadSystemException: The system died; earlier logs will point to the root cause
+11-10 16:54:42.753 E/AndroidRuntime(26915): !@*** FATAL EXCEPTION IN SYSTEM PROCESS: main
+11-10 16:54:42.753 E/AndroidRuntime(26915): DeadSystemException: The system died; earlier logs will point to the root cause
+11-10 16:54:47.828 E/AndroidRuntime(27170): !@*** FATAL EXCEPTION IN SYSTEM PROCESS: main
+11-10 16:54:47.828 E/AndroidRuntime(27170): DeadSystemException: The system died; earlier logs will point to the root cause
+11-10 16:54:52.838 E/AndroidRuntime(27405): !@*** FATAL EXCEPTION IN SYSTEM PROCESS: main
+11-10 16:54:52.838 E/AndroidRuntime(27405): DeadSystemException: The system died; earlier logs will point to the root cause
