@@ -25,7 +25,7 @@ import java.io.File
  *
  * Channel "vnest/llm":
  *   status({modelId})                                   -> {modelDir, modelPresent, loaded}
- *   load({modelId, modelLib})                           -> {ms}
+ *   load({modelId, modelLib, engine?})                  -> {ms}   (engine = extra MLC EngineConfig fields)
  *   generateJson({system, user, schema, maxTokens})     -> {text, completionTokens, decodeTps, ms}
  *   unload()                                            -> true
  *
@@ -62,8 +62,13 @@ class LlmChannel(private val context: Context, messenger: BinaryMessenger) :
             }
             "load" -> run(result) {
                 val t = SystemClock.elapsedRealtime()
-                load(call.argument("modelId")!!, call.argument("modelLib")!!)
-                mapOf("ms" to (SystemClock.elapsedRealtime() - t))
+                val id: String = call.argument("modelId")!!
+                val engine: Map<String, Any> = call.argument("engine") ?: emptyMap()
+                Log.i("VnestLlm", "load start $id engine=$engine")
+                load(id, call.argument("modelLib")!!, engine)
+                val ms = SystemClock.elapsedRealtime() - t
+                Log.i("VnestLlm", "load done $id in $ms ms")
+                mapOf("ms" to ms)
             }
             "generateJson" -> run(result) {
                 generateJson(
@@ -94,13 +99,13 @@ class LlmChannel(private val context: Context, messenger: BinaryMessenger) :
         }
     }
 
-    private fun load(modelId: String, modelLib: String) {
+    private fun load(modelId: String, modelLib: String, overrides: Map<String, Any>) {
         if (loadedModelId == modelId) return
         val dir = modelDir(modelId)
         require(File(dir, "mlc-chat-config.json").exists()) { "Model files not found in $dir" }
         val e = engine ?: MLCEngine().also { engine = it }
         e.unload()
-        e.reload(dir.absolutePath, modelLib)
+        e.reload(dir.absolutePath, modelLib, overrides)
         Thread.sleep(300) // let the engine's background loop start (it fails fast if the GPU is unusable)
         checkEngineAlive()
         loadedModelId = modelId
@@ -133,16 +138,28 @@ class LlmChannel(private val context: Context, messenger: BinaryMessenger) :
             stream_options = StreamOptions(include_usage = true),
             response_format = ResponseFormat(type = "json_object", schema = schema),
         )
+        Log.i("VnestLlm", "generate start (prompt ${system.length + user.length} chars, max $maxTokens tokens)")
         val out = StringBuilder()
         var completionTokens: Int? = null
         var decodeTps: Float? = null
+        var firstMs: Long? = null
         for (chunk in stream) {
             chunk.usage?.let {
                 completionTokens = it.completion_tokens
                 decodeTps = it.extra?.decode_tokens_per_s
+                Log.i("VnestLlm", "usage prompt=${it.prompt_tokens} completion=${it.completion_tokens} " +
+                    "prefill_tps=${it.extra?.prefill_tokens_per_s} decode_tps=${it.extra?.decode_tokens_per_s}")
             }
-            if (chunk.choices.isNotEmpty()) out.append(chunk.choices[0].delta.content?.asText().orEmpty())
+            if (chunk.choices.isNotEmpty()) {
+                val piece = chunk.choices[0].delta.content?.asText().orEmpty()
+                if (firstMs == null && piece.isNotEmpty()) {
+                    firstMs = SystemClock.elapsedRealtime() - t
+                    Log.i("VnestLlm", "first token after $firstMs ms")
+                }
+                out.append(piece)
+            }
         }
+        Log.i("VnestLlm", "generate done in ${SystemClock.elapsedRealtime() - t} ms, ${out.length} chars")
         return mapOf(
             "text" to out.toString(),
             "completionTokens" to completionTokens,

@@ -65,15 +65,17 @@ class MLCEngine {
         backgroundStreamBackWorker.start()
     }
 
-    fun reload(modelPath: String, modelLib: String) {
-        val engineConfig = """
-            {
-                "model": "$modelPath",
-                "model_lib": "system://$modelLib",
-                "mode": "interactive"
-            }
-        """
-        jsonFFIEngine.reload(engineConfig)
+    /**
+     * VNeST app patch: [overrides] are extra MLC EngineConfig fields (e.g. max_total_sequence_length,
+     * prefill_chunk_size, max_num_sequence) that limit memory and the length of each GPU job.
+     */
+    fun reload(modelPath: String, modelLib: String, overrides: Map<String, Any> = emptyMap()) {
+        val cfg = org.json.JSONObject()
+        cfg.put("model", modelPath)
+        cfg.put("model_lib", "system://$modelLib")
+        cfg.put("mode", "interactive")
+        for ((k, v) in overrides) cfg.put(k, v)
+        jsonFFIEngine.reload(cfg.toString())
     }
 
     fun reset() {

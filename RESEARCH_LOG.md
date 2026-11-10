@@ -274,6 +274,30 @@ Bad-distractor rates are in the HF summary table (not copied here; the laptop do
 2. Baseline b2 (Llama-3.2-3B) with the same notebook (fork as NB 2.02).
 3. Check the Qwen path on the phone (Entry 6).
 
+### [2026-11-10] Entry 6: Untuned Qwen2.5-1.5B inside the app on the Galaxy Note10 (in progress)
+**Goal:** Check that the app can run Qwen2.5-1.5B through its MLC engine before any fine-tuning, and measure it on the phone.
+
+**What we did:**
+- Found that the app's MLC engine (`libtvm4j_runtime_packed.so`, release Android-09262024) already packs five model libraries:
+  `llama_q4f16_0_2d32…` (in use), `qwen2_q4f16_1_2e221f430380225c03990ad24c3d030e`, `gemma2_q4f16_1`, `phi3_q4f16_0`, `mistral_q4f16_1`.
+  The release's `mlc-package-config.json` (mlc-llm commit `7561c96d`) maps the qwen2 library to `mlc-ai/Qwen2.5-1.5B-Instruct-q4f16_1-MLC`, so **no engine rebuild is needed**.
+- Added a model picker to the app (commit `1fe9954`); starting verb list reduced to "cook" (commit `4531c2a`).
+- Downloaded `mlc-ai/Qwen2.5-1.5B-Instruct-q4f16_1-MLC` at revision `9bd564b064631febf14deadcac492efb761d60c3` (840 MB, 30 weight shards, sizes match `ndarray-cache.json`; `tensor-cache.json` is an identical copy) to `models/mlc/` (not in git) and pushed it to the phone.
+- Phone: Samsung Galaxy Note10 SM-N970U1, Android 12 (build N970U1UEU8HXE1), 7.6 GB RAM; on USB power, battery 40 %.
+
+**Results, run 1 (MLC default engine settings: 32,768-token context, 2,048-token prefill chunks):** ❌
+- App started 16:50:18, Qwen loaded; no exercise appeared for about 4 minutes ("taking so long").
+- 16:52:55 and 16:54:16: system processes killed (`crash_dump helper failed to exec, or was killed`); 16:54:21: **`surfaceflinger` aborted, "SurfaceFlinger RESET by watchdog"**, then "The system died" and the phone restarted itself.
+- The display server couldn't run for too long. Most likely cause: memory pressure and/or very long GPU jobs from the engine's defaults. **Not proven**: the log filter (app/TVM tags only) hid the low-memory killer and GPU driver messages.
+- Llama-3.2-3B runs in the same app with even larger defaults (131,072 context, 8,192 chunks), so the defaults alone don't explain it.
+
+**Fix being tested (run 2):** per-model MLC engine settings passed at load time, Qwen only: `max_num_sequence` 1, `max_total_sequence_length` 2048,
+`max_single_sequence_length` 2048, `prefill_chunk_size` 256 (an exercise needs < 1,100 tokens). Llama keeps the MLC defaults, so its baseline is unchanged.
+Added timing lines to the phone log (`VnestLlm`: load start/done, first token, prompt/completion tokens, prefill and decode tokens/s, total).
+Run 2 records the unfiltered log and memory.
+
+**Status:** ⚠️ In progress.
+
 ---
 
 ## 8. What Failed / Dead Ends
@@ -285,6 +309,8 @@ Bad-distractor rates are in the HF summary table (not copied here; the laptop do
 | 2026-11-10 | Teacher's `suitable` flag (Llama-3.1-8B) | Marked every sentence suitable (guns, tanks, cigarettes) | Filter content in code |
 | 2026-11-10 | Holding out all 14 app verbs for test | Left only 321 training sentences | Hold out 5 |
 | 2026-11-10 | McRae / Ferretti thematic-fit norms | Download page 404 | Revisit later as a gold test source |
+| 2026-11-10 | Untuned Qwen2.5-1.5B in the app on the Note10 with MLC default engine settings | No output for ~4 min, then the phone's display server was reset by its watchdog and the phone restarted (Entry 6) | Set engine limits per model; log the phone unfiltered during first runs of a new model |
+| 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works | Download with `curl` from `resolve/<revision>/` and pin the revision |
 
 ---
 

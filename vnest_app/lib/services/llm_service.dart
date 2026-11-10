@@ -27,11 +27,13 @@ class ScenarioResult {
 /// phi3_q4f16_0, mistral_q4f16_1. A fine-tuned Qwen2.5-1.5B converted to q4f16_1 reuses the qwen2 library
 /// under its own [id] (the weights folder name).
 class LlmModel {
-  const LlmModel({required this.id, required this.lib, required this.label, required this.size});
+  const LlmModel({required this.id, required this.lib, required this.label, required this.size, this.engine = const {}});
   final String id; // weights folder under the app's external files dir
   final String lib;
   final String label;
   final String size; // shown in the copy-over-USB instructions
+  /// Extra MLC EngineConfig fields passed at load time (memory / GPU-job limits). Empty = MLC defaults.
+  final Map<String, Object> engine;
 }
 
 /// Runs an on-device LLM (via LlmChannel.kt / MLC LLM). The model plays the
@@ -53,6 +55,14 @@ class LlmService extends ChangeNotifier {
       lib: 'qwen2_q4f16_1_2e221f430380225c03990ad24c3d030e',
       label: 'Qwen2.5-1.5B',
       size: '0.9 GB',
+      // With MLC defaults (32k context, 2048-token prefill chunks) the first run froze the phone and the
+      // display server was reset by its watchdog (RESEARCH_LOG Entry 6). One exercise needs < 1,100 tokens.
+      engine: {
+        'max_num_sequence': 1,
+        'max_total_sequence_length': 2048,
+        'max_single_sequence_length': 2048,
+        'prefill_chunk_size': 256,
+      },
     ),
   ];
 
@@ -109,7 +119,7 @@ class LlmService extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      final r = Map<String, dynamic>.from(await _channel.invokeMethod('load', {'modelId': model.id, 'modelLib': model.lib}));
+      final r = Map<String, dynamic>.from(await _channel.invokeMethod('load', {'modelId': model.id, 'modelLib': model.lib, 'engine': model.engine}));
       loadMs = (r['ms'] as num?)?.toInt();
       state = ModelState.ready;
     } on PlatformException catch (e) {
