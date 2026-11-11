@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../data/scenario.dart';
 import '../main.dart';
 import '../services/llm_service.dart';
+import '../services/scenario_service.dart';
 
 /// For therapists and testers: model status, add verbs, and see what the model wrote.
 class ModelScreen extends StatefulWidget {
@@ -130,7 +131,7 @@ class _ModelScreenState extends State<ModelScreen> {
             Text('Exercises per verb', style: t.titleLarge),
             const SizedBox(height: 4),
             for (final v in sc.verbs)
-              _kv(v, '${sc.modelScenarios(v).length} / 3'
+              _kv(v, '${sc.modelScenarios(v).length} / ${ScenarioService.target}'
                   '${sc.writingVerb == v ? '  · writing…' : ''}'
                   '${sc.lastError[v] != null ? '  · last try rejected: ${sc.lastError[v]}' : ''}'),
             const SizedBox(height: 24),

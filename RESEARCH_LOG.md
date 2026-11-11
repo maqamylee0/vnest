@@ -91,6 +91,7 @@
 | 2026-11-10 | 50/50 long (the app's) and short prompts in training | A fine-tuned model may not need the long prompt; prompt reading was ~40 of 124 s per exercise | Long prompt only |
 | 2026-11-10 | Put `vnest/` under git; raw downloads, build output, the MLC engine binary and model weights stay out | Trace every result to exact code; large/regenerable files would bloat the history | No version control (as in `cdli`) |
 | 2026-11-10 | Track the project like `cdli`: one `RESEARCH_LOG.md` with a notebook register, plus project skill `.claude/skills/vnest-exercise-llm/` | User wants every notebook, step and decision recorded for the paper; reuse a system that already works | Separate files per notebook |
+| 2026-11-11 | **One AI exercise per verb** (`ScenarioService.target` 3 → 1); a session = who/what/where/when/why for one scene + 3 "does it make sense?" sentences | User decision. ≈ 60 s of writing per verb instead of ≈ 3 min (lighter on battery/GPU); the extra two scenes added little while the model gives near-identical scenes per verb (Entry 11–12) | Keep 3 (VNeST's several scenes per verb; more practice variety once the data gives variety) |
 | 2026-11-11 | **Generating the dataset with Claude (Opus 5.5, Batch API, structured outputs) kept as the last option**; continue with dataset v2 | User decision. Would likely fix the source problems (ConceptNet idioms, offensive slang, 8B teacher, repetitive wrong options); est. ≈ $17–35 for ≈ 1,500 exercises with batch (unmeasured). Open before use: whether Anthropic's terms allow training this model on the outputs; API access | Pilot of 20 exercises now |
 | 2026-11-11 | **Dataset v2 (`vnest_dataset/out_v2/`) is the training data; v1 is not to be used for training** | v1 contains an offensive training sentence and no per-part examples; v2 matches the app's per-part format and fixes the audit findings | Patch v1 in place (would break v1's recorded checksums) |
 | 2026-11-11 | **Per-part reply = fixed fields `{"answer", "wrong1", "wrong2", "wrong3"}`** (answer first); per-part prompts state what the answer and the wrong options are; **dataset v2 uses exactly this format and these prompts** | User approved after the first phone run (Entry 8): with `{"options": [...], "answer"}` untuned Llama-1B listed 9–15+ options until cut off and left the answer out; fixed fields make 4 options and answer-among-options structural, and shorten replies (~25 tokens) | Keep `{"options", "answer"}` with a stricter JSON rule (minItems/maxItems support in this MLC version uncertain) |
@@ -650,6 +651,19 @@ Note: decode with the JSON rule ≈ 4.2 tok/s vs ≈ 7.3 tok/s for Llama-1B with
 app without the JSON rule for f1 (expected ≈ 7 s per question, ≈ 35 s per exercise; the app's checks still apply).
 
 **Status:** ✅ Fine-tuned model working on the phone. Next: variety across repeated exercises, a new verb, JSON rule off, therapist review.
+
+**Phone run 8, more verbs (11:48–11:56):** "sweep" (in **no** dataset split) and "wash" (test verb) added on the phone.
+- *The maid sweeps the house* (in the house / every day / to keep it clean): **good** for an unseen verb ("sweeps the floor" would be more natural).
+- *The mother washes the hair* (in the bathroom / after breakfast / to make her look nice): acceptable ("her hair" more natural).
+- *The maid washes the hair*: **wrong sense** (a hairdresser's job). *The diner cooks the breakfast* (cook): **wrong sense** ("diner" eats; model mixed up the
+  person and the restaurant). One cook exercise rejected 3× because the model kept answering "mother" despite "The answer must not be: mother".
+- **Pattern: every person is a woman in a domestic role** (mother, maid, mother, maid; diner). Dataset v2 is not mostly female overall (11 % female-coded "who"), and for
+  cook it says "chef" 14× — but cook and wash are held-out test verbs, so the model generalised from the household verbs it trained on (iron: maid 8, mother 8;
+  clean: maid 4; feed: mother 6), plus the base model's own stereotypes. Other data noise seen: "judge fixes" (6), "dentist fixes" (8) from ConceptNet idioms.
+- Wrong options always impossible; ≈ 56–57 s per exercise (≈ 4.5 tok/s).
+- Conclusion: format and safety hold on the phone, including an unseen verb; **sense, variety and bias** are the weak points → therapist review; dataset v3 (balanced people
+  per chore-type verb, more people per verb, more "not these people" examples, larger wrong-option pools, odd pairings removed) and an f1-vs-f2 comparison with new
+  measures (distinct people/places per verb, gender balance of "who", sense judged on a sample).
 
 ---
 

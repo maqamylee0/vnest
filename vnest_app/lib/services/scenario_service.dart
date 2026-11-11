@@ -24,7 +24,7 @@ class ScenarioService extends ChangeNotifier {
   final LlmService llm;
   final VerbRepository curated; // reviewed lists for the original verbs (fallback only)
 
-  static const target = 3;
+  static const target = 1; // exercises kept per verb (user decision 2026-11-11; was 3: one scene per session, ~60 s of writing per verb)
   static const _addedKey = 'added_verbs_v1';
   String _key(String verb) => 'scenarios_v1:$verb';
 
