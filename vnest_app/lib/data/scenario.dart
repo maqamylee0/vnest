@@ -87,10 +87,17 @@ class Scenario {
   /// Checks ONE question as written by the model ({"options": [...], "answer": "..."}), or throws [FormatException]:
   /// 4 distinct options of at most 6 words, the answer is one of them. Used per part when exercises are
   /// written one question per request (RESEARCH_LOG decision 2026-11-11), and by [Scenario.fromModel].
+  ///
+  /// Two reply shapes are accepted: the per-part shape {"answer", "wrong1", "wrong2", "wrong3"} (exactly 4 options by
+  /// construction, answer always among them; RESEARCH_LOG Entry 8) and the older {"options": [...], "answer"}.
   static Question partFromModel(QKind k, Map raw, {Random? rng}) {
     final answer = clean(raw['answer']?.toString() ?? '');
     final options = <String>[];
-    for (final o in (raw['options'] as List? ?? const [])) {
+    final listed = raw.containsKey('wrong1')
+        ? [raw['answer'], raw['wrong1'], raw['wrong2'], raw['wrong3']]
+        : (raw['options'] as List? ?? const []);
+    for (final o in listed) {
+      if (o == null) continue;
       final c = clean(o.toString());
       if (c.isNotEmpty && !options.contains(c)) options.add(c);
     }

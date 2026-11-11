@@ -169,21 +169,33 @@ void main() {
       QKind.when: q('in the morning', ['while asleep', 'before he was born', 'in the year 3000']),
     };
 
-    test('each part prompt carries the sentence so far, built by code', () {
-      expect(LlmService.partPrompt('cook', QKind.who, {}), 'VNeST "cook". who? A person who often cooks something.');
-      expect(LlmService.partPrompt('cook', QKind.who, {}, avoidPeople: ['chef', 'grandma']), endsWith('Not: chef, grandma.'));
-      expect(LlmService.partPrompt('cook', QKind.what, done), 'VNeST "cook". what? The chef cooks ___.');
-      expect(LlmService.partPrompt('cook', QKind.where, done), 'VNeST "cook". where? The chef cooks the egg ___.');
+    test('each part prompt carries the sentence so far, built by code, and says what answer and wrong options are', () {
+      expect(LlmService.partPrompt('cook', QKind.who, {}),
+          'VNeST "cook". who? Answer: a person (1 or 2 words) who often cooks things. Wrong: 3 things that cannot cook.');
+      expect(LlmService.partPrompt('cook', QKind.who, {}, avoidPeople: ['chef', 'grandma']),
+          endsWith('The answer must not be: chef, grandma.'));
+      expect(LlmService.partPrompt('cook', QKind.what, done),
+          'VNeST "cook". what? The chef cooks ___. Answer: what the chef cooks. Wrong: 3 things nobody can cook.');
+      expect(LlmService.partPrompt('cook', QKind.where, done), startsWith('VNeST "cook". where? The chef cooks the egg ___. '));
       expect(LlmService.partPrompt('cook', QKind.when, done),
-          'VNeST "cook". when? The chef cooks the egg in the kitchen ___.');
+          startsWith('VNeST "cook". when? The chef cooks the egg in the kitchen ___. '));
       expect(LlmService.partPrompt('cook', QKind.why, done),
-          'VNeST "cook". why? The chef cooks the egg in the kitchen in the morning ___.');
+          startsWith('VNeST "cook". why? The chef cooks the egg in the kitchen in the morning ___. '));
+      // No prompt contains a phrase the model could copy as a ready-made option ("A person who often cooks something").
+      expect(LlmService.partPrompt('cook', QKind.who, {}), isNot(contains('something')));
     });
 
-    test('one part is checked on its own', () {
-      final ok = Scenario.partFromModel(QKind.where, {'options': ['On the sun.', 'in the kitchen', 'inside a volcano', 'in space'], 'answer': 'In the kitchen'});
+    test('one part is checked on its own (fixed-field reply: answer + wrong1..3)', () {
+      final ok = Scenario.partFromModel(QKind.where,
+          {'answer': 'In the kitchen', 'wrong1': 'On the sun.', 'wrong2': 'inside a volcano', 'wrong3': 'in space'});
       expect(ok.answer, 'in the kitchen');
       expect(ok.options.length, 4);
+      expect(ok.options, contains('in the kitchen'));
+      expect(() => Scenario.partFromModel(QKind.who, {'answer': 'chef', 'wrong1': 'cloud', 'wrong2': 'cloud', 'wrong3': 'chef'}),
+          throwsA(isA<FormatException>())); // only 2 different options
+      expect(() => Scenario.partFromModel(QKind.who, {'answer': '', 'wrong1': 'a', 'wrong2': 'b', 'wrong3': 'c'}),
+          throwsA(isA<FormatException>())); // empty answer
+      // the older {"options", "answer"} shape still works
       expect(() => Scenario.partFromModel(QKind.who, {'options': ['chef', 'cloud', 'cup'], 'answer': 'chef'}),
           throwsA(isA<FormatException>()));
       expect(() => Scenario.partFromModel(QKind.what, {'options': ['egg', 'a', 'b', 'c'], 'answer': 'soup'}),
@@ -221,7 +233,8 @@ void main() {
       return prompts;
     }
 
-    String part(String answer, List<String> wrong) => jsonEncode({'options': [...wrong, answer], 'answer': answer});
+    String part(String answer, List<String> wrong) =>
+        jsonEncode({'answer': answer, 'wrong1': wrong[0], 'wrong2': wrong[1], 'wrong3': wrong[2]});
     final good = [
       part('chef', ['cloud', 'candle', 'cup']),
       part('egg', ['boredom', 'tomorrow', 'a song']),
@@ -246,14 +259,14 @@ void main() {
       expect(r.scenario, isNotNull, reason: r.rejectedReason);
       expect(reported, QKind.values);
       expect(prompts.length, 5);
-      expect(prompts[2], 'VNeST "cook". where? The chef cooks the egg ___.');
+      expect(prompts[2], startsWith('VNeST "cook". where? The chef cooks the egg ___. '));
       expect(r.scenario!.sentence, 'The chef cooks the egg.');
       expect(r.ms, 5000);
       expect(r.tokens, 150);
     });
 
     test('a bad part is redone on its own; earlier parts are kept', () async {
-      final prompts = fake([good[0], good[1], 'not json', part('x', ['y']), good[2], good[3], good[4]]);
+      final prompts = fake([good[0], good[1], 'not json', part('x', ['x', 'x', 'x']), good[2], good[3], good[4]]);
       final llm = await ready();
       final r = await llm.generateScenario('cook');
       expect(r.scenario, isNotNull, reason: r.rejectedReason);
@@ -278,7 +291,7 @@ void main() {
       expect(r.scenario, isNotNull, reason: r.rejectedReason);
       expect(r.scenario!.agent, 'baker');
       expect(r.scenario!.patient, 'egg');
-      expect(prompts.first, endsWith('Not: chef.'));
+      expect(prompts.first, endsWith('The answer must not be: chef.'));
     });
 
     test('stops between parts when asked (e.g. the patient opened another verb)', () async {

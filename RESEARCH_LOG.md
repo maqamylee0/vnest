@@ -91,6 +91,7 @@
 | 2026-11-10 | 50/50 long (the app's) and short prompts in training | A fine-tuned model may not need the long prompt; prompt reading was ~40 of 124 s per exercise | Long prompt only |
 | 2026-11-10 | Put `vnest/` under git; raw downloads, build output, the MLC engine binary and model weights stay out | Trace every result to exact code; large/regenerable files would bloat the history | No version control (as in `cdli`) |
 | 2026-11-10 | Track the project like `cdli`: one `RESEARCH_LOG.md` with a notebook register, plus project skill `.claude/skills/vnest-exercise-llm/` | User wants every notebook, step and decision recorded for the paper; reuse a system that already works | Separate files per notebook |
+| 2026-11-11 | **Per-part reply = fixed fields `{"answer", "wrong1", "wrong2", "wrong3"}`** (answer first); per-part prompts state what the answer and the wrong options are; **dataset v2 uses exactly this format and these prompts** | User approved after the first phone run (Entry 8): with `{"options": [...], "answer"}` untuned Llama-1B listed 9–15+ options until cut off and left the answer out; fixed fields make 4 options and answer-among-options structural, and shorten replies (~25 tokens) | Keep `{"options", "answer"}` with a stricter JSON rule (minItems/maxItems support in this MLC version uncertain) |
 | 2026-11-11 | **Exercises are written in the background, one part per request**: who first, then what, where, when, why, each request given the earlier parts; the patient can start on "who" while the next part is written | User decision (supersedes the same-day "no streaming" note). Short GPU jobs, a bad part can be redone alone, patient starts after one part. Costs: prompt re-read per part, training data restructured (1 exercise → 5 examples), app session flow and scorer must handle partial exercises | One generation released part by part (format unchanged, lowest total time); whole exercise ahead of time only |
 | 2026-11-11 | **The model keeps writing the full exercise including the wrong options** (format unchanged) | User decision for now. Note: the dataset's code-made wrong options are sometimes right for the verb (≈ 1–3 %, e.g. teach → "the alphabet", fly → "inside a cloud"; audit 2026-11-11), so a model trained on them learns those too → clean the lists (dataset v2) before fine-tuning | Model writes only the 5 answers, app adds wrong options in code (≈ 25 instead of ≈ 150 output tokens) |
 | 2026-11-11 | **Student model = Llama-3.2-1B-Instruct** (q4f16_0 on the phone); Qwen2.5-1.5B dropped as the student | User decision after Entry 7: on the real ~400-token exercise prompt Llama-1B is the fastest model on the Note10 (11 s to first token, 36 tok/s prefill, 7.3 tok/s decode) vs Qwen KN (18.7 s, 21 tok/s, 6.9) and Llama-3B (39 s, 10 tok/s, 3.0); same Llama family as the current app model | Qwen2.5-1.5B KN (slower, needs our own conversion); Llama-3.2-3B (3.5× slower prefill) |
@@ -447,6 +448,20 @@ request (who → what → where → when → why), so a patient can start on "wh
 - Sentences strip a leading a/an/the from answers ("The chef", not "The a chef").
 - Tests: 21 pass (8 new: part prompts, per-part checks, and the part loop against a fake engine: order, retries, give-up after 3, new person,
   who ≠ what, stop between parts). The live session screen is not covered by automated tests: checked on the phone.
+
+**First phone run (09:08–09:11, untuned Llama-1B, `{"options": [...], "answer"}` replies):** ❌ no exercise completed.
+- Speed fine: load 8.3 s, first token ≈ 2.9 s (101-token prompt, 35 tok/s prefill), decode 7–9 tok/s.
+- **Never got past "who"** in 2 of 3 exercises (11 requests): the model (a) copied the prompt hint "a person who often cooks something" as an option,
+  (b) made every option a person who cooks (no impossible ones), (c) kept listing options (9, then 15+) until the 80-token cap → cut-off JSON
+  ("Unterminated string"); the JSON rule only said "a list of strings". One exercise passed "who" and failed "what": `answer "breakfast" is not one of the options`.
+- (a) and (c) are format problems; (b) and the "what" failure need fine-tuning.
+
+**Fix (same day): fixed-field reply `{"answer", "wrong1", "wrong2", "wrong3"}`** (JSON rule requires exactly these 4 fields, no others): always exactly
+4 options, the answer is always among them by construction, answer written first, ≈ 25 tokens (max 48). Per-part prompts rewritten to say what the
+answer and the wrong options are, without a copyable phrase, e.g. `VNeST "cook". who? Answer: a person (1 or 2 words) who often cooks things.
+Wrong: 3 things that cannot cook.`; what: "Wrong: 3 things nobody can cook"; where/when: "the usual place/time (2 to 4 words)", "3 impossible places/times";
+why: "the usual reason, starting with \"to\" (2 to 5 words)", "3 silly reasons"; repeat people: "The answer must not be: chef, grandma."
+`Scenario.partFromModel` accepts both reply shapes. 21 tests pass. Installed 09:2x.
 
 **Status:** ⚠️ Built and installed on the Note10; phone check pending. Expect weak content and some retries: Llama-1B is untuned and has never seen this prompt format.
 

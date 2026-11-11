@@ -257,28 +257,48 @@ class LlmService extends ChangeNotifier {
 
   /// The same system line for every part. Dataset v2 (vnest_dataset/scripts) must use it word for word.
   static const partSystemPrompt = 'You write Verb Network Strengthening Treatment (VNeST) exercises for adults '
-      'with aphasia. Each question has 4 options: exactly one correct answer and 3 options that are clearly '
-      'impossible. Use short, very common, concrete English words. '
-      'Reply only with JSON: {"options": [4 options], "answer": "the correct option"}.';
+      'with aphasia. Each question has one correct answer and 3 wrong options that are clearly impossible. '
+      'Use short, very common, concrete English words. '
+      'Reply only with JSON: {"answer": "...", "wrong1": "...", "wrong2": "...", "wrong3": "..."}.';
+
+  /// One question's reply: the correct answer first, then exactly 3 wrong options (fixed fields, so the model can't
+  /// list too many options or leave the answer out; RESEARCH_LOG Entry 8).
+  static const partSchema = {
+    'type': 'object',
+    'properties': {
+      'answer': {'type': 'string'},
+      'wrong1': {'type': 'string'},
+      'wrong2': {'type': 'string'},
+      'wrong3': {'type': 'string'},
+    },
+    'required': ['answer', 'wrong1', 'wrong2', 'wrong3'],
+    'additionalProperties': false,
+  };
 
   /// The request for one part. [done] holds the parts already written; the sentence so far is built here in code,
-  /// so the model never has to write it. Dataset v2 must build its prompts the same way.
+  /// so the model never has to write it. Each part says what the answer is and what the wrong options are, in words
+  /// the model can't usefully copy as an option. Dataset v2 must build its prompts the same way.
   static String partPrompt(String verb, QKind k, Map<QKind, Question> done, {List<String> avoidPeople = const []}) {
     final v3 = Scenario.thirdPerson(verb);
     String a(QKind q) => Scenario.noun(done[q]!.answer);
     final head = 'VNeST "$verb". ${k.name}?';
     return switch (k) {
-      QKind.who => '$head A person who often $v3 something.${avoidPeople.isEmpty ? '' : ' Not: ${avoidPeople.join(', ')}.'}',
-      QKind.what => '$head The ${a(QKind.who)} $v3 ___.',
-      QKind.where => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ___.',
-      QKind.when => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ${done[QKind.where]!.answer} ___.',
-      QKind.why =>
-        '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ${done[QKind.where]!.answer} ${done[QKind.when]!.answer} ___.',
+      QKind.who => '$head Answer: a person (1 or 2 words) who often $v3 things. Wrong: 3 things that cannot $verb.'
+          '${avoidPeople.isEmpty ? '' : ' The answer must not be: ${avoidPeople.join(', ')}.'}',
+      QKind.what => '$head The ${a(QKind.who)} $v3 ___. Answer: what the ${a(QKind.who)} $v3. '
+          'Wrong: 3 things nobody can $verb.',
+      QKind.where => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ___. '
+          'Answer: the usual place (2 to 4 words). Wrong: 3 impossible places.',
+      QKind.when => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ${done[QKind.where]!.answer} ___. '
+          'Answer: the usual time (2 to 4 words). Wrong: 3 impossible times.',
+      QKind.why => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ${done[QKind.where]!.answer} '
+          '${done[QKind.when]!.answer} ___. Answer: the usual reason, starting with "to" (2 to 5 words). '
+          'Wrong: 3 silly reasons.',
     };
   }
 
   static const partTries = 3; // first try + 2 retries, per part
-  static const _partMaxTokens = 80; // one question is ~30 tokens
+  static const _partMaxTokens = 48; // one question is ~25 tokens in the fixed-field shape
 
   /// Writes one exercise for [verb], ONE QUESTION PER REQUEST: who, what, where, when, why, each request given the
   /// parts already written. A part that fails its checks is redone on its own (up to [partTries] times).
@@ -309,7 +329,7 @@ class LlmService extends ChangeNotifier {
           r = Map<String, dynamic>.from(await _channel.invokeMethod('generateJson', {
             'system': partSystemPrompt,
             'user': partPrompt(verb, k, done, avoidPeople: avoidPeople),
-            'schema': jsonEncode(_q),
+            'schema': jsonEncode(partSchema),
             'maxTokens': _partMaxTokens,
           }).timeout(const Duration(minutes: 2)));
         } catch (e) {
