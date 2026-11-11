@@ -115,7 +115,7 @@ status after every run. Notebooks that produced results are never edited: fork t
 | NB | File | Purpose | Forked from | Status | Runs (W&B id / HF repo) | Log entry |
 |---|---|---|---|---|---|---|
 | 2.01 | `notebooks/marimo/2_evaluation/01_baseline_qwen25_untuned.py` | Baseline: untuned Qwen2.5-1.5B-Instruct on validation + test, long/short prompt × schema/free decoding, automatic scores | – | **done** 2026-11-10 (RTX PRO 6000, ~2 min generation); output export `2_evaluation/baseline_qwen_untuned_results.ipynb` | run `b1-qwen25-1.5b-instruct-untuned` (W&B id = run name); outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 5 |
-| 2.02 | `notebooks/marimo/2_evaluation/02_baseline_llama32_1b_untuned_parts.py` | Baseline b2: untuned Llama-3.2-1B-Instruct on dataset v2 (one question per request), validation + test, protocols **forced** (reference earlier answers, greedy) and **chain** (the app's way: own answers, ≤ 3 tries/part, temperature 0.3, seed 20261111) × decodings schema (app JSON rule) / free; module 1.1.1 | NB 2.01 (+ stop-token fix from `notes/nb2.02_stop_token_fix.patch`) | ready (embedded 1.1.1, all 44 `wc.*` names defined, compiles, marimo check: formatting warnings only); **offline smoke test passed** 2026-11-11 on the laptop (real model, RTX 2050, `VNEST_LIMIT=3`: 8 parts, scoring, 4 tables, exit 0; stop tokens `<|end_of_text|>`, `<|eom_id|>`, `<|eot_id|>`; JSON rule active (free decoding added a trailing "." the rule prevents); chained retries differ; the untuned model shows the phone's failures: who = "person", what = "what the mom cooks", where = "the usual place"; some "why" wrong options are whole sentences, cut off at 48 tokens); nothing uploaded; to be run by the user on Marimo | run `b2-llama32-1b-instruct-untuned`; outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 10 (pending) |
+| 2.02 | `notebooks/marimo/2_evaluation/02_baseline_llama32_1b_untuned_parts.py` | Baseline b2: untuned Llama-3.2-1B-Instruct on dataset v2 (one question per request), validation + test, protocols **forced** (reference earlier answers, greedy) and **chain** (the app's way: own answers, ≤ 3 tries/part, temperature 0.3, seed 20261111) × decodings schema (app JSON rule) / free; module 1.1.1 | NB 2.01 (+ stop-token fix from `notes/nb2.02_stop_token_fix.patch`) | ready (embedded 1.1.1, all 44 `wc.*` names defined, compiles, marimo check: formatting warnings only); **done** 2026-11-11 (RTX PRO 6000, ≈ 1 min generation in total); export `2_evaluation/baseline_b2_results.ipynb` (keys redacted). Smoke test passed beforehand | run `b2-llama32-1b-instruct-untuned`; outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 10 (pending) |
 
 Status values: `draft` → `ready (offline checks pass)` → `running` → `done` / `failed` / `superseded by NB x`.
 
@@ -134,7 +134,18 @@ Greedy decoding, bf16 on GPU (not the phone's 4-bit model).
 | Qwen2.5-1.5B (untuned) | long | free | 72.9 (38.8–95.0) | 0 | 43.5 | – | not copied yet¹ | NB 2.01 |
 | Qwen2.5-1.5B (untuned) | short | schema | 2.4 (0.0–5.4) | 0 | 0.0 | – | – | NB 2.01 |
 | Qwen2.5-1.5B (untuned) | short | free | 0.0 (0.0–0.0) | 0 | 0.0 | – | – | NB 2.01 |
-| Llama-3.2-3B (untuned) | long | schema | | | | | | (b2, planned) |
+| Llama-3.2-3B (untuned) | long | schema | | | | | | not run (b2 became Llama-1B, below) |
+
+**b2: Llama-3.2-1B-Instruct (untuned), dataset v2, one question per request** (NB 2.02, Entry 10). Test = 5 verbs, 76 exercises / 380 questions; CIs resample verbs; automatic scores (module 1.1.1). **Not comparable with b1** (different data, format and model).
+
+| Protocol | Decoding | Questions accepted % (CI) | Answer = reference % | Echoes instructions % | Exercises completed % (CI) | Mean tries / exercise | Failed at (who/what/where/when/why) |
+|---|---|---|---|---|---|---|---|
+| forced | schema | 50.0 (41.6–60.7)² | 4.7 | 27.9 | – | – | – |
+| forced | free | 46.3 (39.0–55.7)² | 4.2 | 27.4 | – | – | – |
+| chain | schema | – | – | – | **11.8 (0.0–24.0)**² | 5.3 | 12 / 0 / 50 / 3 / 2 |
+| chain | free | – | – | – | 9.2 (0.0–18.0)² | 5.6 | 13 / 0 / 50 / 3 / 3 |
+
+² **Overstated**: the content check missed echoed "what" answers (59 of 69 accepted "what" answers on test were like "what the chef cooks"), "why" answers that repeat the verb ("to cook") and "when" answers that are places ("at home") → re-score with a stricter check (Entry 10).
 
 ¹ In `tables/b1__2.01__summary.csv` on HF (`any_bad_distractor_pct`); the download from the laptop timed out on 2026-11-10. The automatic check only covers who/what and only knows the dataset's objects, so it is a **lower bound** (Entry 5).
 
@@ -510,6 +521,28 @@ Offline checks pass (incl. offline mode and resume).
 
 **Not fixed:** repetitive wrong options (small pools) and weak v1 sentences (e.g. "the farmer milks the job") → therapist review of `out_v2/review_sample.csv`.
 **Next:** scorer for the per-part format; baseline b2 (untuned Llama-3.2-1B, same protocol); fine-tuning.
+
+
+### [2026-11-11] Entry 10: Baseline b2, untuned Llama-3.2-1B-Instruct, one question per request (NB 2.02)
+**Goal:** Reference for fine-tuning: the student model, untuned, on dataset v2 in the app's per-part format.
+
+**Notebook / run:** NB 2.02 (`02_baseline_llama32_1b_untuned_parts.py`), module 1.1.1, run `b2-llama32-1b-instruct-untuned`, W&B `team-me-and-me/vnest-exercise-llm`,
+HF `emmilly/vnest-exercise-llm-outputs` (`preds/b2__2.02__…`, `tables/b2__2.02__{forced-summary,forced-by-part,chain-summary,per-verb}.csv`).
+Export: `notebooks/marimo/2_evaluation/baseline_b2_results.ipynb` (**it again contained the real HF and W&B keys; replaced with placeholders before commit**).
+Environment: NVIDIA RTX PRO 6000 Blackwell Server Edition; Python 3.13.11, torch 2.11.0+cu130, transformers 5.14.1, xgrammar 0.2.9. Data v2 checksums verified;
+41 / 76 exercises (205 / 380 questions). Stop tokens `<|end_of_text|>`, `<|eom_id|>`, `<|eot_id|>`. Generation ≈ 0.018 GPU-hours in total; peak GPU 3.0 GB.
+
+**Results (test; automatic scores, module 1.1.1):** see §6.1. Forced: 50.0 % of questions accepted with the JSON rule (46.3 % without); answer = reference 4.7 %;
+echoes instructions 27.9 %. Chain (the app's way): **11.8 % of exercises completed** with the JSON rule (9.2 % without), 0 % on validation; most exercises fail at
+**where** (50 of 76: the answer is always "the usual place"). By part (forced, schema): who 56.6 % (43.4 % generic, e.g. "person"), what 90.8 %, where 0 %, when 60.5 %,
+why 42.1 % (only 47 % parse: 42 of 76 "why" replies are cut off at 48 tokens because wrong options are whole sentences). JSON rule: +4 points accepted (forced), +2.6 (chain).
+Per test verb (chain, schema): cook 30.8 %, paint 6.7 %, drive / plant / wash 0 %.
+
+**Status:** ⚠️ Run complete, but **the content check is too lenient, so the acceptance numbers are overstated**:
+- **"what" echoes:** 59 of 69 accepted test "what" answers repeat the instruction ("what the chef cooks", "what the gardener plants"); the echo list only had "usual place"-type phrases.
+- **"why" repeating the verb:** "to cook", "to drive", "to wash" accepted (the dataset's teacher rule rejects these).
+- **"when" as a place:** "at home" (20 of 46 accepted), and "when" itself (4).
+The same gaps exist in the app's `Scenario.checkContent`. → Stricter check in app + module, then re-score b2 from its saved raw outputs (no GPU needed).
 
 ---
 
