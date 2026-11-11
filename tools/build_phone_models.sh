@@ -10,10 +10,17 @@ mkdir -p build_mlc/libs2024
 
 HF_QWEN=models/hf/Qwen2.5-1.5B-Instruct   # Qwen/Qwen2.5-1.5B-Instruct, revision in REVISION
 
+# The same limits as the app's engine settings (LlmService._limits), baked in at compile time for every model. MLC sizes its
+# temporary buffer from the compile-time prefill chunk: with gen_config's default 8,192 tokens, Qwen (151,936-token
+# vocabulary) needed 11,099 MB and failed to load on the Note10 (4,352 MB GPU memory); runtime overrides can't shrink it.
+CTX=2048; CHUNK=256; BATCH=1
+LIMITS="context_window_size=$CTX;prefill_chunk_size=$CHUNK;max_batch_size=$BATCH"
+
 compile() {  # compile <mlc-chat-config.json> <library name>
-  echo "== compile $2"
-  python -m mlc_llm compile "$1" --device android --system-lib-prefix "$2_" \
+  echo "== compile $2 ($LIMITS)"
+  python -m mlc_llm compile "$1" --device android --system-lib-prefix "$2_" --overrides "$LIMITS" \
     -o "build_mlc/libs2024/$2.tar" > "build_mlc/compile2024_$2.log" 2>&1
+  grep -E "Total memory usage" "build_mlc/compile2024_$2.log" | sed 's/.*INFO//' || true
 }
 
 # Qwen2.5-1.5B in both layouts, from the same original weights: q4f16_1 = "NK", q4f16_0 = "KN" (the layout test)
@@ -22,9 +29,9 @@ for Q in q4f16_1 q4f16_0; do
   if [ ! -f "$OUT/ndarray-cache.json" ]; then
     echo "== convert_weight $Q"; python -m mlc_llm convert_weight $HF_QWEN --quantization $Q --device cpu -o $OUT > build_mlc/convert2024_qwen_$Q.log 2>&1
   fi
-  if [ ! -f "$OUT/mlc-chat-config.json" ]; then
-    echo "== gen_config $Q"; python -m mlc_llm gen_config $HF_QWEN --quantization $Q --conv-template qwen2 -o $OUT > build_mlc/genconfig2024_qwen_$Q.log 2>&1
-  fi
+  echo "== gen_config $Q"   # always regenerated (cheap), so the config matches the limits above
+  python -m mlc_llm gen_config $HF_QWEN --quantization $Q --conv-template qwen2 \
+    --context-window-size $CTX --prefill-chunk-size $CHUNK --max-batch-size $BATCH -o $OUT > build_mlc/genconfig2024_qwen_$Q.log 2>&1
   compile $OUT/mlc-chat-config.json qwen2_$Q
 done
 

@@ -369,7 +369,30 @@ only difference between the two Qwen models is the order of the weights. Llama-3
    Model list now: Llama-3.2-3B, Llama-3.2-1B, Qwen-1.5B NK, Qwen-1.5B KN, **all with the same engine limits** (max 2,048 tokens, 256-token prefill chunks, 1 sequence).
    New self-test "Read the exercise prompt": the real ~400-token "cook" prompt, no JSON rule, 16 output tokens → prefill speed on a realistic prompt.
 
-**Status:** ⚠️ Engine built; phone test pending.
+**Phone run 6 (2026-11-11, engine `9f3e84a0…`, all four models with identical runtime limits).** The app had been uninstalled again since run 5
+(weights deleted); all four weight folders re-pushed. Guard: `tools/phone_hang_guard.sh` (90 s). Raw log `logs/phone/raw/` (local only).
+
+| Model | Load | Request | Prompt tokens | First token | Prefill tok/s | Decode tok/s |
+|---|---|---|---|---|---|---|
+| Llama-3.2-3B | 12.5 s | hello, no JSON rule | 28 | 4.1–5.5 s | 6.3–6.8 | 1.9–2.0 |
+| Llama-3.2-3B | | hello, JSON rule | 32 | 2.7 s | 11.7 | 1.7 |
+| Llama-3.2-3B | | **exercise prompt ("cook", no JSON rule)** | **402** | **38.4–38.9 s** | **10.3–10.5** | **3.0** |
+| Llama-3.2-1B | 5.9–7.2 s | hello, no JSON rule | 28 | 0.9–2.7 s | 10.5–30.2 | 2.8–10.3 |
+| Llama-3.2-1B | | hello, JSON rule | 32 | 1.4–3.2 s | 10.0–22.6 | 2.6–3.3 |
+| Llama-3.2-1B | | **exercise prompt ("cook", no JSON rule)** | **402** | **11.1 s** (twice) | **36.3–36.4** | **7.3** |
+
+- **Engine check:** Llama-3B on the new engine matches the old engine (run 5: hello prefill 6.1/11.3, decode 1.9/1.7) → the rebuilt engine reproduces the original.
+- **Llama-1B vs Llama-3B on the real prompt:** 3.5× faster prefill, 2.4× faster decode, repeatable to ±0.1 tok/s. Rough full-exercise estimate
+  (~150 output tokens, b1 average): ≈ 30–35 s (1B) vs ≈ 90 s (3B). Hello-test rates vary more (3–10 output tokens; first request includes warm-up).
+- ❌ **Both Qwen models failed to load** in 0.1 s: `Insufficient GPU memory … available 4352 MB < weights 828 MB + temporary buffer 11099 MB`.
+  Cause: we compiled Qwen with `gen_config`'s default 8,192-token prefill chunk; MLC sizes its temporary buffer from the compile-time chunk, and with Qwen's
+  151,936-token vocabulary that is 11 GB. The app's runtime limit (256) can't shrink it. The app showed "loading" forever (error raised on the engine's
+  background thread; the app does not surface it yet).
+- **Fix:** all four recompiled with the app's limits baked in (`--overrides context_window_size=2048;prefill_chunk_size=256;max_batch_size=1`; Qwen configs
+  regenerated with the same) → temporary buffer Qwen **171 MB**, Llama-1B 22 MB, Llama-3B 23 MB. New engine SHA-256
+  `0176861f3404fbfd58aff5c33a88183adb0d6ae4f0c575b001c4d7fbbc3467ad`, jar `36c685b5916369da4d4904772b476527575487334745ebc115533d6e1274fe8b`. Installed 08:1x.
+
+**Status:** ⚠️ Llama results in; Qwen NK vs KN test pending (run 7).
 
 ---
 

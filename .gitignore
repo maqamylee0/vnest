@@ -34,3 +34,4 @@ logs/phone/*_full.txt.gz
 .venv-mlc/
 build_mlc/
 .venv-mlc2024/
+logs/phone/raw/
