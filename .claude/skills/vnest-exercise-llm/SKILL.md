@@ -1,6 +1,6 @@
 ---
 name: vnest-exercise-llm
-description: Project rules for the VNeST exercise LLM project (fine-tuning a small on-device model, Qwen2.5-1.5B-Instruct, to write VNeST aphasia exercises for the VNeST Practice Flutter app via MLC LLM). Use together with marimo-ml-notebook whenever creating, forking, fixing, running or analysing a training, evaluation, quantisation/export or analysis notebook in this repository, when changing the dataset in vnest_dataset/, and when reporting or comparing model results. Holds the project constants, data and split rules, the one scoring definition, and the research-log and notebook-register duty. Wins over marimo-ml-notebook where they differ.
+description: Project rules for the VNeST exercise LLM project (fine-tuning a small on-device model, Llama-3.2-1B-Instruct (was Qwen2.5-1.5B-Instruct), to write VNeST aphasia exercises for the VNeST Practice Flutter app via MLC LLM). Use together with marimo-ml-notebook whenever creating, forking, fixing, running or analysing a training, evaluation, quantisation/export or analysis notebook in this repository, when changing the dataset in vnest_dataset/, and when reporting or comparing model results. Holds the project constants, data and split rules, the one scoring definition, and the research-log and notebook-register duty. Wins over marimo-ml-notebook where they differ.
 ---
 
 # VNeST exercise LLM: project rules
@@ -12,7 +12,8 @@ places where this project differs. On a conflict, this file wins.
 
 | Constant | Value |
 |---|---|
-| Student model | `Qwen/Qwen2.5-1.5B-Instruct` |
+| Student model | `meta-llama/Llama-3.2-1B-Instruct` (decided 2026-11-11, RESEARCH_LOG Entry 7); phone format `q4f16_0` (KN layout), library `llama1b_q4f16_0`. Qwen2.5-1.5B-Instruct was the student until then (b1) |
+| Phone engine | Own MLC 2024 build (`tools/mlc2024_env.sh`, `tools/build_phone_models.sh`, `tools/package_engine.sh`); compile every model with the app's limits (`--overrides context_window_size=2048;prefill_chunk_size=256;max_batch_size=1`) and only in `q4f16_0` (KN): `q4f16_1` prefills ~10× slower on the Note10 |
 | Current app model (baseline) | `Llama-3.2-3B-Instruct-q4f16_0-MLC` (`vnest_app/lib/services/llm_service.dart`) |
 | `HF_USER` | `emmilly` |
 | Outputs dataset | `emmilly/vnest-exercise-llm-outputs` (private; decided 2026-11-10). Dataset v1 lives in it under `data/v1/` (+ `SHA256SUMS`) |

@@ -12,7 +12,7 @@
 |---|---|
 | App | VNeST Practice (`vnest_app/`, Flutter, Android), offline Verb Network Strengthening Treatment practice for adults with aphasia |
 | Current on-phone model | `Llama-3.2-3B-Instruct-q4f16_0-MLC` via MLC LLM (`vnest_app/lib/services/llm_service.dart`), ~1.7 GB |
-| Model to fine-tune (student) | `Qwen/Qwen2.5-1.5B-Instruct` (about 2× faster than Llama-3.2-3B on the Galaxy Note 10, but poor at the task untuned) |
+| Model to fine-tune (student) | **`meta-llama/Llama-3.2-1B-Instruct`** from 2026-11-11 (fastest on the Note10, Entry 7); was `Qwen/Qwen2.5-1.5B-Instruct` until then (baseline b1) |
 | Training data | `vnest_dataset/out/{train,validation,test}.jsonl` (844 / 45 / 85 examples, split by verb), see `vnest_dataset/docs/GENERATION.md` |
 | Output the model must produce | The exercise JSON parsed by `vnest_app/lib/data/scenario.dart` (`Scenario.fromModel`): who / what / where / when / why, 4 options each, one answer |
 | Test phone | Samsung Galaxy Note 10 (Snapdragon 855) |
@@ -91,6 +91,7 @@
 | 2026-11-10 | 50/50 long (the app's) and short prompts in training | A fine-tuned model may not need the long prompt; prompt reading was ~40 of 124 s per exercise | Long prompt only |
 | 2026-11-10 | Put `vnest/` under git; raw downloads, build output, the MLC engine binary and model weights stay out | Trace every result to exact code; large/regenerable files would bloat the history | No version control (as in `cdli`) |
 | 2026-11-10 | Track the project like `cdli`: one `RESEARCH_LOG.md` with a notebook register, plus project skill `.claude/skills/vnest-exercise-llm/` | User wants every notebook, step and decision recorded for the paper; reuse a system that already works | Separate files per notebook |
+| 2026-11-11 | **Student model = Llama-3.2-1B-Instruct** (q4f16_0 on the phone); Qwen2.5-1.5B dropped as the student | User decision after Entry 7: on the real ~400-token exercise prompt Llama-1B is the fastest model on the Note10 (11 s to first token, 36 tok/s prefill, 7.3 tok/s decode) vs Qwen KN (18.7 s, 21 tok/s, 6.9) and Llama-3B (39 s, 10 tok/s, 3.0); same Llama family as the current app model | Qwen2.5-1.5B KN (slower, needs our own conversion); Llama-3.2-3B (3.5× slower prefill) |
 | 2026-11-10 | **Rebuild the app's MLC engine (option A)** with models in the `q4f16_0` layout (weights stored "KN"), using a current MLC version | Entry 6: in the shipped engine Qwen's `q4f16_1` ("NK", the only difference in MLC's definition) prefills 5–10× slower than Llama-3B's `q4f16_0` on the Note10's Adreno 640; the same pipeline is needed to ship a fine-tuned model | B: keep the engine, use the short prompt and no JSON rule (measures speed only; leaves the cause unexplained) |
 | 2026-11-10 | Engine gets **both Qwen2.5-1.5B (converted to q4f16_0) and Llama-3.2-1B-Instruct (q4f16_0)**, plus the current Llama-3.2-3B; compare speed on the phone and add a b1-style baseline for Llama-1B before choosing the student | User decision. Llama-1B is a similar size (1.24 B vs 1.54 B), is published by MLC in q4f16_0, and Llama decodes with the JSON rule at almost no cost; Qwen is stronger untuned. A compiled library only fits one model shape, so neither avoids the rebuild | Switch to Llama-1B now; Qwen only |
 | 2026-11-10 | App starting verb list reduced to **one verb, "cook"** (`vnest_app/assets/therapist_verbs.json`; was 14) | User decision: short on-phone test runs (3 exercises instead of ~42 per model). "cook" is a test verb (never trained on), is in the b1 baseline, and has a reviewed fallback list | drive, wash; keep all 14 |
@@ -392,7 +393,35 @@ only difference between the two Qwen models is the order of the weights. Llama-3
   regenerated with the same) → temporary buffer Qwen **171 MB**, Llama-1B 22 MB, Llama-3B 23 MB. New engine SHA-256
   `0176861f3404fbfd58aff5c33a88183adb0d6ae4f0c575b001c4d7fbbc3467ad`, jar `36c685b5916369da4d4904772b476527575487334745ebc115533d6e1274fe8b`. Installed 08:1x.
 
-**Status:** ⚠️ Llama results in; Qwen NK vs KN test pending (run 7).
+**Phone run 7 (2026-11-11 08:28–08:30, engine `0176861f…`, limits compiled in):** both Qwen models now load (8.8 s NK, 7.8 s KN).
+
+| Qwen2.5-1.5B (same weights, same engine, same limits) | Request | Prompt tokens | First token | Prefill tok/s | Decode tok/s |
+|---|---|---|---|---|---|
+| **NK** (`q4f16_1`) | hello, no JSON rule | 26 | 27.2 s | **0.96** | 5.47 |
+| **KN** (`q4f16_0`) | hello, no JSON rule | 26 | 2.6 s | **9.97** | 5.46 |
+| **KN** (`q4f16_0`) | exercise prompt | 400 | **18.7 s** | **21.4** | 6.95 |
+| NK (`q4f16_1`) | exercise prompt | 400 | — | — | — |
+
+NK exercise prompt: the user reports the app was stopped; **the run is not in the recorded log**, so no number is recorded. From the NK hello prefill
+(0.96 tok/s), 400 tokens would take ≈ 7 min, far past the 90 s guard.
+
+**✅ Layout confirmed as the cause of Qwen's slow prefill:** with identical weights, engine and settings, KN prefills ~10× faster than NK, while decode is
+identical (5.47 vs 5.46 tok/s), as expected if only the batched (prefill) kernels are affected by the weight order.
+
+**Four-way comparison on the real exercise prompt (~400 tokens, no JSON rule):**
+
+| Model (layout) | Load | First token | Prefill tok/s | Decode tok/s |
+|---|---|---|---|---|
+| **Llama-3.2-1B** (KN) | 6–7 s | **11.1 s** | **36.4** | **7.3** |
+| Qwen2.5-1.5B (KN) | 7.8 s | 18.7 s | 21.4 | 6.9 |
+| Llama-3.2-3B (KN) | 12.5 s | 38.9 s | 10.3 | 3.0 |
+| Qwen2.5-1.5B (NK) | 8.8 s | ≈ 7 min (est.) | ≈ 1 | 5.5 |
+
+Llama-1B and Llama-3B numbers are from run 6 (limits applied at load time only); not re-measured with the limits compiled in.
+
+**Status:** ✅ Layout question answered. Llama-3.2-1B is the fastest model on the Note10 (decision §4: student = Llama-3.2-1B).
+
+**Open:** the app does not report engine errors raised on the background thread (Qwen "loading" forever, run 6) → add a load timeout / error check.
 
 ---
 
