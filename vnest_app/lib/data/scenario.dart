@@ -112,6 +112,31 @@ class Scenario {
     return Question(picked..shuffle(rng ?? Random()), answer); // the model tends to put the answer first
   }
 
+  /// "who" answers that name nobody in particular (VNeST needs a real kind of person: chef, nurse, farmer).
+  static const genericPeople = {
+    'person', 'someone', 'somebody', 'people', 'anyone', 'anybody', 'human', 'a human', 'man', 'woman', 'they', 'you',
+    'everyone', 'adult', 'patient',
+  };
+
+  /// Wording from the per-part instructions; an option containing it means the model echoed the instructions
+  /// (untuned Llama-1B answered "where" with "the usual place", RESEARCH_LOG Entry 8).
+  static const instructionEchoes = [
+    'usual place', 'usual time', 'usual reason', 'a person who', 'person who', 'things that cannot', 'nobody can',
+    'impossible place', 'impossible time', 'silly reason', 'wrong option', 'correct answer', 'the answer',
+  ];
+
+  /// Content checks on one part, after [partFromModel]'s shape checks; throws [FormatException] (the part is redone).
+  static void checkContent(QKind k, Question q) {
+    if (k == QKind.who && genericPeople.contains(noun(q.answer))) {
+      throw FormatException('who: "${q.answer}" is not a particular kind of person');
+    }
+    for (final o in q.options) {
+      for (final e in instructionEchoes) {
+        if (o.contains(e)) throw FormatException('${k.name}: "$o" repeats the instructions');
+      }
+    }
+  }
+
   /// The person and the thing must differ ("who cooks?" → chef, "what does the chef cook?" → not chef).
   static void checkWhoWhat(Question who, Question what) {
     if (noun(who.answer) == noun(what.answer)) throw const FormatException('who and what are the same');

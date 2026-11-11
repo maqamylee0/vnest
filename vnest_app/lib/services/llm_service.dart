@@ -344,6 +344,7 @@ class LlmService extends ChangeNotifier {
           final decoded = jsonDecode(text);
           if (decoded is! Map) throw FormatException('${k.name}: not a JSON object');
           final q = Scenario.partFromModel(k, decoded);
+          Scenario.checkContent(k, q);
           if (k == QKind.who && avoidPeople.contains(Scenario.noun(q.answer))) {
             throw FormatException('who: "${q.answer}" was already used for "$verb"');
           }

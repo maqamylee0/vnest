@@ -202,6 +202,17 @@ void main() {
           throwsA(isA<FormatException>()));
     });
 
+    test('content check: no generic "who", no echoed instructions (seen on the phone, Entry 8)', () {
+      Question p(String a, List<String> w) => Question([a, ...w], a);
+      expect(() => Scenario.checkContent(QKind.who, p('a person', ['a car', 'a book', 'a tree'])), throwsA(isA<FormatException>()));
+      expect(() => Scenario.checkContent(QKind.who, p('someone', ['a car', 'a book', 'a tree'])), throwsA(isA<FormatException>()));
+      expect(() => Scenario.checkContent(QKind.where, p('the usual place', ['the kitchen', 'the oven', 'the microwave'])),
+          throwsA(isA<FormatException>()));
+      expect(() => Scenario.checkContent(QKind.who, p('chef', ['a person who cooks', 'cloud', 'cup'])), throwsA(isA<FormatException>()));
+      Scenario.checkContent(QKind.who, p('chef', ['cloud', 'candle', 'cup'])); // fine
+      Scenario.checkContent(QKind.where, p('in the kitchen', ['on the sun', 'inside a volcano', 'in outer space'])); // fine
+    });
+
     test('who and what must differ, also with articles ("a chef" vs "chef")', () {
       expect(() => Scenario.checkWhoWhat(q('a chef', ['x', 'y', 'z']), q('chef', ['x', 'y', 'z'])), throwsA(isA<FormatException>()));
       expect(Scenario.noun('the egg'), 'egg');
