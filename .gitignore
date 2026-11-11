@@ -36,3 +36,4 @@ build_mlc/
 .venv-mlc2024/
 logs/phone/raw/
 .venv-nbtest/
+.nb_common/

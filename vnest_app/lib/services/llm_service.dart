@@ -56,12 +56,21 @@ class LlmService extends ChangeNotifier {
   /// Libraries are those in the engine built by tools/package_engine.sh (MLC 2024, RESEARCH_LOG Entry 7).
   /// Weights: Llama = MLC's published q4f16_0 folders; Qwen = converted by us (tools/build_phone_models.sh)
   /// from Qwen/Qwen2.5-1.5B-Instruct in both layouts: q4f16_1 = "NK", q4f16_0 = "KN".
-  /// The first model is the default: Llama-3.2-1B, the student model (RESEARCH_LOG decision 2026-11-11, Entry 7).
+  /// The first model is the default: the fine-tuned student model f1 (Llama-3.2-1B + LoRA, RESEARCH_LOG Entry 11),
+  /// converted by notebooks/marimo/3_export/01_phone_export_f1.py. Same shape and quantization as the stock Llama-1B,
+  /// so it runs on the engine's existing llama1b_q4f16_0 library.
   static const models = [
+    LlmModel(
+      id: 'Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0',
+      lib: 'llama1b_q4f16_0',
+      label: 'VNeST f1 (1B)',
+      size: '0.7 GB',
+      engine: _limits,
+    ),
     LlmModel(
       id: 'Llama-3.2-1B-Instruct-q4f16_0-MLC',
       lib: 'llama1b_q4f16_0',
-      label: 'Llama-3.2-1B',
+      label: 'Llama-3.2-1B (untuned)',
       size: '0.7 GB',
       engine: _limits,
     ),

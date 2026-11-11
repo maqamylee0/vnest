@@ -615,6 +615,29 @@ no echoed instructions, no generic "who". Validation identical (100 % / 100 %). 
 **Next:** convert the merged model to `q4f16_0` (reuses the engine's `llama1b_q4f16_0` library) and test on the Note10; therapist review of f1 outputs;
 dataset v3 ideas: more people/places per verb, larger wrong-option pools, gender-balanced people; sampling settings for variety in the app.
 
+
+### [2026-11-11] Entry 12: f1 converted to the phone format and installed (NB 3.01)
+**Goal:** Put the fine-tuned model on the Note10 without rebuilding the engine.
+
+**Notebook:** NB 3.01 (`notebooks/marimo/3_export/01_phone_export_f1.py`), runs **on the laptop** (needs the MLC 2024 build and the phone on USB; no GPU).
+Stages: download the merged model (root files of the f1 model repo) → MLC 2024 `convert_weight` (`q4f16_0`, CPU, 81 s) + `gen_config` (`llama-3_1`, context 2048,
+prefill chunk 256, batch 1) → **verify against the stock Llama-1B phone model** → upload to `emmilly/vnest-exercise-llm-f1-llama32-1b-instruct-lora-r16/mlc-q4f16_0/`
+→ `adb push` to `/sdcard/Android/data/rw.ongera.vnest_app/files/Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0` (27 files, checked).
+Result: 22 shards, 712.5 MB; **163 tensors with the stock model's names, shapes and dtypes**, same dimensions, rope (llama3, base 500,000), format, template
+and limits; weights differ from the stock model → runs on the engine's existing `llama1b_q4f16_0` library. SHA-256 in `runs/<run>/phone_export.json` and the repo's `SHA256SUMS`.
+
+**Problems the verify stage caught:**
+1. **RoPE settings silently lost:** transformers 5.14 (Marimo) saved the merged model's position settings as `rope_parameters` (with `rope_theta` inside); MLC 2024 reads
+   only `rope_scaling` + `rope_theta` and fell back to no scaling. The verify stage refused the output. Fix: give MLC a copy of `config.json` in the old format
+   (values asserted equal to Meta's original Llama-3.2-1B settings); weights linked, not copied.
+2. **Stale conversion reused:** the re-run skipped conversion because the first (wrong) run had marked it done. Fix: the convert stage stores an input fingerprint
+   and converts again when it changes (notebook rule §5).
+
+**App:** the fine-tuned model is the first (default) entry, "VNeST f1 (1B)" (`id` = the phone folder, `lib` = `llama1b_q4f16_0`, the same limits); the untuned 1B is
+labelled "Llama-3.2-1B (untuned)". Includes the stricter content check (Entry 10). 23 tests pass; built and installed on the Note10 with the model folders kept.
+
+**Status:** ⚠️ Installed; phone test pending (run 8, guard on).
+
 ---
 
 ## 8. What Failed / Dead Ends
@@ -632,6 +655,9 @@ dataset v3 ideas: more people/places per verb, larger wrong-option pools, gender
 | 2026-11-11 | v1 content filter (`common.UNSUITABLE` + teacher's suitability flag) | Let through 2 ConceptNet sexual-slang sentences ("spread pussy" in train, "eat pussy" in validation); the teacher explained them innocently | Add a sexual/crude slang list (v2); scan every sentence and teacher answer before training; therapist review |
 | 2026-11-11 | Content check (app + module 1.1.1) used for baseline b2 | Accepted echoed answers ("what the chef cooks": 59 of 69 accepted test "what"), "why" = the verb ("to cook"), "when" = a place ("at home") → b2 first reported 11.8 % exercises completed, really 0 % | Read samples of accepted outputs before trusting an acceptance rate; check rules against every dataset answer (no good answer rejected) and against seen failures |
 | 2026-11-11 | NB 1.01 libraries cell checked packages by importing them (transformers first), then installed missing ones | transformers recorded "no accelerate" at import → `Trainer requires accelerate` on the first Marimo run although accelerate was installed seconds later | Check with `importlib.util.find_spec`, install, `invalidate_caches`, then import; assert the dependency is usable before the stage that needs it; test the install path by uninstalling a package locally |
+| 2026-11-11 | MLC 2024 conversion of a model saved by transformers 5.x | Config uses `rope_parameters`; MLC 2024 reads `rope_scaling`/`rope_theta` → silently converted without Llama 3 RoPE scaling (would degrade the model on the phone without an error) | Verify every converted model against a known-good reference config; write the old-format config for MLC |
+| 2026-11-11 | NB 3.01 re-run after fixing the converter input | The convert stage's "done" marker made the re-run reuse the wrong output | Stages that consume inputs store an input fingerprint and re-run when it changes |
+| 2026-11-11 | Restarting the phone guard with `pkill -f phone_hang_guard.sh` in the same command | The pattern matched the command itself: it killed the new guard before it started and left an orphaned `adb logcat` | Stop processes by PID; never `pkill -f` a pattern that appears in the same command line |
 | 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works. **Cause (2026-11-11): HF's Xet transfer backend** | Set `HF_HUB_DISABLE_XET=1` (uploads and downloads then work from the laptop); or `curl` from `resolve/<revision>/` and pin the revision |
 
 ---
