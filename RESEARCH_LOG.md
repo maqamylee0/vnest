@@ -91,6 +91,7 @@
 | 2026-11-10 | 50/50 long (the app's) and short prompts in training | A fine-tuned model may not need the long prompt; prompt reading was ~40 of 124 s per exercise | Long prompt only |
 | 2026-11-10 | Put `vnest/` under git; raw downloads, build output, the MLC engine binary and model weights stay out | Trace every result to exact code; large/regenerable files would bloat the history | No version control (as in `cdli`) |
 | 2026-11-10 | Track the project like `cdli`: one `RESEARCH_LOG.md` with a notebook register, plus project skill `.claude/skills/vnest-exercise-llm/` | User wants every notebook, step and decision recorded for the paper; reuse a system that already works | Separate files per notebook |
+| 2026-11-11 | **Dataset v2 (`vnest_dataset/out_v2/`) is the training data; v1 is not to be used for training** | v1 contains an offensive training sentence and no per-part examples; v2 matches the app's per-part format and fixes the audit findings | Patch v1 in place (would break v1's recorded checksums) |
 | 2026-11-11 | **Per-part reply = fixed fields `{"answer", "wrong1", "wrong2", "wrong3"}`** (answer first); per-part prompts state what the answer and the wrong options are; **dataset v2 uses exactly this format and these prompts** | User approved after the first phone run (Entry 8): with `{"options": [...], "answer"}` untuned Llama-1B listed 9–15+ options until cut off and left the answer out; fixed fields make 4 options and answer-among-options structural, and shorten replies (~25 tokens) | Keep `{"options", "answer"}` with a stricter JSON rule (minItems/maxItems support in this MLC version uncertain) |
 | 2026-11-11 | **Exercises are written in the background, one part per request**: who first, then what, where, when, why, each request given the earlier parts; the patient can start on "who" while the next part is written | User decision (supersedes the same-day "no streaming" note). Short GPU jobs, a bad part can be redone alone, patient starts after one part. Costs: prompt re-read per part, training data restructured (1 exercise → 5 examples), app session flow and scorer must handle partial exercises | One generation released part by part (format unchanged, lowest total time); whole exercise ahead of time only |
 | 2026-11-11 | **The model keeps writing the full exercise including the wrong options** (format unchanged) | User decision for now. Note: the dataset's code-made wrong options are sometimes right for the verb (≈ 1–3 %, e.g. teach → "the alphabet", fly → "inside a cloud"; audit 2026-11-11), so a model trained on them learns those too → clean the lists (dataset v2) before fine-tuning | Model writes only the 5 answers, app adds wrong options in code (≈ 25 instead of ≈ 150 output tokens) |
@@ -475,6 +476,26 @@ why: "the usual reason, starting with \"to\" (2 to 5 words)", "3 silly reasons";
 
 **Status:** ⚠️ Built and installed on the Note10; phone check pending. Expect weak content and some retries: Llama-1B is untuned and has never seen this prompt format.
 
+
+### [2026-11-11] Entry 9: Dataset v2 (one question per example) and an app safety check
+**Goal:** Training data in exactly the app's per-part format, with the wrong-option problems from the audit fixed.
+
+**App first (commit `646b269`):** `Scenario.checkContent` rejects a generic "who" (person, someone, man, woman…) and any option repeating
+instruction wording ("usual place", "a person who"…); a rejected part is redone. 22 tests pass. Installed on the Note10.
+
+**Dataset v2:** `vnest_dataset/scripts/assemble_v2.py` → `vnest_dataset/out_v2/` (details and checksums: `vnest_dataset/docs/GENERATION.md` §12).
+- Same sentences and verb splits as v1 (read from v1's files), 5 examples per exercise; user message = the app's `partPrompt`, system line read
+  from `llm_service.dart`, reply `{"answer", "wrong1", "wrong2", "wrong3"}`; the script asserts its prompts against the app's test strings.
+- Wrong-option lists cleaned (20 "what" items, 2 "where", 3 "when" removed) + verb check (verb forms, answer/person/object words, verb-specific conflicts).
+- Every example passes the app's checks; audit of the suspect options = 0 (build fails otherwise); deterministic (two builds byte-identical).
+- **Dropped:** 76 sentences with a generic person (64 train, 3 val, 9 test) and **2 offensive sentences v1's filter missed** (ConceptNet sexual
+  slang: "woman spread pussy" in train, "man eat pussy" in validation). Verb "shave" left training.
+- **Size:** 357 / 41 / 76 sentences → **3,570 / 205 / 380 examples**. SHA-256 train `d0893825…`, validation `6c85f231…`, test `f640592b…`.
+
+**Status:** ✅ Built. Not yet uploaded to the HF outputs repo (`data/v2/`; uploads from the laptop hang, upload from the training machine).
+**Not fixed:** repetitive wrong options (small pools) and weak v1 sentences (e.g. "the farmer milks the job") → therapist review of `out_v2/review_sample.csv`.
+**Next:** scorer for the per-part format; baseline b2 (untuned Llama-3.2-1B, same protocol); fine-tuning.
+
 ---
 
 ## 8. What Failed / Dead Ends
@@ -489,6 +510,7 @@ why: "the usual reason, starting with \"to\" (2 to 5 words)", "3 silly reasons";
 | 2026-11-10 | Untuned Qwen2.5-1.5B in the app on the Note10 with MLC default engine settings | No output for ~4 min, then the phone's display server was reset by its watchdog and the phone restarted (Entry 6) | Set engine limits per model; log the phone unfiltered during first runs of a new model |
 | 2026-11-10 | Ready-made MLC packages for Linux (`mlc-llm-nightly-cpu 0.26.dev6` + `mlc-ai-nightly-cpu 0.26.dev246`, the only Linux pair on mlc.ai/wheels; `0.26.dev20` is Windows-only) to compile Llama-3.2-1B for Android | Mismatched pair: dev6 = mlc-llm `9fa644f5` needs a newer TVM (`tirx.is_buffer_var` missing). Reverting that commit's 8 lines (`tools/mlc_patches/revert_9fa644f5_for_tvm_dev246.patch`) got past it, then the compiler **segfaulted** in the Dlight stage (compiled-code mismatch) | Build TVM + MLC from one source checkout (also needed for the Android engine library) |
 | 2026-11-11 | MLC `main` (`44fd06d0`, TVM `629cc658`) built from source (TVM with LLVM 18, MLC host lib) to compile Llama-3.2-1B for Android | (1) Two `tvm-ffi` copies in the tree: the C++ build uses `tvm-tirx/3rdparty/tvm-ffi` (`6628c46`), the outer one (`21e30c3`) gave `__ffi_shallow_copy__ must be an ffi.Function` → install the nested one. (2) Then, after 7 min of compiling: `TypeError: Cannot treat type ir.Call[ty=tirx.TensorType] as type ir.PrimExpr`, `Error in pass: AttachGlobalSymbol` (inside TVM; MLC main's Android/OpenCL path appears broken) | Build the exact 2024 version the app's engine came from (mlc-llm `7561c96d`, TVM `2912b0fc`) in a separate worktree `research/mlc-llm-2024` (worked, Entry 7) |
+| 2026-11-11 | v1 content filter (`common.UNSUITABLE` + teacher's suitability flag) | Let through 2 ConceptNet sexual-slang sentences ("spread pussy" in train, "eat pussy" in validation); the teacher explained them innocently | Add a sexual/crude slang list (v2); scan every sentence and teacher answer before training; therapist review |
 | 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works | Download with `curl` from `resolve/<revision>/` and pin the revision |
 
 ---

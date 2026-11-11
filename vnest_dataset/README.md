@@ -17,6 +17,10 @@ Each line of `out/{train,validation,test}.jsonl` is a chat example:
 `{"messages": [system, user, assistant], "meta": {...}}`. The assistant message is the JSON above as a string.
 `meta` is for analysis only; drop it before training if your trainer complains about extra columns.
 
+> **Use dataset v2 (`out_v2/`) for training.** v2 (11 Nov 2026) has one question per example in the app's per-part format,
+> cleaned wrong options and fixes found by an audit, including **two offensive sentences in v1** (one in v1's training split).
+> Details: [docs/GENERATION.md §12](docs/GENERATION.md). The rest of this README describes v1 (`out/`).
+
 ## Current build (10 Nov 2026)
 
 | | |

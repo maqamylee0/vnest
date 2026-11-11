@@ -316,3 +316,55 @@ their pairs no longer exist in `pairs.jsonl`.
 | 10 Nov 2026 | Content filter added after the teacher approved weapons/alcohol sentences (6.3) |
 | 10 Nov 2026 | Held-out verbs reduced from 14 to 5 (6.4) |
 | 10 Nov 2026 | Shortened plurals restored (6.2). Current build: 844 / 45 / 85 |
+| 11 Nov 2026 | **v2** (section 12): one question per example, fixed-field replies, cleaned wrong options + verb check, generic people and 2 offensive sentences dropped: 3,570 / 205 / 380 |
+
+---
+
+## 12. Dataset v2 (11 Nov 2026): one question per example
+
+**Why:** the app now writes an exercise one question per request (who, what, where, when, why), and each reply has fixed
+fields `{"answer", "wrong1", "wrong2", "wrong3"}` (RESEARCH_LOG decisions 2026-11-11 and Entry 8). v2 trains exactly that.
+An audit of v1 also found wrong options that are sometimes right and two offensive sentences (below).
+
+**Build:** `python3 -I scripts/assemble_v2.py out out_v2 ../vnest_app/lib/services/llm_service.dart` (deterministic, seed 20261111;
+two builds are byte-identical). Inputs: v1's `out/{train,validation,test}.jsonl` (for the sentences and splits) and `out/wh.jsonl`.
+
+| | v1 | **v2** |
+|---|---|---|
+| Example | whole exercise (5 questions) | **one question**; 5 examples per exercise |
+| User message | long app prompt or `VNeST exercise for the verb "x".` | the app's per-part prompt (`LlmService.partPrompt`), e.g. `VNeST "cook". where? The chef cooks the dinner ___. Answer: the usual place (2 to 4 words). Wrong: 3 impossible places.` |
+| Reply | `{"who": {"options": [...], "answer": ...}, ...}` | `{"answer": "in the kitchen", "wrong1": ..., "wrong2": ..., "wrong3": ...}` |
+| System line | long therapist line | `LlmService.partSystemPrompt`, **read from the app's source** so the two can't drift |
+| Sentences (train / val / test) | 422 / 45 / 85 | **357 / 41 / 76** (same splits and verbs; see drops) |
+| Examples (train / val / test) | 844 / 45 / 85 | **3,570 / 205 / 380** (train: 2 variants per sentence) |
+| "Not these people" | 30 % of prompts | 30 % of "who" prompts, worded as in the app: `The answer must not be: chef, grandma.` |
+
+**Changes to content:**
+1. **Wrong-option lists cleaned.** Removed from "what": the alphabet, a dream, a memory, a wish, a minute, an idea, a thought, silence,
+   thunder, an echo, a rumor, joy, fear, kindness, patience, courage, honesty, gravity, the past, midnight (each valid for some verb in our
+   list, e.g. teach honesty, spread a rumor, measure gravity, write a wish). Removed from "where": inside an egg; "on a cloud" (near-duplicate of
+   "inside a cloud"). Removed from "when": on the moon (a place), during an earthquake (possible any time), while asleep (= while sleeping).
+   Added to "what": next week, last year.
+2. **Verb check:** a wrong option may not contain the verb or its forms (flies, flying), a word of the correct answer, the person or the object,
+   or a verb-specific conflict word (fly: cloud, sky, space, moon, stars…; fish/swim/wash/water: sea, ocean, water, underwater, rain; build: moon, rocket; …).
+3. **App checks applied to every example:** 4 different options of at most 6 words, no generic "who" (person, man, woman, someone…), no option
+   repeating instruction wording ("usual place"…), who ≠ what.
+4. **Dropped sentences:** 76 with a generic person ("man", "woman": 64 train, 3 validation, 9 test; the app now rejects these answers), and
+   **2 offensive sentences that v1's filter missed**: ConceptNet sexual slang "woman spread pussy" (train) and "man eat pussy" (validation),
+   which the teacher had explained innocently ("to plant flowers", "to feed the cat"). v2 adds a sexual/crude slang list on top of
+   `common.UNSUITABLE` (left unchanged so v1 still rebuilds to its checksums). The training verb "shave" disappeared (all its sentences had "man").
+
+**Audit:** the 2026-11-11 suspect wrong options (e.g. teach → the alphabet, fly → inside a cloud, build → to fly to the moon) occur 0 times
+(the build fails otherwise).
+
+**Known limits (unchanged from v1):** wrong options repeat (pools of 10–41 items), so a model will reuse them; some v1 sentences are weak
+("the farmer milks the job", from a ConceptNet idiom) — the therapist review sheet `out_v2/review_sample.csv` (100 exercises, all parts) is
+the way to catch these. **v1 should not be used for training** (offensive sentence in train).
+
+SHA-256 (v2):
+
+```
+d0893825ec8bf3a08a882164d258cc546b9f038acc8ce7dae5b41f4ca6762d56  out_v2/train.jsonl
+6c85f231606031d8e4440fc23eaa36e22eccb7d3b4e3d729b6e165a148d70565  out_v2/validation.jsonl
+f640592b5c75f9ec12501a4ae7c2ee937740c3a7f6d7b14e5e553209c25e85a2  out_v2/test.jsonl
+```

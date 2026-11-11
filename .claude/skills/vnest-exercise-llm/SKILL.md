@@ -19,7 +19,7 @@ places where this project differs. On a conflict, this file wins.
 | Outputs dataset | `emmilly/vnest-exercise-llm-outputs` (private; decided 2026-11-10). Dataset v1 lives in it under `data/v1/` (+ `SHA256SUMS`) |
 | Model repos private? | **TO DECIDE** (check ConceptNet CC BY-SA and Llama 3.1 output terms first) |
 | W&B | `team-me-and-me/vnest-exercise-llm` (decided 2026-11-10) |
-| `DATA_VERSION` | `v1` = the 2026-11-10 build (SHA-256 in `vnest_dataset/docs/GENERATION.md` §9) |
+| `DATA_VERSION` | **`v2`** = `vnest_dataset/out_v2/` (2026-11-11; one question per example; SHA-256 in `vnest_dataset/docs/GENERATION.md` §12). v1 (`out/`) must not be used for training (offensive sentence) |
 | Notebooks | `notebooks/marimo/<N_section>/NN_name.py` (`1_training`, `2_evaluation`, `3_export` …), numbered from 01; `NOTEBOOK` id = `<section>.<NN>` (e.g. `2.01`) |
 | Shared module | `common/vnest_common.py` (one scorer, naming, HF I/O, stages); embed with `tools/make_standalone.py`; offline checks `common/test_vnest_common.py` |
 | Run names | `<exp>-<model>-<variant>`, e.g. `b1-qwen25-1.5b-instruct-untuned` (`wc.run_name`) |
