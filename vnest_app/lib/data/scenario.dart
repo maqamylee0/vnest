@@ -125,15 +125,49 @@ class Scenario {
     'impossible place', 'impossible time', 'silly reason', 'wrong option', 'correct answer', 'the answer',
   ];
 
+  /// An answer starting with one of these repeats the question ("what the chef cooks", "when"; baseline b2, Entry 10).
+  static const questionWords = {'who', 'what', 'where', 'when', 'why', 'how'};
+
+  /// "when" answers: a place word without a time word means the model answered "where" ("at home"; b2, Entry 10).
+  /// Lists built from dataset v2's 4,155 answers, which all pass (common/test_vnest_common.py checks both).
+  static const timeWords = {
+    'morning', 'afternoon', 'evening', 'night', 'day', 'days', 'daily', 'week', 'weeks', 'weekend', 'weekends', 'weekday',
+    'month', 'months', 'year', 'years', 'spring', 'summer', 'autumn', 'fall', 'winter', 'season', 'breakfast', 'lunch',
+    'lunchtime', 'dinner', 'supper', 'meal', 'meals', 'mealtime', 'bedtime', 'naptime', 'playtime', 'recess', 'noon',
+    'midnight', 'dawn', 'sunrise', 'sunset', 'time', 'hour', 'hours', 'minute', 'minutes', 'today', 'tomorrow', 'yesterday',
+    'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'sundays', 'semester', 'holiday',
+    'holidays', 'birthday', 'christmas', 'am', 'pm', 'shift', 'class', 'lesson', 'lessons', 'start', 'end', 'way',
+  };
+  static const whenStarters = {'after', 'before', 'during', 'while', 'every', 'once', 'twice', 'each', 'until'};
+  static const placeWords = {
+    'home', 'house', 'kitchen', 'garden', 'yard', 'park', 'office', 'room', 'bedroom', 'bathroom', 'store', 'shop',
+    'market', 'field', 'farm', 'garage', 'street', 'road', 'beach', 'river', 'lake', 'restaurant', 'bakery', 'church',
+    'hospital', 'classroom', 'library', 'studio', 'workshop', 'stadium', 'gym', 'pool', 'barn', 'city', 'town', 'village',
+  };
+
   /// Content checks on one part, after [partFromModel]'s shape checks; throws [FormatException] (the part is redone).
-  static void checkContent(QKind k, Question q) {
-    if (k == QKind.who && genericPeople.contains(noun(q.answer))) {
-      throw FormatException('who: "${q.answer}" is not a particular kind of person');
+  /// [verb] enables the "why only repeats the verb" check.
+  static void checkContent(QKind k, Question q, {String verb = ''}) {
+    final a = q.answer;
+    final words = a.split(' ');
+    if (k == QKind.who && genericPeople.contains(noun(a))) {
+      throw FormatException('who: "$a" is not a particular kind of person');
     }
+    if (questionWords.contains(words.first)) throw FormatException('${k.name}: "$a" repeats the question');
     for (final o in q.options) {
       for (final e in instructionEchoes) {
         if (o.contains(e)) throw FormatException('${k.name}: "$o" repeats the instructions');
       }
+    }
+    if (k == QKind.why && verb.isNotEmpty) {
+      // "to cook", "to cook it", "to cooking": the reason only repeats the action
+      final rest = words.skip(words.first == 'to' ? 1 : 0).where((w) => !{'it', 'them', 'the', 'a', 'an'}.contains(w));
+      final stem = verb.length > 4 ? verb.substring(0, verb.length - 1) : verb;
+      if (rest.isEmpty || rest.every((w) => w.startsWith(stem))) throw FormatException('why: "$a" only repeats the verb');
+    }
+    if (k == QKind.when && !whenStarters.contains(words.first) && !words.any(timeWords.contains) &&
+        words.any(placeWords.contains)) {
+      throw FormatException('when: "$a" is a place, not a time');
     }
   }
 

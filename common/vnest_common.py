@@ -12,6 +12,10 @@ Changelog
   DATA_VERSION -> "v2". Whole-exercise functions (app_accept, score_output, ...) unchanged.
 - 1.1.1 (2026-11-11): offline mode (VNEST_OFFLINE=1: no uploads; downloads from VNEST_OFFLINE_DIR or this run's own files),
   summarise(..., metrics=...), chain_items_from_split, CHAIN_METRICS, stop_token_ids. For NB 2_evaluation/02 (baseline b2).
+- 1.1.2 (2026-11-11): stricter content check, same as the app's Scenario.checkContent (gaps found in b2, RESEARCH_LOG Entry 10):
+  no answer starting with a question word ("what the chef cooks", "when"); "why" may not only repeat the verb ("to cook");
+  "when" may not be a place ("at home"). part_accept(part, obj, verb=""); score_part / score_chain pass the verb.
+  All 4,155 dataset v2 answers still pass.
 """
 from __future__ import annotations
 
@@ -25,7 +29,7 @@ import socket
 import time
 from pathlib import Path
 
-VERSION = "1.1.1"
+VERSION = "1.1.2"
 
 # ---------------------------------------------------------------------------------------------------------------
 # Project constants (decided 2026-11-10, see RESEARCH_LOG.md §4)
@@ -324,6 +328,41 @@ INSTRUCTION_ECHOES = ("usual place", "usual time", "usual reason", "a person who
                       "nobody can", "impossible place", "impossible time", "silly reason", "wrong option",
                       "correct answer", "the answer")
 
+# Scenario.questionWords / timeWords / whenStarters / placeWords (test_vnest_common.py checks they equal the app's)
+QUESTION_WORDS = {"who", "what", "where", "when", "why", "how"}
+TIME_WORDS = {
+    "morning", "afternoon", "evening", "night", "day", "days", "daily", "week", "weeks", "weekend", "weekends", "weekday",
+    "month", "months", "year", "years", "spring", "summer", "autumn", "fall", "winter", "season", "breakfast", "lunch",
+    "lunchtime", "dinner", "supper", "meal", "meals", "mealtime", "bedtime", "naptime", "playtime", "recess", "noon",
+    "midnight", "dawn", "sunrise", "sunset", "time", "hour", "hours", "minute", "minutes", "today", "tomorrow", "yesterday",
+    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "sundays", "semester", "holiday",
+    "holidays", "birthday", "christmas", "am", "pm", "shift", "class", "lesson", "lessons", "start", "end", "way"}
+WHEN_STARTERS = {"after", "before", "during", "while", "every", "once", "twice", "each", "until"}
+PLACE_WORDS = {
+    "home", "house", "kitchen", "garden", "yard", "park", "office", "room", "bedroom", "bathroom", "store", "shop",
+    "market", "field", "farm", "garage", "street", "road", "beach", "river", "lake", "restaurant", "bakery", "church",
+    "hospital", "classroom", "library", "studio", "workshop", "stadium", "gym", "pool", "barn", "city", "town", "village"}
+
+def content_problem(part: str, answer: str, options: list[str], verb: str = "") -> str | None:
+    """Port of Scenario.checkContent. Returns the reason the part is rejected, or None."""
+    words = answer.split(" ")
+    if part == "who" and noun(answer) in APP_GENERIC_PEOPLE:
+        return f'who: "{answer}" is not a particular kind of person'
+    if words[0] in QUESTION_WORDS:
+        return f'{part}: "{answer}" repeats the question'
+    for o in options:
+        for e in INSTRUCTION_ECHOES:
+            if e in o:
+                return f'{part}: "{o}" repeats the instructions'
+    if part == "why" and verb:
+        rest = [w for w in (words[1:] if words[0] == "to" else words) if w not in {"it", "them", "the", "a", "an"}]
+        stem = verb[:-1] if len(verb) > 4 else verb
+        if not rest or all(w.startswith(stem) for w in rest):
+            return f'why: "{answer}" only repeats the verb'
+    if part == "when" and words[0] not in WHEN_STARTERS and not (set(words) & TIME_WORDS) and (set(words) & PLACE_WORDS):
+        return f'when: "{answer}" is a place, not a time'
+    return None
+
 def noun(s: str) -> str:  # Scenario.noun: "a chef" -> "chef"
     return re.sub(r"^(a|an|the)\s+", "", s)
 
@@ -352,7 +391,7 @@ def avoid_from_part_prompt(user_text: str) -> list[str]:
     m = re.search(r"The answer must not be: (.*)\.$", user_text)
     return [x.strip() for x in m.group(1).split(",")] if m else []
 
-def part_accept(part: str, obj) -> tuple[dict | None, str | None]:
+def part_accept(part: str, obj, verb: str = "") -> tuple[dict | None, str | None]:
     """Port of Scenario.partFromModel + Scenario.checkContent (the app's checks on ONE question).
     Accepts the fixed-field reply {"answer", "wrong1", "wrong2", "wrong3"} and the older {"options": [...], "answer"}.
     Returns ({"options": [answer + 3 others], "answer": answer}, None) or (None, reason). who != what is checked in score_chain."""
@@ -378,12 +417,9 @@ def part_accept(part: str, obj) -> tuple[dict | None, str | None]:
     for o in picked:
         if len(o.split(" ")) > 6:
             return None, f'{part}: option too long: "{o}"'
-    if part == "who" and noun(answer) in APP_GENERIC_PEOPLE:
-        return None, f'who: "{answer}" is not a particular kind of person'
-    for o in picked:
-        for e in INSTRUCTION_ECHOES:
-            if e in o:
-                return None, f'{part}: "{o}" repeats the instructions'
+    problem = content_problem(part, answer, picked, verb)
+    if problem:
+        return None, problem
     return {"options": picked, "answer": answer}, None
 
 def part_items_from_split(rows: list[dict], split: str) -> list[dict]:
@@ -406,12 +442,12 @@ def part_items_from_split(rows: list[dict], split: str) -> list[dict]:
 def score_part(text: str, part: str, verb: str, refs: dict, ref_answer: str = "") -> dict:
     """Every per-reply metric for one question. refs = known_valid(items)[verb]. All automatic; none is a therapist judgement."""
     obj, how = extract_json(text)
-    q, reason = part_accept(part, obj) if obj is not None else (None, "no JSON found")
+    q, reason = part_accept(part, obj, verb) if obj is not None else (None, "no JSON found")
     raw_answer = clean_option(obj.get("answer", "")) if isinstance(obj, dict) else ""
     row = {"json_found": obj is not None, "json_how": how, "accepted": q is not None, "reject_reason": reason or "",
            "answer": raw_answer, "answer_matches_ref": bool(ref_answer) and noun(raw_answer) == noun(clean_option(ref_answer))}
     opts = q["options"] if q else []
-    row["echoes_instructions"] = isinstance(reason, str) and "repeats the instructions" in reason
+    row["echoes_instructions"] = isinstance(reason, str) and ("repeats the instructions" in reason or "repeats the question" in reason)
     row["generic_who"] = part == "who" and noun(raw_answer) in (APP_GENERIC_PEOPLE | GENERIC_WHO)
     row["who_is_person"] = part == "who" and noun(raw_answer) in PEOPLE
     row["who_known_valid"] = part == "who" and noun(raw_answer) in refs.get("agents", set())
@@ -441,7 +477,7 @@ def score_chain(attempts: dict, verb: str, refs: dict) -> dict:
         for i, text in enumerate(tries, 1):
             out["total_tries"] += 1
             obj, _ = extract_json(text)
-            q, reason = part_accept(part, obj) if obj is not None else (None, "no JSON found")
+            q, reason = part_accept(part, obj, verb) if obj is not None else (None, "no JSON found")
             if q and part == "what" and who is not None and noun(q["answer"]) == noun(who):
                 q, reason = None, "who and what are the same"
             if q:

@@ -213,6 +213,30 @@ void main() {
       Scenario.checkContent(QKind.where, p('in the kitchen', ['on the sun', 'inside a volcano', 'in outer space'])); // fine
     });
 
+    test('stricter content check from baseline b2 (Entry 10): question echoes, why = verb, when = place', () {
+      Question p(String a, List<String> w) => Question([a, ...w], a);
+      void bad(QKind k, String a, {String verb = 'cook'}) =>
+          expect(() => Scenario.checkContent(k, p(a, ['x y', 'z w', 'v u']), verb: verb), throwsA(isA<FormatException>()), reason: a);
+      void ok(QKind k, String a, {String verb = 'cook'}) => Scenario.checkContent(k, p(a, ['x y', 'z w', 'v u']), verb: verb);
+      bad(QKind.what, 'what the chef cooks'); // seen 59 times in b2
+      bad(QKind.when, 'when');
+      bad(QKind.why, 'to cook');
+      bad(QKind.why, 'to cook it');
+      bad(QKind.why, 'to drive', verb: 'drive');
+      bad(QKind.why, 'to washing', verb: 'wash');
+      bad(QKind.when, 'at home'); // seen 20 times in b2
+      bad(QKind.when, 'in the kitchen');
+      ok(QKind.what, 'dinner');
+      ok(QKind.why, 'to make breakfast');
+      ok(QKind.why, 'to wash the dishes', verb: 'wash'); // more than the verb
+      ok(QKind.when, 'in the morning');
+      ok(QKind.when, 'at night');
+      ok(QKind.when, 'after school');
+      ok(QKind.when, 'on the way home'); // a dataset answer: time word "way"
+      ok(QKind.when, 'at the party'); // an event, not a place
+      ok(QKind.where, 'in the kitchen');
+    });
+
     test('who and what must differ, also with articles ("a chef" vs "chef")', () {
       expect(() => Scenario.checkWhoWhat(q('a chef', ['x', 'y', 'z']), q('chef', ['x', 'y', 'z'])), throwsA(isA<FormatException>()));
       expect(Scenario.noun('the egg'), 'egg');

@@ -116,6 +116,7 @@ status after every run. Notebooks that produced results are never edited: fork t
 |---|---|---|---|---|---|---|
 | 2.01 | `notebooks/marimo/2_evaluation/01_baseline_qwen25_untuned.py` | Baseline: untuned Qwen2.5-1.5B-Instruct on validation + test, long/short prompt × schema/free decoding, automatic scores | – | **done** 2026-11-10 (RTX PRO 6000, ~2 min generation); output export `2_evaluation/baseline_qwen_untuned_results.ipynb` | run `b1-qwen25-1.5b-instruct-untuned` (W&B id = run name); outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 5 |
 | 2.02 | `notebooks/marimo/2_evaluation/02_baseline_llama32_1b_untuned_parts.py` | Baseline b2: untuned Llama-3.2-1B-Instruct on dataset v2 (one question per request), validation + test, protocols **forced** (reference earlier answers, greedy) and **chain** (the app's way: own answers, ≤ 3 tries/part, temperature 0.3, seed 20261111) × decodings schema (app JSON rule) / free; module 1.1.1 | NB 2.01 (+ stop-token fix from `notes/nb2.02_stop_token_fix.patch`) | ready (embedded 1.1.1, all 44 `wc.*` names defined, compiles, marimo check: formatting warnings only); **done** 2026-11-11 (RTX PRO 6000, ≈ 1 min generation in total); export `2_evaluation/baseline_b2_results.ipynb` (keys redacted). Smoke test passed beforehand | run `b2-llama32-1b-instruct-untuned`; outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 10 (pending) |
+| 2.02b | `notebooks/marimo/2_evaluation/02b_baseline_llama32_1b_untuned_parts_rescore.py` | Re-scoring of b2 with module 1.1.2 (stricter content check); no generation (reads NB 2.02's raw outputs); preds/tables under `2.02b`, config `runs/<run>/config_2.02b.json` | NB 2.02 | **done** 2026-11-11, run on the laptop (CPU, no model; W&B off); note: it replaced the run's `_done/score.json` and `_done/summary.json` markers (2.02's remain in the HF history) | run `b2-llama32-1b-instruct-untuned` (same run) | Entry 10 |
 
 Status values: `draft` → `ready (offline checks pass)` → `running` → `done` / `failed` / `superseded by NB x`.
 
@@ -145,7 +146,19 @@ Greedy decoding, bf16 on GPU (not the phone's 4-bit model).
 | chain | schema | – | – | – | **11.8 (0.0–24.0)**² | 5.3 | 12 / 0 / 50 / 3 / 2 |
 | chain | free | – | – | – | 9.2 (0.0–18.0)² | 5.6 | 13 / 0 / 50 / 3 / 3 |
 
-² **Overstated**: the content check missed echoed "what" answers (59 of 69 accepted "what" answers on test were like "what the chef cooks"), "why" answers that repeat the verb ("to cook") and "when" answers that are places ("at home") → re-score with a stricter check (Entry 10).
+**Corrected (NB 2.02b, module 1.1.2 stricter check, same outputs re-scored; these are the b2 numbers to compare against):**
+
+| Protocol | Decoding | Questions accepted % (CI) | Answer = reference % | Echoes question/instructions % | Exercises completed % | Failed at (who/what/where/when/why) |
+|---|---|---|---|---|---|---|
+| forced | schema | **25.5 (17.2–35.5)** | 4.7 | 44.5 | – | – |
+| forced | free | 23.4 (15.0–33.0) | 4.2 | 42.9 | – | – |
+| chain | schema | – | – | – | **0 (lower bound³)** | 12 / 55 / 8 / 1 / 0 |
+| chain | free | – | – | – | 0 (lower bound³) | 13 / 53 / 10 / 0 / 0 |
+
+By part (forced, schema, test): who 56.6 % (43.4 % generic), **what 13.2 %** (77.6 % "what the … cooks"), **where 0 %** ("the usual place"), when 28.9 %, why 28.9 %.
+³ Chain re-scored from the saved tries only: where the old check accepted an answer the new one rejects, the app's further retries were never generated.
+
+² **Overstated (superseded by the corrected table above)**: the content check missed echoed "what" answers (59 of 69 accepted "what" answers on test were like "what the chef cooks"), "why" answers that repeat the verb ("to cook") and "when" answers that are places ("at home") → re-score with a stricter check (Entry 10).
 
 ¹ In `tables/b1__2.01__summary.csv` on HF (`any_bad_distractor_pct`); the download from the laptop timed out on 2026-11-10. The automatic check only covers who/what and only knows the dataset's objects, so it is a **lower bound** (Entry 5).
 
@@ -544,6 +557,17 @@ Per test verb (chain, schema): cook 30.8 %, paint 6.7 %, drive / plant / wash 0 
 - **"when" as a place:** "at home" (20 of 46 accepted), and "when" itself (4).
 The same gaps exist in the app's `Scenario.checkContent`. → Stricter check in app + module, then re-score b2 from its saved raw outputs (no GPU needed).
 
+**Fix and re-score (same day):**
+- Stricter check, identical in the app (`Scenario.checkContent`, 23 app tests pass) and module **1.1.2** (`content_problem`; the module's tests read the word lists from
+  `scenario.dart` and compare): (1) no answer starting with a question word (who/what/where/when/why/how); (2) "why" may not only repeat the verb ("to cook", "to cook it");
+  (3) "when" may not be a place: rejected if it has a place word (home, kitchen, garden, …) and no time word (morning, night, dinner, way, …) and doesn't start with
+  after/before/during/while/every/… . Word lists built from dataset v2: **all 4,155 dataset answers still pass**.
+- **NB 2.02b** re-scored b2's saved outputs (§6.1, corrected table): **forced 25.5 %** of test questions accepted (was 50.0 %), what 13.2 % (was 90.8 %), where 0 %;
+  **chain 0 %** of test exercises completed (was 11.8 %; lower bound, missing retries). The 9 exercises "completed" before all contained an echoed answer.
+- Conclusion unchanged and sharper: the untuned student model cannot do the task in the app's format; it mostly repeats the instruction wording.
+
+**Status:** ✅ b2 = the corrected numbers (NB 2.02b). App with the stricter check built and tested; install on the phone with the next build.
+
 ---
 
 ## 8. What Failed / Dead Ends
@@ -559,6 +583,7 @@ The same gaps exist in the app's `Scenario.checkContent`. → Stricter check in 
 | 2026-11-10 | Ready-made MLC packages for Linux (`mlc-llm-nightly-cpu 0.26.dev6` + `mlc-ai-nightly-cpu 0.26.dev246`, the only Linux pair on mlc.ai/wheels; `0.26.dev20` is Windows-only) to compile Llama-3.2-1B for Android | Mismatched pair: dev6 = mlc-llm `9fa644f5` needs a newer TVM (`tirx.is_buffer_var` missing). Reverting that commit's 8 lines (`tools/mlc_patches/revert_9fa644f5_for_tvm_dev246.patch`) got past it, then the compiler **segfaulted** in the Dlight stage (compiled-code mismatch) | Build TVM + MLC from one source checkout (also needed for the Android engine library) |
 | 2026-11-11 | MLC `main` (`44fd06d0`, TVM `629cc658`) built from source (TVM with LLVM 18, MLC host lib) to compile Llama-3.2-1B for Android | (1) Two `tvm-ffi` copies in the tree: the C++ build uses `tvm-tirx/3rdparty/tvm-ffi` (`6628c46`), the outer one (`21e30c3`) gave `__ffi_shallow_copy__ must be an ffi.Function` → install the nested one. (2) Then, after 7 min of compiling: `TypeError: Cannot treat type ir.Call[ty=tirx.TensorType] as type ir.PrimExpr`, `Error in pass: AttachGlobalSymbol` (inside TVM; MLC main's Android/OpenCL path appears broken) | Build the exact 2024 version the app's engine came from (mlc-llm `7561c96d`, TVM `2912b0fc`) in a separate worktree `research/mlc-llm-2024` (worked, Entry 7) |
 | 2026-11-11 | v1 content filter (`common.UNSUITABLE` + teacher's suitability flag) | Let through 2 ConceptNet sexual-slang sentences ("spread pussy" in train, "eat pussy" in validation); the teacher explained them innocently | Add a sexual/crude slang list (v2); scan every sentence and teacher answer before training; therapist review |
+| 2026-11-11 | Content check (app + module 1.1.1) used for baseline b2 | Accepted echoed answers ("what the chef cooks": 59 of 69 accepted test "what"), "why" = the verb ("to cook"), "when" = a place ("at home") → b2 first reported 11.8 % exercises completed, really 0 % | Read samples of accepted outputs before trusting an acceptance rate; check rules against every dataset answer (no good answer rejected) and against seen failures |
 | 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works. **Cause (2026-11-11): HF's Xet transfer backend** | Set `HF_HUB_DISABLE_XET=1` (uploads and downloads then work from the laptop); or `curl` from `resolve/<revision>/` and pin the revision |
 
 ---

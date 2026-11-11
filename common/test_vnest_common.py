@@ -187,4 +187,27 @@ with tempfile.TemporaryDirectory() as _mirror, tempfile.TemporaryDirectory() as 
     finally:
         del os.environ["VNEST_OFFLINE"], os.environ["VNEST_OFFLINE_DIR"]
 print("offline mode: no uploads, mirror + own-file downloads, stage markers resume locally")
+# 15. stricter content check (1.1.2): same word lists as the app, b2 failures caught, every dataset answer still passes
+sc = (ROOT / "vnest_app" / "lib" / "data" / "scenario.dart").read_text()
+def _dart_set(name):
+    m = re.search(rf"static const {name} = \{{(.*?)\}};", sc, re.S)
+    return set(re.findall(r"'([^']*)'", m.group(1)))
+for _name, _py in (("questionWords", wc.QUESTION_WORDS), ("timeWords", wc.TIME_WORDS), ("whenStarters", wc.WHEN_STARTERS),
+                   ("placeWords", wc.PLACE_WORDS), ("genericPeople", wc.APP_GENERIC_PEOPLE)):
+    assert _dart_set(_name) == _py, (_name, _dart_set(_name) ^ _py)
+for part, ans, verb in [("what", "what the chef cooks", "cook"), ("when", "when", "cook"), ("why", "to cook", "cook"),
+                        ("why", "to cook it", "cook"), ("why", "to drive", "drive"), ("why", "to washing", "wash"),
+                        ("when", "at home", "cook"), ("when", "in the kitchen", "cook")]:
+    assert wc.content_problem(part, ans, [ans], verb), (part, ans)
+for part, ans, verb in [("what", "dinner", "cook"), ("why", "to make breakfast", "cook"), ("why", "to wash the dishes", "wash"),
+                        ("when", "in the morning", "cook"), ("when", "at night", "cook"), ("when", "after school", "cook"),
+                        ("when", "on the way home", "cook"), ("when", "at the party", "cook"), ("where", "in the kitchen", "cook")]:
+    assert wc.content_problem(part, ans, [ans], verb) is None, (part, ans)
+_n = 0
+for rows, split in ((tr2, "train"), (va2, "validation"), (te2, "test")):
+    for it in wc.part_items_from_split(rows, split):
+        s_ = wc.score_part(it["ref_reply"], it["part"], it["verb"], {}, it["ref_answer"])
+        assert s_["accepted"], (it["verb"], it["part"], it["ref_reply"], s_["reject_reason"])
+        _n += 1
+print(f"stricter check: word lists identical to the app's; b2 failures caught; all {_n} dataset answers still pass")
 print("ALL CHECKS PASSED, module", wc.VERSION)
