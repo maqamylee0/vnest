@@ -463,6 +463,16 @@ Wrong: 3 things that cannot cook.`; what: "Wrong: 3 things nobody can cook"; whe
 why: "the usual reason, starting with \"to\" (2 to 5 words)", "3 silly reasons"; repeat people: "The answer must not be: chef, grandma."
 `Scenario.partFromModel` accepts both reply shapes. 21 tests pass. Installed 09:2x.
 
+**Second phone run (≈ 09:25, fixed-field replies, untuned Llama-1B):** ⚠️ structure works, content doesn't.
+- One exercise got through who, what, where (4 options each, answer included) and failed at "when" after 3 tries (`fewer than 4 different options`: repeated options).
+- Content: who = "a person" (generic; wrong: a car, a book, a tree); what = "food" (wrong: money, a car, a tree); **where = "the usual place"**, i.e. the
+  model copied the instruction words as the answer, and real places (the kitchen, the microwave, the oven) became the "wrong" options.
+- Speed: 73 s for 191 tokens across the requests (incl. retries); decode with the 4-field JSON rule ≈ 3.4 tok/s vs ≈ 7 tok/s without → the JSON rule
+  roughly halves Llama-1B's decode speed. Re-measure after fine-tuning (the app checks every reply anyway).
+- Conclusion: the untuned model follows the format but echoes instruction phrases instead of doing what they say. Further prompt tuning on the untuned
+  model has little value → dataset v2 in this exact format + fine-tuning. Candidate app check: reject generic "who" answers (a person, someone) and answers
+  that repeat instruction wording ("the usual place").
+
 **Status:** ⚠️ Built and installed on the Note10; phone check pending. Expect weak content and some retries: Llama-1B is untuned and has never seen this prompt format.
 
 ---
