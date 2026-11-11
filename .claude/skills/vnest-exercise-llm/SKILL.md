@@ -35,6 +35,12 @@ Until a TO DECIDE value is chosen by the user, ask; do not invent it in a notebo
 
 ## 3. Scoring: one definition for every model
 
+**Per-part format (dataset v2, module ≥ 1.1.0):** score every reply with `wc.score_part` (`wc.PART_METRICS`) and whole exercises with
+`wc.score_chain` (the app's ≤ 3 tries per part, who ≠ what). Build prompts only with `wc.part_prompt` / `wc.PART_SYSTEM_PROMPT` and decode with
+`wc.PART_SCHEMA`, max `wc.PART_MAX_NEW_TOKENS`. Report two protocols: **teacher-forced** (each part given the reference earlier parts, as in the
+dataset) and **chained** (each part given the model's own earlier answers, as in the app). The whole-exercise rules below apply to v1-style runs.
+
+
 One shared scoring function, used by every notebook and for both baselines and fine-tuned models:
 
 - **Acceptance**: the output parses as JSON and passes the same checks as `Scenario.fromModel` in `vnest_app/lib/data/scenario.dart` (5 questions, 4 different options, answer among them, ≤ 6 words, who ≠ what). Port these checks exactly; if the app's checks change, change the scorer and log it.

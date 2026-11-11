@@ -74,4 +74,84 @@ import pandas as pd  # noqa: E402
 rows = [{**wc.score_output(it["ref_json"], it["verb"], refs[it["verb"]]), "verb": it["verb"], "split": it["split"],
          "gen_tokens": 150} for it in items]
 print(wc.summarise(pd.DataFrame(rows), ["split"])[["split", "n", "n_verbs", "accepted_pct", "accepted_ci", "who_is_person_pct"]].to_string(index=False))
+# ===================================== per-part format (module 1.1.0, dataset v2) =====================================
+import re  # noqa: E402
+
+v2 = ROOT / "vnest_dataset" / "out_v2"
+tr2, va2, te2 = (wc.load_jsonl(v2 / f"{s}.jsonl") for s in ("train", "validation", "test"))
+
+# 7. app <-> scorer: the system line and the JSON rule are the app's (read from its source)
+dart = (ROOT / "vnest_app" / "lib" / "services" / "llm_service.dart").read_text()
+m = re.search(r"static const partSystemPrompt =(.*?);\n", dart, re.S)
+dart_system = "".join(re.findall(r"'((?:[^'\\]|\\.)*)'", m.group(1)))
+assert dart_system == wc.PART_SYSTEM_PROMPT, (dart_system, wc.PART_SYSTEM_PROMPT)
+assert re.search(r"partTries = 3\b", dart) and wc.PART_TRIES == 3
+assert re.search(r"_partMaxTokens = 48\b", dart) and wc.PART_MAX_NEW_TOKENS == 48
+for f in wc.PART_FIELDS:
+    assert f"'{f}'" in dart, f
+print("app: system line, fields, tries and token limit identical to llm_service.dart")
+
+# 8. v2 split rule + every example: system line, rebuilt prompt identical, reference accepted and clean
+ov2 = wc.check_split_verbs(tr2, va2, te2)
+assert not ov2["train&val"] and not ov2["train&test"] and not ov2["val&test"], ov2
+assert tuple(ov2["test_verbs"]) == wc.TEST_VERBS and tuple(ov2["val_verbs"]) == wc.VALIDATION_VERBS, ov2
+n = 0
+for rows, split in ((tr2, "train"), (va2, "validation"), (te2, "test")):
+    for r, it in zip(rows, wc.part_items_from_split(rows, split)):
+        assert r["messages"][0]["content"] == wc.PART_SYSTEM_PROMPT
+        assert wc.part_prompt(it["verb"], it["part"], it["done"], it["avoid"]) == r["messages"][1]["content"], (it, r)
+        s = wc.score_part(it["ref_reply"], it["part"], it["verb"], {}, it["ref_answer"])
+        assert s["accepted"] and s["answer_matches_ref"] and not s["echoes_instructions"] and not s["generic_who"], (it, s)
+        n += 1
+print(f"v2: {n} examples: system line, prompts rebuilt identically, every reference accepted, matches itself, clean")
+
+# 9. the failures seen on the phone (Entry 8) are caught
+P = lambda **k: json.dumps(k)  # noqa: E731
+cases = {
+    "copied hint as option (old shape)": ("who", json.dumps({"options": ["a person who often cooks something", "a chef", "a cook", "a person who cooks"], "answer": "a chef"}), "repeats the instructions"),
+    "generic who": ("who", P(answer="a person", wrong1="a car", wrong2="a book", wrong3="a tree"), "not a particular kind of person"),
+    "echoed instruction as answer": ("where", P(answer="the usual place", wrong1="the kitchen", wrong2="the microwave", wrong3="the oven"), "repeats the instructions"),
+    "repeated options": ("when", P(answer="at night", wrong1="at night", wrong2="while sleeping", wrong3="while sleeping"), "fewer than 4 different options"),
+    "cut-off JSON": ("who", '{"options": ["a cook", "a chef", "a teacher", "a parent", "a pa', "no JSON found"),
+    "answer missing (old shape)": ("what", json.dumps({"options": ["egg", "rice", "soup", "bread"], "answer": "breakfast"}), "is not one of the options"),
+    "option too long": ("why", P(answer="to eat", wrong1="to fly over the moon and back again", wrong2="to grow wings", wrong3="to stop the sun"), "too long"),
+}
+for name, (part, text, expect) in cases.items():
+    s = wc.score_part(text, part, "cook", {})
+    assert not s["accepted"] and expect in s["reject_reason"], (name, s)
+ok = wc.score_part(P(answer="Chef.", wrong1="cloud", wrong2="candle", wrong3="cup"), "who", "cook", {"agents": {"chef"}}, "chef")
+assert ok["accepted"] and ok["who_is_person"] and ok["who_known_valid"] and ok["answer_matches_ref"], ok
+bad = wc.score_part(P(answer="chef", wrong1="baker", wrong2="cloud", wrong3="cup"), "who", "cook", {"agents": {"chef"}})
+assert bad["accepted"] and bad["bad_distractors"] == 1, bad
+print("phone failures: copied hint / generic who / echoed instruction / repeated options / cut-off JSON / answer missing / long option all caught")
+
+# 10. the chain: the app's 3 tries per part, stop at the first part that never passes, who != what
+good = {p: [it["ref_reply"]] for p, it in zip(wc.QUESTIONS, wc.part_items_from_split(te2[:5], "test"))}
+c = wc.score_chain(good, "cook", {})
+assert c["exercise_accepted"] and c["total_tries"] == 5 and c["failed_part"] == "", c
+retry = dict(good, where=["not json", P(answer="x", wrong1="x", wrong2="x", wrong3="x"), good["where"][0]])
+c = wc.score_chain(retry, "cook", {})
+assert c["exercise_accepted"] and c["where_tries"] == 3 and c["total_tries"] == 7, c
+give_up = dict(good, who=["bad", "bad", "bad", good["who"][0]])  # a 4th try is never used
+c = wc.score_chain(give_up, "cook", {})
+assert not c["exercise_accepted"] and c["failed_part"] == "who" and c["total_tries"] == 3, c
+who_ans = json.loads(good["who"][0])["answer"]
+same = dict(good, what=[P(answer=who_ans, wrong1="anger", wrong2="tuesday", wrong3="boredom")] * 3)
+c = wc.score_chain(same, "cook", {})
+assert not c["exercise_accepted"] and c["failed_part"] == "what" and c["fail_reason"] == "who and what are the same", c
+print("chain: complete / retried part / give up after 3 / who == what all behave like the app")
+
+# 11. per-part summary runs (bootstrap over verbs)
+items2 = wc.part_items_from_split(te2, "test") + wc.part_items_from_split(va2, "validation")
+refs2 = wc.known_valid(items2)
+rows2 = [{**wc.score_part(it["ref_reply"], it["part"], it["verb"], refs2[it["verb"]], it["ref_answer"]),
+          "verb": it["verb"], "split": it["split"], "part": it["part"]} for it in items2]
+df2 = pd.DataFrame(rows2)
+for mtr in wc.PART_METRICS:
+    df2[mtr] = df2[mtr].astype(bool)
+old_metrics, wc.METRICS = wc.METRICS, wc.PART_METRICS
+try:
+    print(wc.summarise(df2, ["split", "part"])[["split", "part", "n", "n_verbs", "accepted_pct", "who_known_valid_pct", "any_bad_distractor_pct"]].to_string(index=False))
+finally:
+    wc.METRICS = old_metrics
 print("ALL CHECKS PASSED, module", wc.VERSION)

@@ -6,6 +6,10 @@ Import-time dependencies: standard library only (pandas/numpy/torch/hf/wandb imp
 
 Changelog
 - 1.0.0 (2026-11-10): first version, for NB 2_evaluation/01 (untuned baselines).
+- 1.1.0 (2026-11-11): per-part scoring for dataset v2 / the app's one-question-per-request format (RESEARCH_LOG Entries 8-9):
+  PART_SYSTEM_PROMPT, PART_SCHEMA, part_prompt, part_accept (port of Scenario.partFromModel + checkContent),
+  part_items_from_split, score_part, score_chain (the app's 3 tries per part, who != what), PART_METRICS.
+  DATA_VERSION -> "v2". Whole-exercise functions (app_accept, score_output, ...) unchanged.
 """
 from __future__ import annotations
 
@@ -19,7 +23,7 @@ import socket
 import time
 from pathlib import Path
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 # ---------------------------------------------------------------------------------------------------------------
 # Project constants (decided 2026-11-10, see RESEARCH_LOG.md §4)
@@ -30,7 +34,7 @@ OUTPUTS_PRIVATE = True
 MODEL_REPOS_PRIVATE = True  # TO DECIDE before the first model upload (licences); private until then
 WANDB_ENTITY = "team-me-and-me"
 WANDB_PROJECT = "vnest-exercise-llm"
-DATA_VERSION = "v1"  # the 2026-11-10 dataset build
+DATA_VERSION = "v2"  # 2026-11-11: one question per example (v1 = the 2026-11-10 build; not for training)
 
 TEST_VERBS = ("cook", "drive", "paint", "plant", "wash")
 VALIDATION_VERBS = ("chop", "eat", "lift", "play", "smell")
@@ -294,6 +298,164 @@ def score_output(text: str, verb: str, refs: dict) -> dict:
 
 METRICS = ["json_found", "accepted", "copies_example", "generic_who", "who_is_person", "who_known_valid",
            "what_known_valid", "any_bad_distractor", "answer_first_all"]
+
+# ---------------------------------------------------------------------------------------------------------------
+# Per-part format (dataset v2; the app writes one question per request; RESEARCH_LOG decisions 2026-11-11, Entries 8-9)
+# Everything here is a port of vnest_app/lib/services/llm_service.dart (partSystemPrompt, partSchema, partPrompt,
+# partTries) and vnest_app/lib/data/scenario.dart (partFromModel, checkContent, checkWhoWhat, noun).
+# test_vnest_common.py checks these against the app's source and against every v2 example.
+# ---------------------------------------------------------------------------------------------------------------
+PART_SYSTEM_PROMPT = ("You write Verb Network Strengthening Treatment (VNeST) exercises for adults with aphasia. "
+                      "Each question has one correct answer and 3 wrong options that are clearly impossible. "
+                      "Use short, very common, concrete English words. "
+                      'Reply only with JSON: {"answer": "...", "wrong1": "...", "wrong2": "...", "wrong3": "..."}.')
+PART_FIELDS = ("answer", "wrong1", "wrong2", "wrong3")
+PART_SCHEMA = {"type": "object", "properties": {k: {"type": "string"} for k in PART_FIELDS},
+               "required": list(PART_FIELDS), "additionalProperties": False}
+PART_TRIES = 3          # the app redoes a failed part up to 3 times in total (LlmService.partTries)
+PART_MAX_NEW_TOKENS = 48  # the app's limit per question
+
+# Scenario.genericPeople / Scenario.instructionEchoes (the app's content checks; not the same set as GENERIC_WHO above)
+APP_GENERIC_PEOPLE = {"person", "someone", "somebody", "people", "anyone", "anybody", "human", "a human", "man", "woman",
+                      "they", "you", "everyone", "adult", "patient"}
+INSTRUCTION_ECHOES = ("usual place", "usual time", "usual reason", "a person who", "person who", "things that cannot",
+                      "nobody can", "impossible place", "impossible time", "silly reason", "wrong option",
+                      "correct answer", "the answer")
+
+def noun(s: str) -> str:  # Scenario.noun: "a chef" -> "chef"
+    return re.sub(r"^(a|an|the)\s+", "", s)
+
+def part_prompt(verb: str, part: str, done: dict, avoid: list[str] | None = None) -> str:
+    """LlmService.partPrompt. done = {part: answer} for the parts before this one (answers as the app holds them, cleaned)."""
+    v3 = third_person(verb)
+    a = lambda k: noun(done[k])  # noqa: E731
+    head = f'VNeST "{verb}". {part}?'
+    if part == "who":
+        return (f"{head} Answer: a person (1 or 2 words) who often {v3} things. Wrong: 3 things that cannot {verb}."
+                + (f" The answer must not be: {', '.join(avoid)}." if avoid else ""))
+    if part == "what":
+        return f"{head} The {a('who')} {v3} ___. Answer: what the {a('who')} {v3}. Wrong: 3 things nobody can {verb}."
+    if part == "where":
+        return (f"{head} The {a('who')} {v3} the {a('what')} ___. "
+                "Answer: the usual place (2 to 4 words). Wrong: 3 impossible places.")
+    if part == "when":
+        return (f"{head} The {a('who')} {v3} the {a('what')} {done['where']} ___. "
+                "Answer: the usual time (2 to 4 words). Wrong: 3 impossible times.")
+    if part == "why":
+        return (f"{head} The {a('who')} {v3} the {a('what')} {done['where']} {done['when']} ___. "
+                'Answer: the usual reason, starting with "to" (2 to 5 words). Wrong: 3 silly reasons.')
+    raise ValueError(part)
+
+def avoid_from_part_prompt(user_text: str) -> list[str]:
+    m = re.search(r"The answer must not be: (.*)\.$", user_text)
+    return [x.strip() for x in m.group(1).split(",")] if m else []
+
+def part_accept(part: str, obj) -> tuple[dict | None, str | None]:
+    """Port of Scenario.partFromModel + Scenario.checkContent (the app's checks on ONE question).
+    Accepts the fixed-field reply {"answer", "wrong1", "wrong2", "wrong3"} and the older {"options": [...], "answer"}.
+    Returns ({"options": [answer + 3 others], "answer": answer}, None) or (None, reason). who != what is checked in score_chain."""
+    if not isinstance(obj, dict):
+        return None, f"{part}: not a JSON object"
+    answer = clean_option(obj.get("answer") if obj.get("answer") is not None else "")
+    listed = [obj.get(k) for k in PART_FIELDS] if "wrong1" in obj else (obj.get("options") if isinstance(obj.get("options"), list) else [])
+    options = []
+    for o in listed:
+        if o is None:
+            continue
+        c = clean_option(o)
+        if c and c not in options:
+            options.append(c)
+    if not answer:
+        return None, f"{part}: empty answer"
+    if answer not in options:
+        return None, f'{part}: answer "{answer}" is not one of the options'
+    wrong = [o for o in options if o != answer]
+    if len(wrong) < 3:
+        return None, f"{part}: fewer than 4 different options"
+    picked = [answer] + wrong[:3]
+    for o in picked:
+        if len(o.split(" ")) > 6:
+            return None, f'{part}: option too long: "{o}"'
+    if part == "who" and noun(answer) in APP_GENERIC_PEOPLE:
+        return None, f'who: "{answer}" is not a particular kind of person'
+    for o in picked:
+        for e in INSTRUCTION_ECHOES:
+            if e in o:
+                return None, f'{part}: "{o}" repeats the instructions'
+    return {"options": picked, "answer": answer}, None
+
+def part_items_from_split(rows: list[dict], split: str) -> list[dict]:
+    """One item per v2 example (one question). 'done' holds the reference answers of the earlier parts of the same exercise
+    (rows are grouped by exercise, who..why in order), so the exact dataset prompt can be rebuilt (teacher forcing)."""
+    items, done, group = [], {}, None
+    for i, r in enumerate(rows):
+        m = r["meta"]
+        g = (m["sentence_id"], m.get("variant", 0))
+        if g != group:
+            group, done = g, {}
+        ref = json.loads(r["messages"][2]["content"])
+        items.append({"split": split, "idx": i, "verb": m["verb"], "part": m["part"], "sentence_id": m["sentence_id"],
+                      "variant": m.get("variant", 0), "avoid": avoid_from_part_prompt(r["messages"][1]["content"]),
+                      "done": dict(done), "ref_answer": clean_option(ref["answer"]), "ref_reply": r["messages"][2]["content"],
+                      "ref_agent": m["agent"], "ref_patient": m["patient"]})
+        done[m["part"]] = clean_option(ref["answer"])
+    return items
+
+def score_part(text: str, part: str, verb: str, refs: dict, ref_answer: str = "") -> dict:
+    """Every per-reply metric for one question. refs = known_valid(items)[verb]. All automatic; none is a therapist judgement."""
+    obj, how = extract_json(text)
+    q, reason = part_accept(part, obj) if obj is not None else (None, "no JSON found")
+    raw_answer = clean_option(obj.get("answer", "")) if isinstance(obj, dict) else ""
+    row = {"json_found": obj is not None, "json_how": how, "accepted": q is not None, "reject_reason": reason or "",
+           "answer": raw_answer, "answer_matches_ref": bool(ref_answer) and noun(raw_answer) == noun(clean_option(ref_answer))}
+    opts = q["options"] if q else []
+    row["echoes_instructions"] = isinstance(reason, str) and "repeats the instructions" in reason
+    row["generic_who"] = part == "who" and noun(raw_answer) in (APP_GENERIC_PEOPLE | GENERIC_WHO)
+    row["who_is_person"] = part == "who" and noun(raw_answer) in PEOPLE
+    row["who_known_valid"] = part == "who" and noun(raw_answer) in refs.get("agents", set())
+    row["what_known_valid"] = part == "what" and noun(raw_answer) in refs.get("patients", set())
+    bad = 0  # wrong options known to be valid answers (who: a person or a known doer; what: a known object)
+    for o in opts[1:]:
+        if part == "who" and (noun(o) in PEOPLE or noun(o) in refs.get("agents", set())):
+            bad += 1
+        elif part == "what" and noun(o) in refs.get("patients", set()):
+            bad += 1
+    row["bad_distractors"] = bad
+    row["any_bad_distractor"] = bad > 0
+    return row
+
+PART_METRICS = ["json_found", "accepted", "answer_matches_ref", "echoes_instructions", "generic_who", "who_is_person",
+                "who_known_valid", "what_known_valid", "any_bad_distractor"]
+
+def score_chain(attempts: dict, verb: str, refs: dict) -> dict:
+    """The app's behaviour for one exercise written part by part (LlmService.generateScenario): parts in order, each tried up to
+    PART_TRIES times, stop at the first part that never passes; 'what' must differ from 'who'.
+    attempts = {part: [reply text of try 1, try 2, ...]} in the order generated. Returns exercise-level metrics."""
+    out = {"exercise_accepted": False, "failed_part": "", "fail_reason": "", "total_tries": 0}
+    who = None
+    for part in QUESTIONS:
+        tries = attempts.get(part, [])[:PART_TRIES]
+        passed = None
+        for i, text in enumerate(tries, 1):
+            out["total_tries"] += 1
+            obj, _ = extract_json(text)
+            q, reason = part_accept(part, obj) if obj is not None else (None, "no JSON found")
+            if q and part == "what" and who is not None and noun(q["answer"]) == noun(who):
+                q, reason = None, "who and what are the same"
+            if q:
+                passed = q
+                out[f"{part}_tries"] = i
+                break
+            out["fail_reason"] = reason
+        if passed is None:
+            out["failed_part"] = part
+            out[f"{part}_tries"] = len(tries)
+            return out
+        if part == "who":
+            who = passed["answer"]
+    out["exercise_accepted"] = True
+    out["fail_reason"] = ""
+    return out
 
 def bootstrap_ci(values, groups, n_boot: int = 2000, seed: int = 0, alpha: float = 0.05):
     """Mean with a CI that resamples GROUPS (verbs), not items. Returns (mean, lo, hi)."""

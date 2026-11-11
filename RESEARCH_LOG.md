@@ -494,6 +494,15 @@ instruction wording ("usual place", "a person who"…); a rejected part is redon
 
 **Status:** ✅ Built and **uploaded** to HF `emmilly/vnest-exercise-llm-outputs` → `data/v2/` (train, validation, test, SHA256SUMS, stats.json,
 review_sample.csv, GENERATION.md), HF commit `a7bee66af14c2eaf9665e42840225332885cbdc0`; downloaded back and checked against SHA256SUMS: OK.
+**Scorer for the per-part format: `common/vnest_common.py` 1.1.0** (whole-exercise functions unchanged; NB 2.01 keeps its embedded 1.0.0).
+- Ports of the app: `PART_SYSTEM_PROMPT`, `PART_SCHEMA`, `part_prompt`, `part_accept` (= `partFromModel` + `checkContent`, both reply shapes), `PART_TRIES` 3, 48 tokens.
+- `part_items_from_split` (one item per v2 example, earlier reference answers → exact prompt), `score_part` (accepted, reason, `answer_matches_ref`,
+  `echoes_instructions`, `generic_who`, `who_is_person`, `who_known_valid`, `what_known_valid`, `any_bad_distractor`), `score_chain` (the app's
+  behaviour: parts in order, ≤ 3 tries each, stop at the first part that never passes, who ≠ what → `exercise_accepted`, `failed_part`, tries).
+- Offline checks (`python -I common/test_vnest_common.py .`) pass: system line/fields/tries/token limit read from `llm_service.dart` and identical;
+  all 4,155 v2 prompts rebuilt identically and every reference accepted; all phone failures of Entry 8 rejected with the right reason;
+  chain matches the app (complete / retried / give up after 3 / who == what). `DATA_VERSION` = "v2".
+
 **Not fixed:** repetitive wrong options (small pools) and weak v1 sentences (e.g. "the farmer milks the job") → therapist review of `out_v2/review_sample.csv`.
 **Next:** scorer for the per-part format; baseline b2 (untuned Llama-3.2-1B, same protocol); fine-tuning.
 
