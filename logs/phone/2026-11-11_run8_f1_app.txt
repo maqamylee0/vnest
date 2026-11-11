@@ -1,0 +1,22 @@
+11-11 11:43:05.390 load start Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0
+11-11 11:43:11.624 load done Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0 in 6233 ms
+11-11 11:43:17.860 first token after 6232 ms
+11-11 11:43:26.520 usage prompt=123 completion=29 prefill_tps=19.761505 decode_tps=3.2327816
+11-11 11:43:29.402 first token after 2877 ms
+11-11 11:43:37.116 usage prompt=119 completion=33 prefill_tps=41.4116 decode_tps=4.1485486
+11-11 11:43:40.029 first token after 2909 ms
+11-11 11:43:48.320 usage prompt=124 completion=38 prefill_tps=42.67174 decode_tps=4.4637485
+11-11 11:43:51.218 first token after 2892 ms
+11-11 11:43:59.381 usage prompt=127 completion=37 prefill_tps=43.966286 decode_tps=4.4108205
+11-11 11:44:02.963 first token after 3580 ms
+11-11 11:44:11.804 usage prompt=136 completion=42 prefill_tps=38.01281 decode_tps=4.6375275
+11-11 11:44:15.498 first token after 3666 ms
+11-11 11:44:23.031 usage prompt=131 completion=30 prefill_tps=35.77117 decode_tps=3.850162
+11-11 11:44:26.004 first token after 2967 ms
+11-11 11:44:33.694 usage prompt=119 completion=32 prefill_tps=40.169563 decode_tps=4.032212
+11-11 11:44:36.717 first token after 3019 ms
+11-11 11:44:45.237 usage prompt=124 completion=38 prefill_tps=41.15905 decode_tps=4.3423285
+11-11 11:44:48.244 first token after 3004 ms
+11-11 11:44:56.648 usage prompt=127 completion=37 prefill_tps=42.3253 decode_tps=4.2843394
+11-11 11:45:00.384 first token after 3732 ms
+11-11 11:45:09.128 usage prompt=136 completion=40 prefill_tps=36.503555 decode_tps=4.46139

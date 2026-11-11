@@ -184,6 +184,7 @@ Validation: f1 100 % / 100 %; base 15 % questions, 0 % exercises. **Automatic sc
 |---|---|---|---|---|---|---|
 | Llama-3.2-3B-Instruct | q4f16_0 | ~1.7 GB | | ≈ 2 min | | Entry 0 |
 | Qwen2.5-1.5B-Instruct (untuned) | | | | ≈ 1 min | | Entry 0 |
+| **VNeST f1 (Llama-3.2-1B + LoRA, fine-tuned)** | q4f16_0 | 704.5 MB | 6.2 s | **≈ 55–60 s per exercise** (5 requests, 10.6–12.4 s each; JSON rule on) | prefill ≈ 40, decode ≈ 4.2 | Entry 12; exercise valid on the first try |
 
 ---
 
@@ -639,7 +640,16 @@ labelled "Llama-3.2-1B (untuned)". Includes the stricter content check (Entry 10
 **Phone run 8, first try:** loading "VNeST f1 (1B)" **closed the app** (twice): `SIGABRT` from a **Rust panic** (`panic_cannot_unwind`) in `libtvm4j_runtime_packed.so`, i.e. the engine's tokenizer (HF tokenizers, Rust). Cause: transformers 5 saved the merged model's `tokenizer.json` with BPE merges as pairs (`["a", "b"]`, 17.2 MB) instead of strings (`"a b"`, 9.1 MB in the stock model); the engine's 2024 tokenizer can't read pairs and aborts. (The untuned run just before showed the stricter check working on the phone: "a person" and "what the family cooks" rejected.)
 **Fix (NB 3.01 verify stage):** prove the tokenizer is identical in content to the stock model's (all 128,000 tokens, 280,147 merges after the format change, 256 special tokens, normalizer, pre-/post-processor, decoder), then ship the stock `tokenizer.json` + `tokenizer_config.json`; upload and push stages now re-run when the files' content fingerprint changes. Re-exported (704.5 MB), re-uploaded, re-pushed; tokenizer files on the phone byte-identical to the stock model's.
 
-**Status:** ⚠️ Fixed export installed; phone test pending.
+**Phone run 8, after the fix (11:43):** ✅ **"VNeST f1 (1B)" loads (6.2 s) and writes valid exercises on the Note10.** First exercise, every part accepted on the
+first try: *The mother cooks the dinner* (who ✓mother vs banana/bottle/cup; what ✓dinner vs yesterday/tuesday/boredom; where ✓in the kitchen vs inside a
+teapot/inside a raindrop/on a star; when ✓in the evening vs before time began/while sleeping/while flying to the moon; why ✓to feed the family vs to make it rain/
+to turn into a cloud/to turn into a bird). Screenshot `logs/phone/2026-11-11_run8_f1_first_exercise.png`; timings `logs/phone/2026-11-11_run8_f1_app.txt`.
+Per question (one request, JSON rule on): prompt 119–136 tokens, **10.6–12.4 s**, prefill ≈ 36–44 tok/s (first request 19.8, warm-up), **decode 3.2–4.6 tok/s**,
+29–42 output tokens. Whole exercise ≈ 55–60 s (card: 60 s, 179 tokens); first question ready after ≈ 12 s.
+Note: decode with the JSON rule ≈ 4.2 tok/s vs ≈ 7.3 tok/s for Llama-1B without it (Entry 7); f1 was 100 % valid without the rule on the GPU (Entry 11) → test the
+app without the JSON rule for f1 (expected ≈ 7 s per question, ≈ 35 s per exercise; the app's checks still apply).
+
+**Status:** ✅ Fine-tuned model working on the phone. Next: variety across repeated exercises, a new verb, JSON rule off, therapist review.
 
 ---
 
