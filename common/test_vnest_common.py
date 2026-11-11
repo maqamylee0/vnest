@@ -210,4 +210,19 @@ for rows, split in ((tr2, "train"), (va2, "validation"), (te2, "test")):
         assert s_["accepted"], (it["verb"], it["part"], it["ref_reply"], s_["reject_reason"])
         _n += 1
 print(f"stricter check: word lists identical to the app's; b2 failures caught; all {_n} dataset answers still pass")
+# 16. phone prompt layout = the phone's MLC conversation template (rebuilt from the config file the phone uses)
+_cfg = json.loads((ROOT / "models" / "mlc" / "Llama-3.2-1B-Instruct-q4f16_0-MLC" / "mlc-chat-config.json").read_text())["conv_template"] \
+    if (ROOT / "models" / "mlc" / "Llama-3.2-1B-Instruct-q4f16_0-MLC" / "mlc-chat-config.json").exists() else None
+if _cfg:
+    assert _cfg["name"] == "llama-3_1" and _cfg["system_prefix_token_ids"] == [128000] and _cfg["seps"] == ["<|eot_id|>"]
+    _sep, _sys, _usr = _cfg["role_content_sep"], "SYS", "USR"
+    _expected = ("<|begin_of_text|>" + _cfg["system_template"].replace("{system_message}", _sys)
+                 + _cfg["roles"]["user"] + _sep + _cfg["role_templates"]["user"].replace("{user_message}", _usr) + _cfg["seps"][0]
+                 + _cfg["roles"]["assistant"] + _cfg["role_empty_sep"])
+    assert wc.phone_prompt(_sys, _usr) == _expected, (wc.phone_prompt(_sys, _usr), _expected)
+    assert set(_cfg["stop_token_ids"]) == {128001, 128008, 128009}
+    print("phone prompt: identical to the phone's llama-3_1 template (mlc-chat-config.json); stop tokens 128001/128008/128009")
+else:
+    print("phone prompt: SKIPPED (models/mlc/Llama-3.2-1B-Instruct-q4f16_0-MLC not on this machine)")
+assert wc.model_repo("f1-llama32-1b-instruct-lora-r16") == "emmilly/vnest-exercise-llm-f1-llama32-1b-instruct-lora-r16"
 print("ALL CHECKS PASSED, module", wc.VERSION)

@@ -16,6 +16,8 @@ Changelog
   no answer starting with a question word ("what the chef cooks", "when"); "why" may not only repeat the verb ("to cook");
   "when" may not be a place ("at home"). part_accept(part, obj, verb=""); score_part / score_chain pass the verb.
   All 4,155 dataset v2 answers still pass.
+- 1.2.0 (2026-11-11): training support for NB 1_training/01: phone_prompt (the phone's MLC "llama-3_1" chat layout, exact),
+  ensure_model_repo, hf_model_upload_folder, hf_model_download_folder (offline-aware).
 """
 from __future__ import annotations
 
@@ -29,7 +31,7 @@ import socket
 import time
 from pathlib import Path
 
-VERSION = "1.1.2"
+VERSION = "1.2.0"
 
 # ---------------------------------------------------------------------------------------------------------------
 # Project constants (decided 2026-11-10, see RESEARCH_LOG.md §4)
@@ -86,6 +88,19 @@ def table_path(exp: str, nb: str, what: str) -> str:
 
 def model_repo(run: str) -> str:
     return f"{HF_USER}/vnest-exercise-llm-{_check_field(run)}"
+
+# The phone builds prompts with MLC's "llama-3_1" conversation template (models/mlc/Llama-3.2-1B-Instruct-q4f16_0-MLC/
+# mlc-chat-config.json; mlc-llm 7561c96d python/mlc_llm/conversation_template/llama.py). Hugging Face's Llama 3 template adds
+# "Cutting Knowledge Date / Today Date" lines to the system turn, which the phone never sends, so training and evaluation that
+# must match the phone build the text here instead. test_vnest_common.py rebuilds it from the phone's config file.
+PHONE_BOS = "<|begin_of_text|>"
+PHONE_EOT = "<|eot_id|>"
+
+def phone_prompt(system: str, user: str) -> str:
+    """The exact text the phone's engine feeds Llama 3.x for one system + one user message, ending where the reply starts."""
+    return (f"{PHONE_BOS}<|start_header_id|>system<|end_header_id|>\n\n{system}{PHONE_EOT}"
+            f"<|start_header_id|>user<|end_header_id|>\n\n{user}{PHONE_EOT}"
+            f"<|start_header_id|>assistant<|end_header_id|>\n\n")
 
 # ---------------------------------------------------------------------------------------------------------------
 # Prompts: identical to the app (vnest_app/lib/services/llm_service.dart) and the dataset (assemble.py)
@@ -604,6 +619,44 @@ def ensure_outputs_repo(token=None):
         return
     api = hf_api(token)
     _retry(lambda: api.create_repo(OUTPUTS_REPO, repo_type="dataset", private=OUTPUTS_PRIVATE, exist_ok=True), "create repo")
+
+def ensure_model_repo(run: str, token=None) -> str:
+    """Create the run's model repo with the project's visibility (MODEL_REPOS_PRIVATE), or fix an existing one's."""
+    repo = model_repo(run)
+    if offline():
+        return repo
+    api = hf_api(token)
+    _retry(lambda: api.create_repo(repo, repo_type="model", private=MODEL_REPOS_PRIVATE, exist_ok=True), f"create {repo}")
+    try:
+        _retry(lambda: api.update_repo_settings(repo, private=MODEL_REPOS_PRIVATE), f"visibility {repo}")
+    except Exception as e:
+        print(f"[hf] could not set visibility of {repo}: {str(e)[:80]}")
+    return repo
+
+def hf_model_upload_folder(local_dir, repo: str, path_in_repo: str, message: str, token=None, delete_patterns=None):
+    """Upload a folder into a model repo (one commit). delete_patterns removes old files there first (rolling checkpoints)."""
+    if offline():
+        print(f"[offline] not uploaded: {repo}/{path_in_repo}", flush=True)
+        return
+    api = hf_api(token)
+    _retry(lambda: api.upload_folder(repo_id=repo, repo_type="model", folder_path=str(local_dir), path_in_repo=path_in_repo or None,
+                                     commit_message=message, delete_patterns=delete_patterns), f"upload {repo}/{path_in_repo}")
+
+def hf_model_download_folder(repo: str, path_in_repo: str, local_dir, token=None):
+    """Download one folder of a model repo into local_dir/<path_in_repo>. Returns that Path, or None if it doesn't exist."""
+    local = Path(local_dir) / path_in_repo if path_in_repo else Path(local_dir)
+    if offline():
+        return local if local.is_dir() and any(local.iterdir()) else None
+    from huggingface_hub import snapshot_download
+    try:
+        _retry(lambda: snapshot_download(repo, repo_type="model", local_dir=str(local_dir),
+                                         allow_patterns=[f"{path_in_repo}/*"] if path_in_repo else None,
+                                         token=token or os.environ.get("HF_TOKEN") or None), f"download {repo}/{path_in_repo}")
+    except Exception as e:
+        if any(x in str(e) for x in ("404", "RepositoryNotFound", "not found", "Not Found")):
+            return None
+        raise
+    return local if local.is_dir() and any(local.iterdir()) else None
 
 def hf_exists(path_in_repo: str, token=None) -> bool:
     api = hf_api(token)
