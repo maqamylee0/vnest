@@ -115,7 +115,7 @@ status after every run. Notebooks that produced results are never edited: fork t
 
 | NB | File | Purpose | Forked from | Status | Runs (W&B id / HF repo) | Log entry |
 |---|---|---|---|---|---|---|
-| 1.01 | `notebooks/marimo/1_training/01_lora_llama32_1b_v2.py` | f1: LoRA (r 16, all linear layers) on Llama-3.2-1B-Instruct, dataset v2, loss on the reply only, **phone prompt layout** (`wc.phone_prompt` = MLC llama-3_1, verified against the phone's mlc-chat-config.json); select epoch on validation (forced, JSON rule, strict scorer); merge → model repo root; eval fine-tuned + untuned base control (forced/chain × schema/free); module 1.2.0 | – (generation/scoring from NB 2.02) | ready: offline smoke test passed 2026-11-11 on the laptop (real model, 24 examples, 2 epochs: train → epoch adapters → select epoch 2 → merge → 16 eval parts → scores → tables, exit 0). The smoke test found 3 bugs fixed before handover: duplicate import names across cells (marimo `critical`, missed by checks that only looked for error/warning), IPython missing inside Marimo (transformers' Trainer imports it in notebooks; now installed if absent), `warmup_ratio` removed in transformers 5.19 (now warm-up steps). First Marimo start failed (2026-11-11): `Trainer requires accelerate>=1.1.0` although the libraries cell had just installed it: the cell checked packages by importing them, transformers first, and transformers records at import whether accelerate exists. Fixed: check with `find_spec` (no import), install, `invalidate_caches`, then import; fail early with a clear message if accelerate is still not visible. Verified locally by uninstalling accelerate: installed and used in the same run, smoke test exit 0. To be run by the user on Marimo (new file, or restart the kernel) | run `f1-llama32-1b-instruct-lora-r16`; model repo `emmilly/vnest-exercise-llm-f1-llama32-1b-instruct-lora-r16` (private) | Entry 11 (pending) |
+| 1.01 | `notebooks/marimo/1_training/01_lora_llama32_1b_v2.py` | f1: LoRA (r 16, all linear layers) on Llama-3.2-1B-Instruct, dataset v2, loss on the reply only, **phone prompt layout** (`wc.phone_prompt` = MLC llama-3_1, verified against the phone's mlc-chat-config.json); select epoch on validation (forced, JSON rule, strict scorer); merge → model repo root; eval fine-tuned + untuned base control (forced/chain × schema/free); module 1.2.0 | – (generation/scoring from NB 2.02) | **done** 2026-11-11 on Marimo (RTX PRO 6000; training 0.032 GPU-h, peak 14.1 GB); best epoch 2; export `1_training/finetune_llama_1b_results.ipynb` (keys redacted). Earlier: smoke test passed; first Marimo start failed on the accelerate import order (fixed, see §8) | run `f1-llama32-1b-instruct-lora-r16`; model repo `emmilly/vnest-exercise-llm-f1-llama32-1b-instruct-lora-r16` (private) | Entry 11 |
 | 2.01 | `notebooks/marimo/2_evaluation/01_baseline_qwen25_untuned.py` | Baseline: untuned Qwen2.5-1.5B-Instruct on validation + test, long/short prompt × schema/free decoding, automatic scores | – | **done** 2026-11-10 (RTX PRO 6000, ~2 min generation); output export `2_evaluation/baseline_qwen_untuned_results.ipynb` | run `b1-qwen25-1.5b-instruct-untuned` (W&B id = run name); outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 5 |
 | 2.02 | `notebooks/marimo/2_evaluation/02_baseline_llama32_1b_untuned_parts.py` | Baseline b2: untuned Llama-3.2-1B-Instruct on dataset v2 (one question per request), validation + test, protocols **forced** (reference earlier answers, greedy) and **chain** (the app's way: own answers, ≤ 3 tries/part, temperature 0.3, seed 20261111) × decodings schema (app JSON rule) / free; module 1.1.1 | NB 2.01 (+ stop-token fix from `notes/nb2.02_stop_token_fix.patch`) | ready (embedded 1.1.1, all 44 `wc.*` names defined, compiles, marimo check: formatting warnings only); **done** 2026-11-11 (RTX PRO 6000, ≈ 1 min generation in total); export `2_evaluation/baseline_b2_results.ipynb` (keys redacted). Smoke test passed beforehand | run `b2-llama32-1b-instruct-untuned`; outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 10 (pending) |
 | 2.02b | `notebooks/marimo/2_evaluation/02b_baseline_llama32_1b_untuned_parts_rescore.py` | Re-scoring of b2 with module 1.1.2 (stricter content check); no generation (reads NB 2.02's raw outputs); preds/tables under `2.02b`, config `runs/<run>/config_2.02b.json` | NB 2.02 | **done** 2026-11-11, run on the laptop (CPU, no model; W&B off); note: it replaced the run's `_done/score.json` and `_done/summary.json` markers (2.02's remain in the HF history) | run `b2-llama32-1b-instruct-untuned` (same run) | Entry 10 |
@@ -158,6 +158,20 @@ Greedy decoding, bf16 on GPU (not the phone's 4-bit model).
 | chain | free | – | – | – | 0 (lower bound³) | 13 / 53 / 10 / 0 / 0 |
 
 By part (forced, schema, test): who 56.6 % (43.4 % generic), **what 13.2 %** (77.6 % "what the … cooks"), **where 0 %** ("the usual place"), when 28.9 %, why 28.9 %.
+**f1: Llama-3.2-1B-Instruct + LoRA r16 (epoch 2, merged, bf16), dataset v2** (NB 1.01, Entry 11). Phone prompt layout; strict scorer (module 1.2.0);
+test = 5 verbs, 76 exercises / 380 questions. The untuned base is re-measured in the same layout as a control.
+
+| Model | Protocol | Decoding | Questions accepted % | Answer = reference % | Echoes % | Exercises completed % | Failed at (who/what/where/when/why) |
+|---|---|---|---|---|---|---|---|
+| **f1 (fine-tuned)** | forced | schema | **100** | 36 | 0 | – | – |
+| **f1 (fine-tuned)** | forced | free | **100** | 36 | 0 | – | – |
+| **f1 (fine-tuned)** | chain | schema | – | – | – | **100** (5.0 tries) | 0 / 0 / 0 / 0 / 0 |
+| **f1 (fine-tuned)** | chain | free | – | – | – | **100** (5.0 tries) | 0 / 0 / 0 / 0 / 0 |
+| base (untuned, phone layout) | forced | schema | 21 | 3 | 49 | – | – |
+| base (untuned, phone layout) | chain | schema | – | – | – | 0 | 24 / 42 / 9 / 1 / 0 |
+
+Validation: f1 100 % / 100 %; base 15 % questions, 0 % exercises. **Automatic scores only**; see Entry 11 for what the 100 % does and doesn't mean.
+
 ³ Chain re-scored from the saved tries only: where the old check accepted an answer the new one rejects, the app's further retries were never generated.
 
 ² **Overstated (superseded by the corrected table above)**: the content check missed echoed "what" answers (59 of 69 accepted "what" answers on test were like "what the chef cooks"), "why" answers that repeat the verb ("to cook") and "when" answers that are places ("at home") → re-score with a stricter check (Entry 10).
@@ -569,6 +583,37 @@ The same gaps exist in the app's `Scenario.checkContent`. → Stricter check in 
 - Conclusion unchanged and sharper: the untuned student model cannot do the task in the app's format; it mostly repeats the instruction wording.
 
 **Status:** ✅ b2 = the corrected numbers (NB 2.02b). App with the stricter check built and tested; install on the phone with the next build.
+
+
+### [2026-11-11] Entry 11: First fine-tune f1, LoRA on Llama-3.2-1B-Instruct with dataset v2 (NB 1.01)
+**Goal:** Teach the student model the app's per-part task; compare with the untuned model.
+
+**Notebook / run:** NB 1.01 (`01_lora_llama32_1b_v2.py`), module 1.2.0, run `f1-llama32-1b-instruct-lora-r16`; model repo (private)
+`emmilly/vnest-exercise-llm-f1-llama32-1b-instruct-lora-r16` (merged bf16 model at the root, `epochs/epoch-{1,2,3}/` adapters, `last-checkpoint/`);
+outputs `runs/f1-…/`, `preds/f1__1.01__…`, `tables/f1__1.01__…`. Export: `notebooks/marimo/1_training/finetune_llama_1b_results.ipynb`
+(**contained the real HF and W&B keys a third time; replaced before commit**).
+Environment: RTX PRO 6000 Blackwell; Python 3.13.11, torch 2.11.0+cu130, transformers 5.14.1, peft 0.21.2, accelerate 1.15.0, xgrammar 0.2.9.
+
+**Training:** LoRA r 16 / alpha 32 / dropout 0.05 on q, k, v, o, gate, up, down (11,272,192 trainable = 0.90 %); 3,570 examples (mean 162 tokens, 35 reply tokens),
+0 too long; loss on the reply only; phone prompt layout; 3 epochs, lr 2e-4 cosine, batch 16, 672 steps; **0.032 GPU-hours (≈ 2 min)**, peak 14.1 GB.
+Train loss by epoch 0.288 / 0.258 / 0.242; **validation loss 0.329 / 0.334 / 0.342** (lowest after epoch 1: mild over-fitting afterwards).
+
+**Selection (validation, forced + JSON rule, strict scorer):** epoch 1 99.51 %, epoch 2 100 %, epoch 3 100 % → **epoch 2** (tie with 3, lower validation loss).
+
+**Results (test, §6.1):** f1 accepts **100 %** of questions (forced; with and without the JSON rule) and completes **100 %** of exercises the app's way (chain, 5.0 tries
+= no retries), against **21 % / 0 %** for the untuned base in the same phone layout (b2 corrected: 25.5 % / 0 % in HF's layout). Answer = reference 36 %. No cut-offs,
+no echoed instructions, no generic "who". Validation identical (100 % / 100 %). The JSON rule makes no difference after fine-tuning.
+
+**What the 100 % does not mean (read from the outputs, test, chain, schema):**
+- **Low variety:** 10 distinct "who" answers in 76 exercises, 13 "what", 7 "where", 14 "when", 16 "why". "cook" is nearly always mother / meal / in the kitchen / after
+  breakfast / to feed the family.
+- **Memorised wrong options:** they come from the dataset's fixed pools (e.g. "while flying to the moon" 65×, "last year" 60×, "sandwich" 37×). Safe, repetitive.
+- **Gender stereotype:** "who cooks?" → mother (24×), wife, maid. Flag for the therapist review and the next dataset version.
+- "Accepted" = the automatic rules passed; answer ≠ reference (64 %) is mostly a different plausible answer, not checked by a person.
+
+**Status:** ✅ The student model learned the task format and gives sensible, safe exercises for unseen verbs; content variety and bias need work (data, not model).
+**Next:** convert the merged model to `q4f16_0` (reuses the engine's `llama1b_q4f16_0` library) and test on the Note10; therapist review of f1 outputs;
+dataset v3 ideas: more people/places per verb, larger wrong-option pools, gender-balanced people; sampling settings for variety in the app.
 
 ---
 
