@@ -197,7 +197,7 @@ def _(CONV_TEMPLATE, LIMITS, MERGED, MLC_ENV, OUT_DIR, QUANT, WORK_DIR, hashlib,
 
 
 @app.cell
-def _(CONV_TEMPLATE, LIMITS, OUT_DIR, PHONE_ID, PHONE_LIB, QUANT, REFERENCE_DIR, RUN_NAME, WORK_DIR, hashlib, json, stages, wc):
+def _(CONV_TEMPLATE, LIMITS, OUT_DIR, PHONE_ID, PHONE_LIB, QUANT, REFERENCE_DIR, RUN_NAME, WORK_DIR, hashlib, json, shutil, stages, wc):
     # ───────────── stage: verify against the stock Llama-1B phone model (same tensors and settings -> same GPU code) ─────────────
     def _sha(p_):
         h_ = hashlib.sha256()
@@ -223,15 +223,31 @@ def _(CONV_TEMPLATE, LIMITS, OUT_DIR, PHONE_ID, PHONE_LIB, QUANT, REFERENCE_DIR,
     for _k, _v in LIMITS.items():  # MLC 2024 keeps all limits in model_config (context and chunk also at the top level)
         assert _new_cfg["model_config"][_k] == _v, (_k, _new_cfg["model_config"][_k], _v)
         assert _new_cfg.get(_k, _v) == _v, (_k, _new_cfg.get(_k), _v)
+    # Tokenizer: transformers 5 saves BPE merges as pairs (["a", "b"]); the engine's 2024 tokenizer only reads strings ("a b") and the app
+    # crashed with a Rust panic while loading (phone run 8). Fine-tuning never changes the tokenizer: prove the content is identical
+    # to the stock model's, then ship the stock files.
+    _ta = json.loads((REFERENCE_DIR / "tokenizer.json").read_text())
+    _tb = json.loads((OUT_DIR / "tokenizer.json").read_text())
+    assert _ta["model"]["vocab"] == _tb["model"]["vocab"], "tokenizer vocabulary differs from the stock model"
+    assert _ta["model"]["merges"] == [" ".join(m_) if isinstance(m_, list) else m_ for m_ in _tb["model"]["merges"]], "merges differ"
+    assert [(t_["id"], t_["content"]) for t_ in _ta["added_tokens"]] == [(t_["id"], t_["content"]) for t_ in _tb["added_tokens"]], "special tokens differ"
+    for _k in ("normalizer", "pre_tokenizer", "post_processor", "decoder"):
+        assert _ta[_k] == _tb[_k], f"tokenizer {_k} differs"
+    for _f in ("tokenizer.json", "tokenizer_config.json"):
+        shutil.copyfile(REFERENCE_DIR / _f, OUT_DIR / _f)
+    assert _new_cfg["tokenizer_files"] == _ref_cfg["tokenizer_files"] and _new_cfg["tokenizer_info"] == _ref_cfg["tokenizer_info"]
+    print(f"[verify] tokenizer identical in content to the stock model ({len(_ta['model']['vocab'])} tokens, {len(_ta['model']['merges'])} merges, "
+          f"{len(_ta['added_tokens'])} special); stock tokenizer files shipped (format the phone engine reads)")
     # the shards are the fine-tuned weights, not a copy of the stock model
     _same = [f for f in ("params_shard_1.bin", "params_shard_5.bin") if (REFERENCE_DIR / f).exists() and _sha(OUT_DIR / f) == _sha(REFERENCE_DIR / f)]
     assert not _same, f"weights identical to the stock model: {_same}"
-    SUMS = {p_.name: _sha(p_) for p_ in sorted(OUT_DIR.iterdir()) if p_.is_file()}
+    SUMS = {p_.name: _sha(p_) for p_ in sorted(OUT_DIR.iterdir()) if p_.is_file() and p_.name != "SHA256SUMS"}
     (OUT_DIR / "SHA256SUMS").write_text("".join(f"{h_}  {n_}\n" for n_, h_ in SUMS.items()))
     EXPORT_INFO = {"train_run": RUN_NAME, "phone_id": PHONE_ID, "library": PHONE_LIB, "quantization": QUANT, "conv_template": CONV_TEMPLATE,
                    "limits": LIMITS, "n_tensors": len(_new_sig), "n_shards": len(_new_cache["records"]),
                    "size_mb": round(sum(p_.stat().st_size for p_ in OUT_DIR.iterdir()) / 1e6, 1), "sha256": SUMS,
-                   "matches_stock_layout": True, "reference": str(REFERENCE_DIR.name)}
+                   "matches_stock_layout": True, "reference": str(REFERENCE_DIR.name), "tokenizer": "stock files (content verified identical)",
+                   "content_fingerprint": hashlib.md5(json.dumps(SUMS, sort_keys=True).encode()).hexdigest()}
     wc.put_json(EXPORT_INFO, f"{wc.run_dir(RUN_NAME)}/phone_export.json", WORK_DIR, f"{RUN_NAME}: phone export", None)
     stages.mark_done("phone-verify", {k_: v_ for k_, v_ in EXPORT_INFO.items() if k_ != "sha256"})
     print(f"[verify] OK: {len(_new_sig)} tensors with the stock model's names/shapes/dtypes, same dimensions, {QUANT}, {CONV_TEMPLATE}, "
@@ -242,10 +258,14 @@ def _(CONV_TEMPLATE, LIMITS, OUT_DIR, PHONE_ID, PHONE_LIB, QUANT, REFERENCE_DIR,
 @app.cell
 def _(EXPORT_INFO, HF_TOKEN, MODEL_REPO, OUT_DIR, QUANT, RUN_NAME, stages, wc):
     # ───────────── stage: upload the phone weights to the model repo (mlc-q4f16_0/) ─────────────
-    if EXPORT_INFO and stages.should_run("phone-upload"):
+    _mu = stages.marker("phone-upload") or {}
+    _changed_u = bool(_mu) and _mu.get("content_fingerprint") != EXPORT_INFO["content_fingerprint"]
+    if _changed_u:
+        print("[upload] phone files changed since the last upload: uploading again")
+    if EXPORT_INFO and (_changed_u or stages.should_run("phone-upload")):
         wc.hf_model_upload_folder(OUT_DIR, MODEL_REPO, f"mlc-{QUANT}", f"{RUN_NAME}: phone weights ({QUANT}, MLC 2024)", HF_TOKEN,
                                   delete_patterns=[f"mlc-{QUANT}/*"])
-        stages.mark_done("phone-upload", {"path": f"{MODEL_REPO}/mlc-{QUANT}"})
+        stages.mark_done("phone-upload", {"path": f"{MODEL_REPO}/mlc-{QUANT}", "content_fingerprint": EXPORT_INFO["content_fingerprint"]})
         print(f"[upload] -> {MODEL_REPO}/mlc-{QUANT}")
     return
 
@@ -257,7 +277,11 @@ def _(ADB, APP_FILES, EXPORT_INFO, OUT_DIR, PHONE_ID, stages, subprocess):
         return subprocess.run([str(ADB), *a_], capture_output=True, text=True, timeout=timeout_)
 
     PUSHED = False
-    if EXPORT_INFO and stages.should_run("phone-push"):
+    _mp = stages.marker("phone-push") or {}
+    _changed_p = bool(_mp) and _mp.get("content_fingerprint") != EXPORT_INFO["content_fingerprint"]
+    if _changed_p:
+        print("[push] phone files changed since the last push: pushing again")
+    if EXPORT_INFO and (_changed_p or stages.should_run("phone-push")):
         _dev = _adb("devices").stdout
         if "\tdevice" not in _dev:
             print(f"[push] SKIPPED: phone not connected or not authorised ({_dev.strip().splitlines()[-1] if _dev.strip() else 'no adb output'}). "
@@ -275,7 +299,8 @@ def _(ADB, APP_FILES, EXPORT_INFO, OUT_DIR, PHONE_ID, stages, subprocess):
             _n = _adb("shell", f"ls {APP_FILES}/{PHONE_ID} | wc -l").stdout.strip()
             _local_n = len(list(OUT_DIR.iterdir()))
             assert _n == str(_local_n), f"phone has {_n} files, laptop {_local_n}"
-            stages.mark_done("phone-push", {"phone_dir": f"{APP_FILES}/{PHONE_ID}", "files": _local_n})
+            stages.mark_done("phone-push", {"phone_dir": f"{APP_FILES}/{PHONE_ID}", "files": _local_n,
+                                            "content_fingerprint": EXPORT_INFO["content_fingerprint"]})
             PUSHED = True
             print(f"[push] OK: {_local_n} files -> {APP_FILES}/{PHONE_ID}")
     return (PUSHED,)

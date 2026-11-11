@@ -636,7 +636,10 @@ and limits; weights differ from the stock model → runs on the engine's existin
 **App:** the fine-tuned model is the first (default) entry, "VNeST f1 (1B)" (`id` = the phone folder, `lib` = `llama1b_q4f16_0`, the same limits); the untuned 1B is
 labelled "Llama-3.2-1B (untuned)". Includes the stricter content check (Entry 10). 23 tests pass; built and installed on the Note10 with the model folders kept.
 
-**Status:** ⚠️ Installed; phone test pending (run 8, guard on).
+**Phone run 8, first try:** loading "VNeST f1 (1B)" **closed the app** (twice): `SIGABRT` from a **Rust panic** (`panic_cannot_unwind`) in `libtvm4j_runtime_packed.so`, i.e. the engine's tokenizer (HF tokenizers, Rust). Cause: transformers 5 saved the merged model's `tokenizer.json` with BPE merges as pairs (`["a", "b"]`, 17.2 MB) instead of strings (`"a b"`, 9.1 MB in the stock model); the engine's 2024 tokenizer can't read pairs and aborts. (The untuned run just before showed the stricter check working on the phone: "a person" and "what the family cooks" rejected.)
+**Fix (NB 3.01 verify stage):** prove the tokenizer is identical in content to the stock model's (all 128,000 tokens, 280,147 merges after the format change, 256 special tokens, normalizer, pre-/post-processor, decoder), then ship the stock `tokenizer.json` + `tokenizer_config.json`; upload and push stages now re-run when the files' content fingerprint changes. Re-exported (704.5 MB), re-uploaded, re-pushed; tokenizer files on the phone byte-identical to the stock model's.
+
+**Status:** ⚠️ Fixed export installed; phone test pending.
 
 ---
 
@@ -658,6 +661,7 @@ labelled "Llama-3.2-1B (untuned)". Includes the stricter content check (Entry 10
 | 2026-11-11 | MLC 2024 conversion of a model saved by transformers 5.x | Config uses `rope_parameters`; MLC 2024 reads `rope_scaling`/`rope_theta` → silently converted without Llama 3 RoPE scaling (would degrade the model on the phone without an error) | Verify every converted model against a known-good reference config; write the old-format config for MLC |
 | 2026-11-11 | NB 3.01 re-run after fixing the converter input | The convert stage's "done" marker made the re-run reuse the wrong output | Stages that consume inputs store an input fingerprint and re-run when it changes |
 | 2026-11-11 | Restarting the phone guard with `pkill -f phone_hang_guard.sh` in the same command | The pattern matched the command itself: it killed the new guard before it started and left an orphaned `adb logcat` | Stop processes by PID; never `pkill -f` a pattern that appears in the same command line |
+| 2026-11-11 | Phone export of a model saved by transformers 5.x (tokenizer files taken from the merged model) | `tokenizer.json` stores BPE merges as pairs; the engine's 2024 Rust tokenizer panics on it → the app closed while loading, no error message | Ship the reference model's tokenizer files after proving the content is identical; compare every exported file against a known-good reference, not just the weights |
 | 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works. **Cause (2026-11-11): HF's Xet transfer backend** | Set `HF_HUB_DISABLE_XET=1` (uploads and downloads then work from the laptop); or `curl` from `resolve/<revision>/` and pin the revision |
 
 ---
