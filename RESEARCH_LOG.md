@@ -492,7 +492,8 @@ instruction wording ("usual place", "a person who"…); a rejected part is redon
   slang: "woman spread pussy" in train, "man eat pussy" in validation). Verb "shave" left training.
 - **Size:** 357 / 41 / 76 sentences → **3,570 / 205 / 380 examples**. SHA-256 train `d0893825…`, validation `6c85f231…`, test `f640592b…`.
 
-**Status:** ✅ Built. Not yet uploaded to the HF outputs repo (`data/v2/`; uploads from the laptop hang, upload from the training machine).
+**Status:** ✅ Built and **uploaded** to HF `emmilly/vnest-exercise-llm-outputs` → `data/v2/` (train, validation, test, SHA256SUMS, stats.json,
+review_sample.csv, GENERATION.md), HF commit `a7bee66af14c2eaf9665e42840225332885cbdc0`; downloaded back and checked against SHA256SUMS: OK.
 **Not fixed:** repetitive wrong options (small pools) and weak v1 sentences (e.g. "the farmer milks the job") → therapist review of `out_v2/review_sample.csv`.
 **Next:** scorer for the per-part format; baseline b2 (untuned Llama-3.2-1B, same protocol); fine-tuning.
 
@@ -511,7 +512,7 @@ instruction wording ("usual place", "a person who"…); a rejected part is redon
 | 2026-11-10 | Ready-made MLC packages for Linux (`mlc-llm-nightly-cpu 0.26.dev6` + `mlc-ai-nightly-cpu 0.26.dev246`, the only Linux pair on mlc.ai/wheels; `0.26.dev20` is Windows-only) to compile Llama-3.2-1B for Android | Mismatched pair: dev6 = mlc-llm `9fa644f5` needs a newer TVM (`tirx.is_buffer_var` missing). Reverting that commit's 8 lines (`tools/mlc_patches/revert_9fa644f5_for_tvm_dev246.patch`) got past it, then the compiler **segfaulted** in the Dlight stage (compiled-code mismatch) | Build TVM + MLC from one source checkout (also needed for the Android engine library) |
 | 2026-11-11 | MLC `main` (`44fd06d0`, TVM `629cc658`) built from source (TVM with LLVM 18, MLC host lib) to compile Llama-3.2-1B for Android | (1) Two `tvm-ffi` copies in the tree: the C++ build uses `tvm-tirx/3rdparty/tvm-ffi` (`6628c46`), the outer one (`21e30c3`) gave `__ffi_shallow_copy__ must be an ffi.Function` → install the nested one. (2) Then, after 7 min of compiling: `TypeError: Cannot treat type ir.Call[ty=tirx.TensorType] as type ir.PrimExpr`, `Error in pass: AttachGlobalSymbol` (inside TVM; MLC main's Android/OpenCL path appears broken) | Build the exact 2024 version the app's engine came from (mlc-llm `7561c96d`, TVM `2912b0fc`) in a separate worktree `research/mlc-llm-2024` (worked, Entry 7) |
 | 2026-11-11 | v1 content filter (`common.UNSUITABLE` + teacher's suitability flag) | Let through 2 ConceptNet sexual-slang sentences ("spread pussy" in train, "eat pussy" in validation); the teacher explained them innocently | Add a sexual/crude slang list (v2); scan every sentence and teacher answer before training; therapist review |
-| 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works | Download with `curl` from `resolve/<revision>/` and pin the revision |
+| 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works. **Cause (2026-11-11): HF's Xet transfer backend** | Set `HF_HUB_DISABLE_XET=1` (uploads and downloads then work from the laptop); or `curl` from `resolve/<revision>/` and pin the revision |
 
 ---
 
