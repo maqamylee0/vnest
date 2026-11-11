@@ -342,6 +342,35 @@ almost nothing (1.9 → 1.7) → a second, Qwen-specific problem (grammar with Q
 
 **Status:** ⚠️ Cause located; Qwen not yet usable in the app with this engine build.
 
+### [2026-11-10/11] Entry 7: Own MLC engine build with four models (Llama-3B, Llama-1B, Qwen NK, Qwen KN)
+**Goal:** Test whether the weight layout causes Qwen's slow prefill, and add Llama-3.2-1B as a candidate student (decisions 2026-11-10, §4).
+Design: one engine, **Qwen2.5-1.5B converted by us from the same original weights in both layouts** (`q4f16_1` = NK, `q4f16_0` = KN), so the
+only difference between the two Qwen models is the order of the weights. Llama-3B recompiled with the same toolchain (reference), Llama-1B added.
+
+**What we did (scripts in `tools/`, logs in `build_mlc/`, not in git):**
+1. Ready-made MLC packages and MLC `main` from source both failed (see §8). Switched to **the exact MLC version the app's old engine came from**:
+   git worktree `~/Documents/research/mlc-llm-2024` at mlc-llm `7561c96d` (2024-09-26, "[Android] Update Andorid APK"), TVM `2912b0fc`.
+2. TVM 0.18.dev0 built from source: Release, **LLVM 18 linked dynamically** (static linking needs `libPolly.a`, absent from Ubuntu's `llvm-18-dev`), 892 files, 18 min.
+3. MLC host library built from source (Release, no GPU backends). tokenizers-cpp (`c0fab1e1`) needed a 2-line fix for Rust 1.99 (explicit reference instead of
+   an implicit autoref of a raw pointer, now a hard error): `tools/mlc_patches/tokenizers-cpp_c0fab1e1_explicit_autoref_rust_1.99.patch`.
+   Pinning Rust 1.81.0 instead failed (no Cargo.lock → cargo fetches today's crates, which need newer Rust).
+4. Environment: `tools/mlc2024_env.sh` (paths, NDK 28.2.13676358 with `aarch64-linux-android24-clang`, Java 21, Python env `.venv-mlc2024`: Python 3.12, numpy 1.26.4, torch 2.15.0).
+5. `tools/build_phone_models.sh`: Qwen `convert_weight` (CPU) + `gen_config` (conv template `qwen2`) from `Qwen/Qwen2.5-1.5B-Instruct` revision
+   `989aa7980e4cf806f80c7fef2b1adb7bc71aa306` → `models/mlc/Qwen2.5-1.5B-Instruct-{q4f16_1,q4f16_0}-vnest` (840 MB each; identical size, as expected).
+   Llama-1B: MLC's `mlc-ai/Llama-3.2-1B-Instruct-q4f16_0-MLC` revision `09ac7ad273a071dc3b45689b72b3c12e52d7a8c9` (672 MB, 22 shards verified).
+   All four compiled for Android (OpenCL, `aarch64-linux-android`) with **explicit library names** (`--system-lib-prefix`), because Llama-1B and Llama-3B
+   would both default to `llama_q4f16_0_` and clash: `llama3b_q4f16_0`, `llama1b_q4f16_0`, `qwen2_q4f16_1`, `qwen2_q4f16_0` (~1 min each).
+   MLC's estimate for Llama-1B: 663 MB parameters + 704 MB temporary buffer (with its default 8,192-token prefill chunk).
+6. `tools/package_engine.sh` (what `mlc_llm package` does, without bundling weights): merge the four `.tar` into `libmodel_android.a` (check: four distinct
+   libraries), then MLC's `android/mlc4j/prepare_libs.py` → **new engine** `libtvm4j_runtime_packed.so` (108,665,024 bytes,
+   SHA-256 `9f3e84a0288c7a6e6825d9c2515dc143323b2e9eea586f09222ed2b42091dc33`) + `tvm4j_core.jar` (SHA-256 `6436a353479df12867c3fd2c9c2ce8b709706347a6564a77d44ccdca54e08007`), 2 min.
+   Old engine (`5b6b3a27…`) and jar kept in `build_mlc/engine_old/` for rollback.
+7. App: the app's `JSONFFIEngine.java` and `OpenAIProtocol.kt` are identical to the 2024 source; `MLCEngine.kt` differs only by the app's patches → no adapter changes.
+   Model list now: Llama-3.2-3B, Llama-3.2-1B, Qwen-1.5B NK, Qwen-1.5B KN, **all with the same engine limits** (max 2,048 tokens, 256-token prefill chunks, 1 sequence).
+   New self-test "Read the exercise prompt": the real ~400-token "cook" prompt, no JSON rule, 16 output tokens → prefill speed on a realistic prompt.
+
+**Status:** ⚠️ Engine built; phone test pending.
+
 ---
 
 ## 8. What Failed / Dead Ends
@@ -354,6 +383,8 @@ almost nothing (1.9 → 1.7) → a second, Qwen-specific problem (grammar with Q
 | 2026-11-10 | Holding out all 14 app verbs for test | Left only 321 training sentences | Hold out 5 |
 | 2026-11-10 | McRae / Ferretti thematic-fit norms | Download page 404 | Revisit later as a gold test source |
 | 2026-11-10 | Untuned Qwen2.5-1.5B in the app on the Note10 with MLC default engine settings | No output for ~4 min, then the phone's display server was reset by its watchdog and the phone restarted (Entry 6) | Set engine limits per model; log the phone unfiltered during first runs of a new model |
+| 2026-11-10 | Ready-made MLC packages for Linux (`mlc-llm-nightly-cpu 0.26.dev6` + `mlc-ai-nightly-cpu 0.26.dev246`, the only Linux pair on mlc.ai/wheels; `0.26.dev20` is Windows-only) to compile Llama-3.2-1B for Android | Mismatched pair: dev6 = mlc-llm `9fa644f5` needs a newer TVM (`tirx.is_buffer_var` missing). Reverting that commit's 8 lines (`tools/mlc_patches/revert_9fa644f5_for_tvm_dev246.patch`) got past it, then the compiler **segfaulted** in the Dlight stage (compiled-code mismatch) | Build TVM + MLC from one source checkout (also needed for the Android engine library) |
+| 2026-11-11 | MLC `main` (`44fd06d0`, TVM `629cc658`) built from source (TVM with LLVM 18, MLC host lib) to compile Llama-3.2-1B for Android | (1) Two `tvm-ffi` copies in the tree: the C++ build uses `tvm-tirx/3rdparty/tvm-ffi` (`6628c46`), the outer one (`21e30c3`) gave `__ffi_shallow_copy__ must be an ffi.Function` → install the nested one. (2) Then, after 7 min of compiling: `TypeError: Cannot treat type ir.Call[ty=tirx.TensorType] as type ir.PrimExpr`, `Error in pass: AttachGlobalSymbol` (inside TVM; MLC main's Android/OpenCL path appears broken) | Build the exact 2024 version the app's engine came from (mlc-llm `7561c96d`, TVM `2912b0fc`) in a separate worktree `research/mlc-llm-2024` (worked, Entry 7) |
 | 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works | Download with `curl` from `resolve/<revision>/` and pin the revision |
 
 ---

@@ -52,14 +52,15 @@ class _ModelScreenState extends State<ModelScreen> {
               style: t.bodyLarge,
             ),
             const SizedBox(height: 16),
-            SegmentedButton<String>(
-              segments: [for (final m in LlmService.models) ButtonSegment(value: m.id, label: Text(m.label))],
-              selected: {llm.model.id},
-              showSelectedIcon: false,
-              onSelectionChanged: llm.state == ModelState.loading || sc.writingVerb != null
-                  ? null // switching waits for the current exercise; avoid a frozen-looking tap
-                  : (s) => llm.select(LlmService.models.firstWhere((m) => m.id == s.first)),
-            ),
+            Wrap(spacing: 8, runSpacing: 4, children: [
+              for (final m in LlmService.models)
+                ChoiceChip(
+                  label: Text(m.label),
+                  selected: llm.model.id == m.id,
+                  // switching waits for the current exercise; avoid a frozen-looking tap
+                  onSelected: llm.state == ModelState.loading || sc.writingVerb != null ? null : (_) => llm.select(m),
+                ),
+            ]),
             const SizedBox(height: 8),
             _kv('Model', llm.model.id),
             _kv('Status', llm.state.name + (llm.loadMs != null ? ' (started in ${(llm.loadMs! / 1000).toStringAsFixed(1)} s)' : '')),
@@ -93,6 +94,12 @@ class _ModelScreenState extends State<ModelScreen> {
                 OutlinedButton(
                   onPressed: llm.selfTestRunning || sc.writingVerb != null ? null : () => llm.selfTest(jsonRule: true),
                   child: const Text('Say hello (with JSON rule)'),
+                ),
+                OutlinedButton(
+                  onPressed: llm.selfTestRunning || sc.writingVerb != null
+                      ? null
+                      : () => llm.selfTest(jsonRule: false, examplePrompt: true),
+                  child: const Text('Read the exercise prompt'),
                 ),
               ]),
             ],

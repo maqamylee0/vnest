@@ -43,26 +43,46 @@ class LlmService extends ChangeNotifier {
   static const _channel = MethodChannel('vnest/llm');
   static const _modelKey = 'llm_model_v1';
 
+  /// Same engine limits for every model, so speed comparisons are fair. With MLC defaults (32k context,
+  /// 2048-token prefill chunks) Qwen froze the phone (RESEARCH_LOG Entry 6). One exercise needs < 1,100 tokens.
+  static const _limits = {
+    'max_num_sequence': 1,
+    'max_total_sequence_length': 2048,
+    'max_single_sequence_length': 2048,
+    'prefill_chunk_size': 256,
+  };
+
+  /// Libraries are those in the engine built by tools/package_engine.sh (MLC 2024, RESEARCH_LOG Entry 7).
+  /// Weights: Llama = MLC's published q4f16_0 folders; Qwen = converted by us (tools/build_phone_models.sh)
+  /// from Qwen/Qwen2.5-1.5B-Instruct in both layouts: q4f16_1 = "NK", q4f16_0 = "KN".
   static const models = [
     LlmModel(
       id: 'Llama-3.2-3B-Instruct-q4f16_0-MLC',
-      lib: 'llama_q4f16_0_2d32572d8a4ab2af20a1f587ef6c8c63',
+      lib: 'llama3b_q4f16_0',
       label: 'Llama-3.2-3B',
       size: '1.7 GB',
+      engine: _limits,
     ),
     LlmModel(
-      id: 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC',
-      lib: 'qwen2_q4f16_1_2e221f430380225c03990ad24c3d030e',
-      label: 'Qwen2.5-1.5B',
+      id: 'Llama-3.2-1B-Instruct-q4f16_0-MLC',
+      lib: 'llama1b_q4f16_0',
+      label: 'Llama-3.2-1B',
+      size: '0.7 GB',
+      engine: _limits,
+    ),
+    LlmModel(
+      id: 'Qwen2.5-1.5B-Instruct-q4f16_1-vnest',
+      lib: 'qwen2_q4f16_1',
+      label: 'Qwen-1.5B NK',
       size: '0.9 GB',
-      // With MLC defaults (32k context, 2048-token prefill chunks) the first run froze the phone and the
-      // display server was reset by its watchdog (RESEARCH_LOG Entry 6). One exercise needs < 1,100 tokens.
-      engine: {
-        'max_num_sequence': 1,
-        'max_total_sequence_length': 2048,
-        'max_single_sequence_length': 2048,
-        'prefill_chunk_size': 256,
-      },
+      engine: _limits,
+    ),
+    LlmModel(
+      id: 'Qwen2.5-1.5B-Instruct-q4f16_0-vnest',
+      lib: 'qwen2_q4f16_0',
+      label: 'Qwen-1.5B KN',
+      size: '0.9 GB',
+      engine: _limits,
     ),
   ];
 
@@ -81,25 +101,29 @@ class LlmService extends ChangeNotifier {
   String? selfTestResult;
   bool selfTestRunning = false;
 
-  /// Tiny request to tell a stuck GPU from a stuck JSON rule: "say hello", with or without the schema.
-  Future<void> selfTest({required bool jsonRule}) async {
+  /// Small requests to measure a model: "say hello" with or without the JSON rule, or [examplePrompt] = the real
+  /// ~400-token exercise prompt for "cook" (no JSON rule, 16 output tokens) to measure prompt-reading speed.
+  Future<void> selfTest({required bool jsonRule, bool examplePrompt = false}) async {
     if (!isReady || selfTestRunning) return;
+    final what = examplePrompt ? 'exercise prompt' : '${jsonRule ? 'with' : 'no'} JSON rule';
     selfTestRunning = true;
-    selfTestResult = 'running (${jsonRule ? 'with' : 'no'} JSON rule)…';
+    selfTestResult = 'running ($what)…';
     notifyListeners();
     try {
       final r = Map<String, dynamic>.from(await _channel.invokeMethod('generateJson', {
-        'system': 'You are a helpful assistant.',
-        'user': jsonRule ? 'Reply with JSON: {"greeting": "hello"}' : 'Say hello in one short sentence.',
-        'schema': jsonRule
+        'system': examplePrompt ? systemPrompt : 'You are a helpful assistant.',
+        'user': examplePrompt
+            ? userPrompt('cook')
+            : (jsonRule ? 'Reply with JSON: {"greeting": "hello"}' : 'Say hello in one short sentence.'),
+        'schema': jsonRule && !examplePrompt
             ? jsonEncode({'type': 'object', 'properties': {'greeting': {'type': 'string'}}, 'required': ['greeting']})
             : '',
-        'maxTokens': 24,
+        'maxTokens': examplePrompt ? 16 : 24,
       }).timeout(const Duration(minutes: 3)));
-      selfTestResult = '${model.label}, ${jsonRule ? 'with' : 'no'} JSON rule: "${r['text']}" · '
+      selfTestResult = '${model.label}, $what: "${r['text']}" · '
           '${r['ms']} ms · ${r['completionTokens']} tokens · ${(r['decodeTps'] as num?)?.toStringAsFixed(1)} tok/s';
     } catch (e) {
-      selfTestResult = '${model.label}, ${jsonRule ? 'with' : 'no'} JSON rule: failed: $e';
+      selfTestResult = '${model.label}, $what: failed: $e';
     }
     selfTestRunning = false;
     notifyListeners();

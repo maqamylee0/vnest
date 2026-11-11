@@ -1,0 +1,88 @@
+diff --git a/python/mlc_llm/compiler_pass/fuse_dequantize_transpose.py b/python/mlc_llm/compiler_pass/fuse_dequantize_transpose.py
+index 30c45202..3c53fe14 100644
+--- a/python/mlc_llm/compiler_pass/fuse_dequantize_transpose.py
++++ b/python/mlc_llm/compiler_pass/fuse_dequantize_transpose.py
+@@ -79,12 +79,10 @@ class _DequantizeTransposeFuser(PyExprMutator):
+         ):
+             return call
+ 
+-        new_func_buffers = [
+-            dequantize_tir_func.buffer_map[var] for var in dequantize_tir_func.params
+-        ]
+-        new_func_buffers[-1] = dequantize_tir_func.body.block.alloc_buffers[0]
++        new_func_params = list(dequantize_tir_func.params)
++        new_func_params[-1] = dequantize_tir_func.body.block.alloc_buffers[0]
+         new_func = tirx.PrimFunc(
+-            params=new_func_buffers,
++            params=new_func_params,
+             body=tirx.SBlockRealize(
+                 iter_values=[],
+                 predicate=True,
+diff --git a/python/mlc_llm/compiler_pass/lift_global_buffer_alloc.py b/python/mlc_llm/compiler_pass/lift_global_buffer_alloc.py
+index 1eebab59..20985daf 100644
+--- a/python/mlc_llm/compiler_pass/lift_global_buffer_alloc.py
++++ b/python/mlc_llm/compiler_pass/lift_global_buffer_alloc.py
+@@ -96,22 +96,19 @@ def remove_global_buf_alloc(
+     """Remove the global buffer allocation for a given TIR PrimFunc."""
+     assert isinstance(func.body, tirx.SBlockRealize)
+     params = list(func.params)
+-    buffer_map = dict(func.buffer_map)
+     tensor_sinfo = []
+     alloc_buffers = []
+ 
+     insertion_point = len(params)
+-    while not isinstance(params[insertion_point - 1].ty, tvm.ir.PointerType):
++    while not tirx.is_buffer_var(params[insertion_point - 1]):
+         insertion_point -= 1
+         assert insertion_point >= 1
+ 
+     prev_root_block = func.body.block
+     for buf_alloc in func.body.block.alloc_buffers:
+         if buf_alloc.scope() == "global":
+-            param = tirx.Var("var_" + buf_alloc.name, "handle")
+-            params.insert(insertion_point, param)
++            params.insert(insertion_point, buf_alloc)
+             insertion_point += 1
+-            buffer_map[param] = buf_alloc
+             tensor_sinfo.append(relax.TensorType(buf_alloc.shape, buf_alloc.dtype))
+         else:
+             alloc_buffers.append(buf_alloc)
+@@ -139,7 +136,6 @@ def remove_global_buf_alloc(
+         params=params,
+         body=tirx.SBlockRealize(iter_values=[], predicate=True, block=root_block),
+         ret_type=func.ret_type,
+-        buffer_map=buffer_map,
+         attrs=func.attrs,
+     )
+     return updated_func, tensor_sinfo
+@@ -163,7 +159,7 @@ def _resolve_tir_var_mapping(
+ 
+     n_arg = len(call.args[1].fields)
+     for i in range(n_arg):
+-        buffer_shape = func.buffer_map[func.params[i]].shape
++        buffer_shape = func.params[i].shape
+         arg_shape = call.args[1][i].ty.shape.values
+         assert len(buffer_shape) == len(arg_shape)
+         for v_l, v_r in zip(buffer_shape, arg_shape):
+@@ -177,7 +173,7 @@ def _resolve_tir_var_mapping(
+         [ret_tensors] if isinstance(ret_tensors, relax.TensorType) else list(ret_tensors.fields)
+     )
+     for i, ret_tensor in enumerate(ret_tensors):
+-        buffer_shape = func.buffer_map[func.params[n_arg + i]].shape
++        buffer_shape = func.params[n_arg + i].shape
+         ret_tensor_shape = ret_tensor.shape.values
+         assert len(buffer_shape) == len(ret_tensor_shape)
+         for v_l, v_r in zip(buffer_shape, ret_tensor_shape):
+diff --git a/python/mlc_llm/compiler_pass/low_batch_specialization.py b/python/mlc_llm/compiler_pass/low_batch_specialization.py
+index 0a7045b0..f543027a 100644
+--- a/python/mlc_llm/compiler_pass/low_batch_specialization.py
++++ b/python/mlc_llm/compiler_pass/low_batch_specialization.py
+@@ -34,7 +34,7 @@ class LowBatchGemvSpecialize:
+                     for low_batch_func in low_batch_funcs
+                 ):
+                     continue
+-                buffers = func.buffer_map.values()
++                buffers = [param for param in func.params if tirx.is_buffer_var(param)]
+                 shapes = [buffer.shape for buffer in buffers]
+                 symbolic_vars = set(
+                     expr for shape in shapes for expr in shape if isinstance(expr, tirx.Var)
