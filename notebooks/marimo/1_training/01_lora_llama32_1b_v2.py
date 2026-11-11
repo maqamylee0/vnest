@@ -160,17 +160,24 @@ def _(os, sys):
     os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
     import importlib as _il2
+    import importlib.util as _ilu
     import subprocess as _sp2
+    # Check WITHOUT importing, install what's missing, then import: transformers records at import time whether accelerate exists,
+    # so importing it before accelerate is installed makes Trainer fail ("requires accelerate>=1.1.0") until the kernel restarts.
     for _pkg, _mod in (("transformers", "transformers"), ("accelerate", "accelerate"), ("peft", "peft"), ("datasets", "datasets"),
                        ("xgrammar", "xgrammar"), ("wandb", "wandb"),
                        ("ipython", "IPython")):  # transformers' Trainer imports IPython when it detects a notebook (Marimo)
-        try:
-            _il2.import_module(_mod)
-        except ImportError:
+        if _ilu.find_spec(_mod) is None:
             print(f"installing {_pkg}")
             _r = _sp2.run([sys.executable, "-m", "pip", "install", "-q", _pkg])
             if _r.returncode != 0:
                 print(f"could not install {_pkg} (rc {_r.returncode})")
+    _il2.invalidate_caches()
+    if "transformers" in sys.modules:
+        from transformers.utils import is_accelerate_available as _acc_ok
+        if not _acc_ok():
+            raise RuntimeError("transformers was imported before accelerate was installed (earlier run of this kernel): "
+                               "restart the kernel and run all again")
     import pandas as pd
     import peft
     import torch
@@ -187,7 +194,10 @@ def _(os, sys):
     VERSIONS = {"python": sys.version.split()[0], "torch": torch.__version__, "transformers": transformers.__version__,
                 "peft": peft.__version__, "xgrammar": _md.version("xgrammar") if xgr else None, "pandas": pd.__version__,
                 "gpu": torch.cuda.get_device_name(0) if DEVICE == "cuda" else "cpu", "bf16": BF16}
+    from transformers.utils import is_accelerate_available as _acc_ok2
+    VERSIONS["accelerate"] = _md.version("accelerate") if _acc_ok2() else None
     print(VERSIONS)
+    assert _acc_ok2(), "accelerate is not usable by transformers: restart the kernel and run all again"
     if XGR_ERROR:
         print(f"WARNING: xgrammar unavailable ({XGR_ERROR}): the 'schema' parts will be skipped and reported as such")
     if DEVICE != "cuda":
