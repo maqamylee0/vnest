@@ -425,6 +425,31 @@ Llama-1B and Llama-3B numbers are from run 6 (limits applied at load time only);
 
 **Open:** the app does not report engine errors raised on the background thread (Qwen "loading" forever, run 6) → add a load timeout / error check.
 
+
+### [2026-11-11] Entry 8: App writes exercises one question per request, with Llama-3.2-1B as the default model
+**Goal:** Implement the decisions of 2026-11-11: Llama-3.2-1B as the main model; exercises written in the background one question per
+request (who → what → where → when → why), so a patient can start on "who" while the rest is written.
+
+**What we did (app only; the model is still untuned):**
+- `LlmService`: `partSystemPrompt` (short, shared by all parts) + `partPrompt(verb, part, done, avoidPeople)`: the verb, the part, and the
+  sentence so far built in code, e.g. `VNeST "cook". where? The chef cooks the egg ___.`; "who" gets `A person who often cooks something.`
+  and `Not: chef, grandma.` for people already used. Each reply is one question `{"options": [...], "answer": "..."}` (JSON rule = one-question schema,
+  max 80 tokens). **Dataset v2 must use these prompts word for word.**
+- `generateScenario` makes 5 requests; each part is checked on its own (`Scenario.partFromModel`: 4 distinct options ≤ 6 words, answer among them;
+  who must be a new person; what ≠ who, ignoring a/an/the) and redone on its own up to 3 tries; `onPart` reports each accepted part.
+- `ScenarioService`: the exercise being written (`draft`) fills in part by part. Opening a verb with no stored AI exercise while the model is loaded
+  starts a **live** exercise (`startLive`); the writer switches to that verb at the next question (a half-written exercise for another verb is
+  dropped, not counted as a failure). Stored exercises are still preferred; reviewed lists remain the fallback when the model isn't running.
+- `SessionScreen` live mode: questions in order who → what → where → when → why; "The helper is writing the next question…" if one isn't written yet;
+  a message and "Back to words" if writing fails; "does it make sense?" sentences added once the exercise is complete.
+- Llama-3.2-1B first in the model list (default); automatic writing on by default again; model load times out after 60 s with an error
+  (engine errors on its background thread used to leave the app "loading" forever).
+- Sentences strip a leading a/an/the from answers ("The chef", not "The a chef").
+- Tests: 21 pass (8 new: part prompts, per-part checks, and the part loop against a fake engine: order, retries, give-up after 3, new person,
+  who ≠ what, stop between parts). The live session screen is not covered by automated tests: checked on the phone.
+
+**Status:** ⚠️ Built and installed on the Note10; phone check pending. Expect weak content and some retries: Llama-1B is untuned and has never seen this prompt format.
+
 ---
 
 ## 8. What Failed / Dead Ends

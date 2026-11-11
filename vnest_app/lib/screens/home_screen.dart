@@ -12,6 +12,15 @@ class HomeScreen extends StatelessWidget {
   final AppServices services;
 
   Future<void> _open(BuildContext context, String verb) async {
+    // No stored AI exercise but the helper is running: write one now, question by question; the session starts on
+    // "who" as soon as it is written and the rest arrive while the patient answers (RESEARCH_LOG decision 2026-11-11).
+    if (services.scenarios.modelScenarios(verb).isEmpty && services.llm.isReady) {
+      final live = services.scenarios.startLive(verb);
+      Navigator.push(context, MaterialPageRoute(
+        builder: (_) => SessionScreen(services: services, verb: verb, scenarios: const [], live: live),
+      ));
+      return;
+    }
     final scenarios = await services.scenarios.forSession(verb);
     if (!context.mounted) return;
     if (scenarios.isEmpty) {

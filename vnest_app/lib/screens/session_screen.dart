@@ -30,11 +30,16 @@ class _Item {
 ///  1. For each scenario: "Who cooks?" then "What does the chef cook?"
 ///  2. Where / when / why about the first scenario
 ///  3. Does it make sense? (correct sentence, swapped roles, wrong object)
+///
+/// Live mode ([live] set, [scenarios] empty): the exercise is being written one question at a time while the patient
+/// practises. Questions come in order who, what, where, when, why; if the next one isn't written yet, the screen
+/// says so and waits. The "does it make sense?" sentences are added once the exercise is complete.
 class SessionScreen extends StatefulWidget {
-  const SessionScreen({super.key, required this.services, required this.verb, required this.scenarios});
+  const SessionScreen({super.key, required this.services, required this.verb, required this.scenarios, this.live});
   final AppServices services;
   final String verb;
   final List<Scenario> scenarios;
+  final Scenario? live;
 
   @override
   State<SessionScreen> createState() => _SessionScreenState();
@@ -42,6 +47,7 @@ class SessionScreen extends StatefulWidget {
 
 class _SessionScreenState extends State<SessionScreen> {
   late final List<_Item> _items = _buildQueue();
+  bool _sentencesAdded = false; // live mode: sentence checks are added when the exercise is complete
   int _index = 0;
   final Set<String> _wrongTapped = {};
   String? _correctTapped;
@@ -55,20 +61,27 @@ class _SessionScreenState extends State<SessionScreen> {
   _Item get _item => _items[_index];
 
   List<_Item> _buildQueue() {
+    final live = widget.live;
+    if (live != null) return [for (final k in QKind.values) _Item.question(live, k)];
     final scs = widget.scenarios;
     final first = scs.first;
-    final rng = Random();
-    final wrongWhat = first.questions[QKind.what]!.options.where((o) => o != first.patient).toList()..shuffle(rng);
-    final sentences = <_Item>[
-      for (final s in scs.take(2)) _Item.sentence(s, s.sentence, true),
-      _Item.sentence(first, 'The ${first.patient} ${first.verb3} the ${first.agent}.', false), // swapped roles
-      _Item.sentence(first, 'The ${first.agent} ${first.verb3} the ${wrongWhat.first}.', false), // wrong object
-    ]..shuffle(rng);
     return [
       for (final s in scs) ...[_Item.question(s, QKind.who), _Item.question(s, QKind.what)],
       for (final k in [QKind.where, QKind.when, QKind.why]) _Item.question(first, k),
-      ...sentences,
+      ..._sentenceItems(scs),
     ];
+  }
+
+  /// "Does it make sense?": the real sentence(s), swapped roles, and a wrong object.
+  List<_Item> _sentenceItems(List<Scenario> scs) {
+    final first = scs.first;
+    final rng = Random();
+    final wrongWhat = first.questions[QKind.what]!.options.where((o) => o != first.patient).toList()..shuffle(rng);
+    return <_Item>[
+      for (final s in scs.take(2)) _Item.sentence(s, s.sentence, true),
+      _Item.sentence(first, 'The ${first.patient} ${first.verb3} the ${first.agent}.', false), // swapped roles
+      _Item.sentence(first, 'The ${first.agent} ${first.verb3} the ${Scenario.noun(wrongWhat.first)}.', false), // wrong object
+    ]..shuffle(rng);
   }
 
   Future<void> _record({required bool firstTry}) async {
@@ -91,6 +104,12 @@ class _SessionScreenState extends State<SessionScreen> {
     if (!mounted) return;
     setState(() {
       _index++;
+      // Live mode: the last question (why) was answered, so the exercise is complete: add the sentence checks.
+      final live = widget.live;
+      if (live != null && !_sentencesAdded && _index >= _items.length && live.isComplete) {
+        _items.addAll(_sentenceItems([live]));
+        _sentencesAdded = true;
+      }
       _wrongTapped.clear();
       _correctTapped = null;
       _sentenceFeedback = null;
@@ -148,7 +167,12 @@ class _SessionScreenState extends State<SessionScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: _done ? _doneView(context) : (_item.kind != null ? _questionView(context) : _sentenceView(context)),
+          // Redraw when the writer adds a question to a live exercise.
+          child: ListenableBuilder(
+            listenable: widget.services.scenarios,
+            builder: (context, _) =>
+                _done ? _doneView(context) : (_item.kind != null ? _questionView(context) : _sentenceView(context)),
+          ),
         ),
       ),
     );
@@ -163,11 +187,38 @@ class _SessionScreenState extends State<SessionScreen> {
     return Text(label, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Theme.of(context).colorScheme.primary));
   }
 
+  /// Live mode: the next question isn't written yet (or writing failed).
+  Widget _waitingView(BuildContext context) {
+    final t = Theme.of(context).textTheme;
+    final failed = widget.services.scenarios.failedLive.contains(_item.scenario);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _stepLabel(context),
+        const SizedBox(height: 32),
+        if (!failed) ...[
+          const Center(child: SizedBox(width: 56, height: 56, child: CircularProgressIndicator(strokeWidth: 5))),
+          const SizedBox(height: 24),
+          Text('The helper is writing the next question…', textAlign: TextAlign.center, style: t.headlineSmall),
+        ] else ...[
+          const Icon(Icons.hourglass_disabled, size: 56),
+          const SizedBox(height: 24),
+          Text('The helper could not write this exercise. Please try again later.',
+              textAlign: TextAlign.center, style: t.headlineSmall),
+          const SizedBox(height: 24),
+          FilledButton(onPressed: () => Navigator.pop(context), child: const Text('Back to words')),
+        ],
+      ],
+    );
+  }
+
   Widget _questionView(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final s = _item.scenario;
     final kind = _item.kind!;
-    final q = s.questions[kind]!;
+    final q = s.questions[kind];
+    if (q == null) return _waitingView(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

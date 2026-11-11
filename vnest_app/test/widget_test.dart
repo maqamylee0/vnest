@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vnest_app/data/scenario.dart';
 import 'package:vnest_app/data/verb_network.dart';
@@ -156,6 +157,136 @@ void main() {
       final p = LlmService.userPrompt('cook', avoidPeople: ['chef']);
       expect(p, contains('Verb: "cook"'));
       expect(p, contains('(not chef)'));
+    });
+  });
+
+  group('one question per request (who, what, where, when, why)', () {
+    Question q(String answer, List<String> wrong) => Question([answer, ...wrong], answer);
+    final done = {
+      QKind.who: q('a chef', ['cloud', 'candle', 'cup']),
+      QKind.what: q('the egg', ['boredom', 'tomorrow', 'a song']),
+      QKind.where: q('in the kitchen', ['on the sun', 'inside a volcano', 'in outer space']),
+      QKind.when: q('in the morning', ['while asleep', 'before he was born', 'in the year 3000']),
+    };
+
+    test('each part prompt carries the sentence so far, built by code', () {
+      expect(LlmService.partPrompt('cook', QKind.who, {}), 'VNeST "cook". who? A person who often cooks something.');
+      expect(LlmService.partPrompt('cook', QKind.who, {}, avoidPeople: ['chef', 'grandma']), endsWith('Not: chef, grandma.'));
+      expect(LlmService.partPrompt('cook', QKind.what, done), 'VNeST "cook". what? The chef cooks ___.');
+      expect(LlmService.partPrompt('cook', QKind.where, done), 'VNeST "cook". where? The chef cooks the egg ___.');
+      expect(LlmService.partPrompt('cook', QKind.when, done),
+          'VNeST "cook". when? The chef cooks the egg in the kitchen ___.');
+      expect(LlmService.partPrompt('cook', QKind.why, done),
+          'VNeST "cook". why? The chef cooks the egg in the kitchen in the morning ___.');
+    });
+
+    test('one part is checked on its own', () {
+      final ok = Scenario.partFromModel(QKind.where, {'options': ['On the sun.', 'in the kitchen', 'inside a volcano', 'in space'], 'answer': 'In the kitchen'});
+      expect(ok.answer, 'in the kitchen');
+      expect(ok.options.length, 4);
+      expect(() => Scenario.partFromModel(QKind.who, {'options': ['chef', 'cloud', 'cup'], 'answer': 'chef'}),
+          throwsA(isA<FormatException>()));
+      expect(() => Scenario.partFromModel(QKind.what, {'options': ['egg', 'a', 'b', 'c'], 'answer': 'soup'}),
+          throwsA(isA<FormatException>()));
+    });
+
+    test('who and what must differ, also with articles ("a chef" vs "chef")', () {
+      expect(() => Scenario.checkWhoWhat(q('a chef', ['x', 'y', 'z']), q('chef', ['x', 'y', 'z'])), throwsA(isA<FormatException>()));
+      expect(Scenario.noun('the egg'), 'egg');
+      final s = Scenario(verb: 'cook', questions: Map.of(done), source: ScenarioSource.llm);
+      expect(s.sentence, 'The chef cooks the egg.');
+      expect(s.isComplete, isFalse);
+    });
+  });
+
+  group('part-by-part writing against a fake engine', () {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    const channel = MethodChannel('vnest/llm');
+    final messenger = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+
+    /// Replies to "generateJson" in order; records the prompts it was sent.
+    List<String> fake(List<String> replies) {
+      final prompts = <String>[];
+      var i = 0;
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        switch (call.method) {
+          case 'status':
+            return {'modelDir': '/x', 'modelPresent': true, 'loaded': true};
+          case 'generateJson':
+            prompts.add((call.arguments as Map)['user'] as String);
+            return {'text': replies[i++], 'ms': 1000, 'completionTokens': 30, 'decodeTps': 7.0};
+        }
+        return null;
+      });
+      return prompts;
+    }
+
+    String part(String answer, List<String> wrong) => jsonEncode({'options': [...wrong, answer], 'answer': answer});
+    final good = [
+      part('chef', ['cloud', 'candle', 'cup']),
+      part('egg', ['boredom', 'tomorrow', 'a song']),
+      part('in the kitchen', ['on the sun', 'inside a volcano', 'in outer space']),
+      part('in the morning', ['while asleep', 'before he was born', 'in the year 3000']),
+      part('to make breakfast', ['to grow wings', 'to become a tree', 'to stop the sun']),
+    ];
+
+    Future<LlmService> ready() async {
+      final llm = LlmService();
+      await llm.refresh(); // fake engine says: loaded
+      return llm;
+    }
+
+    tearDown(() => messenger.setMockMethodCallHandler(channel, null));
+
+    test('five requests, in order, each given the earlier parts; every part reported as it passes', () async {
+      final prompts = fake(good);
+      final llm = await ready();
+      final reported = <QKind>[];
+      final r = await llm.generateScenario('cook', onPart: (k, _) => reported.add(k));
+      expect(r.scenario, isNotNull, reason: r.rejectedReason);
+      expect(reported, QKind.values);
+      expect(prompts.length, 5);
+      expect(prompts[2], 'VNeST "cook". where? The chef cooks the egg ___.');
+      expect(r.scenario!.sentence, 'The chef cooks the egg.');
+      expect(r.ms, 5000);
+      expect(r.tokens, 150);
+    });
+
+    test('a bad part is redone on its own; earlier parts are kept', () async {
+      final prompts = fake([good[0], good[1], 'not json', part('x', ['y']), good[2], good[3], good[4]]);
+      final llm = await ready();
+      final r = await llm.generateScenario('cook');
+      expect(r.scenario, isNotNull, reason: r.rejectedReason);
+      expect(prompts.length, 7);
+      expect(prompts.where((p) => p.contains('where?')).length, 3); // 2 failed tries + 1 good
+      expect(prompts.where((p) => p.contains('who?')).length, 1); // who not redone
+    });
+
+    test('gives up after 3 tries of one part', () async {
+      fake([good[0], 'bad', 'bad', 'bad']);
+      final llm = await ready();
+      final r = await llm.generateScenario('cook');
+      expect(r.scenario, isNull);
+      expect(r.rejectedReason, contains('after 3 tries'));
+    });
+
+    test('who must be a new person; what must differ from who', () async {
+      final prompts = fake([part('chef', ['a', 'b', 'c']), good[0].replaceAll('chef', 'baker'),
+        part('baker', ['x', 'y', 'z']), good[1], good[2], good[3], good[4]]);
+      final llm = await ready();
+      final r = await llm.generateScenario('cook', avoidPeople: ['chef']);
+      expect(r.scenario, isNotNull, reason: r.rejectedReason);
+      expect(r.scenario!.agent, 'baker');
+      expect(r.scenario!.patient, 'egg');
+      expect(prompts.first, endsWith('Not: chef.'));
+    });
+
+    test('stops between parts when asked (e.g. the patient opened another verb)', () async {
+      fake(good);
+      final llm = await ready();
+      var calls = 0;
+      final r = await llm.generateScenario('cook', keepGoing: () => ++calls <= 2);
+      expect(r.rejectedReason, 'stopped');
     });
   });
 }

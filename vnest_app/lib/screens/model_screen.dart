@@ -64,7 +64,9 @@ class _ModelScreenState extends State<ModelScreen> {
             const SizedBox(height: 8),
             _kv('Model', llm.model.id),
             _kv('Status', llm.state.name + (llm.loadMs != null ? ' (started in ${(llm.loadMs! / 1000).toStringAsFixed(1)} s)' : '')),
-            if (sc.writingVerb != null) _kv('Writing', '"${sc.writingVerb}" now (about 2 minutes each)'),
+            if (sc.writingVerb != null)
+              _kv('Writing', '"${sc.writingVerb}", one question at a time: '
+                  '${[for (final k in QKind.values) '${k.name}${sc.draft?.questions.containsKey(k) == true ? ' ✓' : ''}'].join(' · ')}'),
             if (llm.error != null) _kv('Error', llm.error!),
             if (llm.state == ModelState.missing && llm.modelDir != null) ...[
               const SizedBox(height: 8),

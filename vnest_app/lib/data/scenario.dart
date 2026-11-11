@@ -37,8 +37,11 @@ class Scenario {
   final int? tokens;
 
   String get verb3 => thirdPerson(verb);
-  String get agent => questions[QKind.who]!.answer;
-  String get patient => questions[QKind.what]!.answer;
+  String get agent => noun(questions[QKind.who]!.answer);
+  String get patient => noun(questions[QKind.what]!.answer);
+
+  /// True once all five questions are there (an exercise being written part by part is incomplete).
+  bool get isComplete => QKind.values.every(questions.containsKey);
 
   String prompt(QKind k) => switch (k) {
         QKind.who => 'Who $verb3?',
@@ -71,33 +74,47 @@ class Scenario {
   /// Builds a scenario from the model's JSON, or throws [FormatException] saying why it can't be used.
   /// Light checks only (this is a test build): 4 distinct short options, answer is one of them.
   factory Scenario.fromModel(String verb, Map<String, dynamic> j, {int? ms, int? tokens, Random? rng}) {
-    final r = rng ?? Random();
     final qs = <QKind, Question>{};
     for (final k in QKind.values) {
       final raw = j[k.name];
       if (raw is! Map) throw FormatException('missing "${k.name}"');
-      final answer = clean(raw['answer']?.toString() ?? '');
-      final options = <String>[];
-      for (final o in (raw['options'] as List? ?? const [])) {
-        final c = clean(o.toString());
-        if (c.isNotEmpty && !options.contains(c)) options.add(c);
-      }
-      if (answer.isEmpty) throw FormatException('${k.name}: empty answer');
-      if (!options.contains(answer)) throw FormatException('${k.name}: answer "$answer" is not one of the options');
-      final wrong = options.where((o) => o != answer).toList();
-      if (wrong.length < 3) throw FormatException('${k.name}: fewer than 4 different options');
-      final picked = [answer, ...wrong.take(3)];
-      for (final o in picked) {
-        if (o.split(' ').length > 6) throw FormatException('${k.name}: option too long: "$o"');
-      }
-      qs[k] = Question(picked..shuffle(r), answer); // the model tends to put the answer first
+      qs[k] = partFromModel(k, raw, rng: rng);
     }
-    if (qs[QKind.who]!.answer == qs[QKind.what]!.answer) throw const FormatException('who and what are the same');
+    checkWhoWhat(qs[QKind.who]!, qs[QKind.what]!);
     return Scenario(verb: verb, questions: qs, source: ScenarioSource.llm, ms: ms, tokens: tokens);
+  }
+
+  /// Checks ONE question as written by the model ({"options": [...], "answer": "..."}), or throws [FormatException]:
+  /// 4 distinct options of at most 6 words, the answer is one of them. Used per part when exercises are
+  /// written one question per request (RESEARCH_LOG decision 2026-11-11), and by [Scenario.fromModel].
+  static Question partFromModel(QKind k, Map raw, {Random? rng}) {
+    final answer = clean(raw['answer']?.toString() ?? '');
+    final options = <String>[];
+    for (final o in (raw['options'] as List? ?? const [])) {
+      final c = clean(o.toString());
+      if (c.isNotEmpty && !options.contains(c)) options.add(c);
+    }
+    if (answer.isEmpty) throw FormatException('${k.name}: empty answer');
+    if (!options.contains(answer)) throw FormatException('${k.name}: answer "$answer" is not one of the options');
+    final wrong = options.where((o) => o != answer).toList();
+    if (wrong.length < 3) throw FormatException('${k.name}: fewer than 4 different options');
+    final picked = [answer, ...wrong.take(3)];
+    for (final o in picked) {
+      if (o.split(' ').length > 6) throw FormatException('${k.name}: option too long: "$o"');
+    }
+    return Question(picked..shuffle(rng ?? Random()), answer); // the model tends to put the answer first
+  }
+
+  /// The person and the thing must differ ("who cooks?" → chef, "what does the chef cook?" → not chef).
+  static void checkWhoWhat(Question who, Question what) {
+    if (noun(who.answer) == noun(what.answer)) throw const FormatException('who and what are the same');
   }
 
   static String clean(String s) =>
       s.trim().replaceAll(RegExp(r'[.!?]+$'), '').replaceAll(RegExp(r'\s+'), ' ').toLowerCase();
+
+  /// "a chef" -> "chef", "the egg" -> "egg", so sentences read "The chef cooks the egg", not "The a chef".
+  static String noun(String s) => s.replaceFirst(RegExp(r'^(a|an|the)\s+'), '');
 
   /// cook -> cooks, fix -> fixes, carry -> carries, go -> goes.
   static String thirdPerson(String verb) {

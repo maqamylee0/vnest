@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -55,19 +56,20 @@ class LlmService extends ChangeNotifier {
   /// Libraries are those in the engine built by tools/package_engine.sh (MLC 2024, RESEARCH_LOG Entry 7).
   /// Weights: Llama = MLC's published q4f16_0 folders; Qwen = converted by us (tools/build_phone_models.sh)
   /// from Qwen/Qwen2.5-1.5B-Instruct in both layouts: q4f16_1 = "NK", q4f16_0 = "KN".
+  /// The first model is the default: Llama-3.2-1B, the student model (RESEARCH_LOG decision 2026-11-11, Entry 7).
   static const models = [
-    LlmModel(
-      id: 'Llama-3.2-3B-Instruct-q4f16_0-MLC',
-      lib: 'llama3b_q4f16_0',
-      label: 'Llama-3.2-3B',
-      size: '1.7 GB',
-      engine: _limits,
-    ),
     LlmModel(
       id: 'Llama-3.2-1B-Instruct-q4f16_0-MLC',
       lib: 'llama1b_q4f16_0',
       label: 'Llama-3.2-1B',
       size: '0.7 GB',
+      engine: _limits,
+    ),
+    LlmModel(
+      id: 'Llama-3.2-3B-Instruct-q4f16_0-MLC',
+      lib: 'llama3b_q4f16_0',
+      label: 'Llama-3.2-3B',
+      size: '1.7 GB',
       engine: _limits,
     ),
     LlmModel(
@@ -90,8 +92,9 @@ class LlmService extends ChangeNotifier {
   bool _restored = false;
 
   /// Off = the model loads but the background writer stays idle (for self-tests on a new model).
-  // Off by default while Qwen hangs on the Note10 (RESEARCH_LOG Entry 6); turn back on once models pass the self-test.
-  bool autoWrite = false;
+  /// On by default again: the memory limits are compiled in and every model in the engine uses the fast KN layout
+  /// (RESEARCH_LOG Entry 7); it was off while Qwen NK froze the phone (Entry 6).
+  bool autoWrite = true;
   void setAutoWrite(bool v) {
     autoWrite = v;
     notifyListeners();
@@ -179,12 +182,19 @@ class LlmService extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      final r = Map<String, dynamic>.from(await _channel.invokeMethod('load', {'modelId': model.id, 'modelLib': model.lib, 'engine': model.engine}));
+      final r = Map<String, dynamic>.from(await _channel
+          .invokeMethod('load', {'modelId': model.id, 'modelLib': model.lib, 'engine': model.engine})
+          // Engine errors can happen on its background thread and never answer this call (Qwen "loading" forever,
+          // RESEARCH_LOG Entry 7); every model loads in < 15 s on the Note10.
+          .timeout(const Duration(seconds: 60)));
       loadMs = (r['ms'] as num?)?.toInt();
       state = ModelState.ready;
     } on PlatformException catch (e) {
       state = ModelState.error;
       error = e.message;
+    } on TimeoutException {
+      state = ModelState.error;
+      error = 'The model did not finish loading within 60 s. Close and reopen the app, then try again.';
     }
     notifyListeners();
   }
@@ -241,30 +251,92 @@ class LlmService extends ChangeNotifier {
       'The 3 wrong options must be impossible or silly (like under the sea, while sleeping, to grow wings).\n'
       'Example for "measure": $_example';
 
-  /// Asks the model for one scenario for [verb]. Takes ~1.5-2 minutes on a Galaxy Note 10.
-  Future<ScenarioResult> generateScenario(String verb, {List<String> avoidPeople = const []}) async {
+  // ---------------- one question per request (RESEARCH_LOG decision 2026-11-11) ----------------
+  // The whole-exercise prompt above (systemPrompt / userPrompt / scenarioSchema) is kept for the
+  // "Read the exercise prompt" speed test and as the record of what dataset v1 was built for.
+
+  /// The same system line for every part. Dataset v2 (vnest_dataset/scripts) must use it word for word.
+  static const partSystemPrompt = 'You write Verb Network Strengthening Treatment (VNeST) exercises for adults '
+      'with aphasia. Each question has 4 options: exactly one correct answer and 3 options that are clearly '
+      'impossible. Use short, very common, concrete English words. '
+      'Reply only with JSON: {"options": [4 options], "answer": "the correct option"}.';
+
+  /// The request for one part. [done] holds the parts already written; the sentence so far is built here in code,
+  /// so the model never has to write it. Dataset v2 must build its prompts the same way.
+  static String partPrompt(String verb, QKind k, Map<QKind, Question> done, {List<String> avoidPeople = const []}) {
+    final v3 = Scenario.thirdPerson(verb);
+    String a(QKind q) => Scenario.noun(done[q]!.answer);
+    final head = 'VNeST "$verb". ${k.name}?';
+    return switch (k) {
+      QKind.who => '$head A person who often $v3 something.${avoidPeople.isEmpty ? '' : ' Not: ${avoidPeople.join(', ')}.'}',
+      QKind.what => '$head The ${a(QKind.who)} $v3 ___.',
+      QKind.where => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ___.',
+      QKind.when => '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ${done[QKind.where]!.answer} ___.',
+      QKind.why =>
+        '$head The ${a(QKind.who)} $v3 the ${a(QKind.what)} ${done[QKind.where]!.answer} ${done[QKind.when]!.answer} ___.',
+    };
+  }
+
+  static const partTries = 3; // first try + 2 retries, per part
+  static const _partMaxTokens = 80; // one question is ~30 tokens
+
+  /// Writes one exercise for [verb], ONE QUESTION PER REQUEST: who, what, where, when, why, each request given the
+  /// parts already written. A part that fails its checks is redone on its own (up to [partTries] times).
+  /// [onPart] is called as soon as a part passes, so a session can start on "who" while "what" is being written.
+  /// [keepGoing] is checked before every request; returning false stops (e.g. the patient opened another verb).
+  Future<ScenarioResult> generateScenario(
+    String verb, {
+    List<String> avoidPeople = const [],
+    void Function(QKind kind, Question q)? onPart,
+    bool Function()? keepGoing,
+  }) async {
     if (!isReady) return const ScenarioResult(rejectedReason: 'model not loaded');
     final label = model.label;
-    Map<String, dynamic> r;
-    try {
-      r = Map<String, dynamic>.from(await _channel.invokeMethod('generateJson', {
-        'system': systemPrompt,
-        'user': userPrompt(verb, avoidPeople: avoidPeople),
-        'schema': jsonEncode(scenarioSchema),
-        'maxTokens': 320,
-      }).timeout(const Duration(minutes: 5)));
-    } catch (e) {
-      return ScenarioResult(rejectedReason: 'model error: $e', model: label);
+    final done = <QKind, Question>{};
+    final raw = StringBuffer();
+    var ms = 0, tokens = 0;
+    double? tps;
+    ScenarioResult fail(String why) =>
+        ScenarioResult(rejectedReason: why, rawText: raw.toString(), ms: ms, tokens: tokens, tps: tps, model: label);
+
+    for (final k in QKind.values) {
+      String? lastError;
+      for (var t = 0; t < partTries && !done.containsKey(k); t++) {
+        if (keepGoing != null && !keepGoing()) return fail('stopped');
+        if (!isReady) return fail('model not loaded');
+        final Map<String, dynamic> r;
+        try {
+          r = Map<String, dynamic>.from(await _channel.invokeMethod('generateJson', {
+            'system': partSystemPrompt,
+            'user': partPrompt(verb, k, done, avoidPeople: avoidPeople),
+            'schema': jsonEncode(_q),
+            'maxTokens': _partMaxTokens,
+          }).timeout(const Duration(minutes: 2)));
+        } catch (e) {
+          return fail('model error at ${k.name}: $e');
+        }
+        final text = r['text'] as String? ?? '';
+        ms += (r['ms'] as num?)?.toInt() ?? 0;
+        tokens += (r['completionTokens'] as num?)?.toInt() ?? 0;
+        tps = (r['decodeTps'] as num?)?.toDouble() ?? tps;
+        raw.writeln('${k.name}: $text');
+        try {
+          final decoded = jsonDecode(text);
+          if (decoded is! Map) throw FormatException('${k.name}: not a JSON object');
+          final q = Scenario.partFromModel(k, decoded);
+          if (k == QKind.who && avoidPeople.contains(Scenario.noun(q.answer))) {
+            throw FormatException('who: "${q.answer}" was already used for "$verb"');
+          }
+          if (k == QKind.what) Scenario.checkWhoWhat(done[QKind.who]!, q);
+          done[k] = q;
+          onPart?.call(k, q);
+        } on FormatException catch (e) {
+          lastError = e.message;
+        }
+      }
+      if (!done.containsKey(k)) return fail('${lastError ?? k.name} (after $partTries tries)');
     }
-    final text = r['text'] as String? ?? '';
-    final ms = (r['ms'] as num?)?.toInt();
-    final tokens = (r['completionTokens'] as num?)?.toInt();
-    final tps = (r['decodeTps'] as num?)?.toDouble();
-    try {
-      final s = Scenario.fromModel(verb, jsonDecode(text) as Map<String, dynamic>, ms: ms, tokens: tokens);
-      return ScenarioResult(scenario: s, rawText: text, ms: ms, tokens: tokens, tps: tps, model: label);
-    } on FormatException catch (e) {
-      return ScenarioResult(rejectedReason: e.message, rawText: text, ms: ms, tokens: tokens, tps: tps, model: label);
-    }
+    final s = Scenario(verb: verb, questions: done, source: ScenarioSource.llm, ms: ms, tokens: tokens);
+    return ScenarioResult(scenario: s, rawText: raw.toString(), ms: ms, tokens: tokens, tps: tps, model: label);
   }
 }

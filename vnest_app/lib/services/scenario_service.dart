@@ -33,6 +33,13 @@ class ScenarioService extends ChangeNotifier {
   final Map<String, List<Scenario>> _scenarios = {};
   final Map<String, String> lastError = {};
   String? writingVerb;
+
+  /// The exercise being written right now, filled in one question at a time (who, what, where, when, why).
+  Scenario? draft;
+  Scenario? _pendingLive; // created by startLive() before the writer picks the verb up
+  String? _priority; // verb a patient is waiting for: written next, and the current exercise stops for it
+  /// Live exercises that failed (a session showing one tells the patient and offers to go back).
+  final Set<Scenario> failedLive = {};
   bool _running = false;
   bool stopping = false; // Stop pressed: finish the current exercise, then unload
 
@@ -117,20 +124,60 @@ class ScenarioService extends ChangeNotifier {
     _pump();
   }
 
-  /// Background writer: one scenario at a time while the model is ready.
+  /// A patient opened [verb] and no written exercise is stored: write one now, question by question, and return it.
+  /// The session shows each question as soon as it is written ([draft] fills in); if the writer is busy with another
+  /// verb, it stops that one at the next question and switches. Check [failedLive] for a failure.
+  Scenario startLive(String verb) {
+    _priority = verb;
+    _failures.remove(verb); // a patient is waiting: always try again, even if background writing gave up on it
+    if (draft != null && draft!.verb == verb) return draft!;
+    final live = _pendingLive?.verb == verb
+        ? _pendingLive!
+        : Scenario(verb: verb, questions: {}, source: ScenarioSource.llm);
+    _pendingLive = live;
+    _pump();
+    return live;
+  }
+
+  String? _nextVerb() {
+    if (_priority != null && (_failures[_priority] ?? 0) < 3) return _priority;
+    // Least-covered verb first, skipping verbs that failed 3 times in a row.
+    final todo = verbs.where((v) => modelScenarios(v).length < target && (_failures[v] ?? 0) < 3).toList()
+      ..sort((a, b) => modelScenarios(a).length.compareTo(modelScenarios(b).length));
+    return todo.firstOrNull;
+  }
+
+  /// Background writer: one exercise at a time, one question per request, while the model is ready.
   Future<void> _pump() async {
-    if (_running || !llm.isReady || !llm.autoWrite || stopping) return;
+    if (_running || !llm.isReady || stopping || !(llm.autoWrite || _priority != null)) return;
     _running = true;
     try {
-      while (llm.isReady && llm.autoWrite && !stopping) {
-        // Least-covered verb first, skipping verbs that failed 3 times in a row.
-        final todo = verbs.where((v) => modelScenarios(v).length < target && (_failures[v] ?? 0) < 3).toList()
-          ..sort((a, b) => modelScenarios(a).length.compareTo(modelScenarios(b).length));
-        if (todo.isEmpty) break;
-        final verb = todo.first;
+      while (llm.isReady && !stopping && (llm.autoWrite || _priority != null)) {
+        final verb = _nextVerb();
+        if (verb == null) break;
+        final d = _pendingLive?.verb == verb ? _pendingLive! : Scenario(verb: verb, questions: {}, source: ScenarioSource.llm);
+        if (identical(d, _pendingLive)) _pendingLive = null;
+        final isLive = verb == _priority;
+        draft = d;
         writingVerb = verb;
         notifyListeners();
-        final result = await llm.generateScenario(verb, avoidPeople: [for (final s in modelScenarios(verb)) s.agent]);
+        final result = await llm.generateScenario(
+          verb,
+          avoidPeople: [for (final s in modelScenarios(verb)) s.agent],
+          onPart: (k, q) {
+            d.questions[k] = q;
+            notifyListeners();
+          },
+          // Stop between questions if writing was switched off/stopped, or a patient is waiting for another verb.
+          keepGoing: () => !stopping && (llm.autoWrite || _priority == verb) && (_priority == null || _priority == verb),
+        );
+        draft = null;
+        writingVerb = null;
+        if (result.rejectedReason == 'stopped') {
+          if (isLive) failedLive.add(d); // only if the patient left it for another verb; nobody is waiting on it
+          notifyListeners();
+          continue; // switched to another verb: not a failure of the model
+        }
         log.insert(0, result);
         if (log.length > 20) log.removeLast();
         if (result.scenario != null) {
@@ -140,11 +187,13 @@ class ScenarioService extends ChangeNotifier {
         } else {
           lastError[verb] = result.rejectedReason ?? 'unknown error';
           _failures[verb] = (_failures[verb] ?? 0) + 1;
+          if (isLive) failedLive.add(d);
         }
-        writingVerb = null;
+        if (_priority == verb) _priority = null;
         notifyListeners();
       }
     } finally {
+      draft = null;
       writingVerb = null;
       _running = false;
       notifyListeners();
