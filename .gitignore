@@ -35,3 +35,4 @@ logs/phone/*_full.txt.gz
 build_mlc/
 .venv-mlc2024/
 logs/phone/raw/
+.venv-nbtest/

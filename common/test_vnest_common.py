@@ -149,9 +149,42 @@ rows2 = [{**wc.score_part(it["ref_reply"], it["part"], it["verb"], refs2[it["ver
 df2 = pd.DataFrame(rows2)
 for mtr in wc.PART_METRICS:
     df2[mtr] = df2[mtr].astype(bool)
-old_metrics, wc.METRICS = wc.METRICS, wc.PART_METRICS
-try:
-    print(wc.summarise(df2, ["split", "part"])[["split", "part", "n", "n_verbs", "accepted_pct", "who_known_valid_pct", "any_bad_distractor_pct"]].to_string(index=False))
-finally:
-    wc.METRICS = old_metrics
+print(wc.summarise(df2, ["split", "part"], metrics=wc.PART_METRICS)[["split", "part", "n", "n_verbs", "accepted_pct", "who_known_valid_pct", "any_bad_distractor_pct"]].to_string(index=False))
+
+# 12. chained items: one per exercise, references + avoid list; scoring the references chains to a complete exercise
+ch = wc.chain_items_from_split(te2, "test") + wc.chain_items_from_split(va2, "validation")
+stats2 = json.loads((v2 / "stats.json").read_text())["sentences"]
+assert len([c for c in ch if c["split"] == "test"]) == stats2["test"] and len([c for c in ch if c["split"] == "validation"]) == stats2["validation"]
+by_ex = {}
+for r in te2:
+    m = r["meta"]; by_ex.setdefault(f"test:{m['sentence_id']}#{m['variant']}", {})[m["part"]] = [r["messages"][2]["content"]]
+assert all(wc.score_chain(by_ex[c["exercise_id"]], c["verb"], {})["exercise_accepted"] for c in ch if c["split"] == "test")
+cdf = pd.DataFrame([{"verb": c["verb"], "split": c["split"], "exercise_accepted": True} for c in ch])
+assert (wc.summarise(cdf, ["split"], metrics=wc.CHAIN_METRICS)["exercise_accepted_pct"] == 100.0).all()
+print(f"chain items: {len(ch)} exercises (test {stats2['test']}, validation {stats2['validation']}); references complete as chains")
+
+# 13. stop tokens: generation config + tokenizer eos + chat end-of-turn tokens present in the vocabulary
+class _Tok:
+    eos_token_id = 128001
+    def get_vocab(self): return {"<|eot_id|>": 128009, "<|end_of_text|>": 128001, "hello": 5}
+assert wc.stop_token_ids(_Tok(), [128001, 128008]) == [128001, 128008, 128009]
+assert wc.stop_token_ids(_Tok(), None) == [128001, 128009]
+print("stop tokens: generation config + eos + <|eot_id|>/<|im_end|>/<|end_of_text|> when present")
+
+# 14. offline mode: no upload, downloads from the mirror or from this run's own files
+import os, tempfile  # noqa: E401,E402
+with tempfile.TemporaryDirectory() as _mirror, tempfile.TemporaryDirectory() as _work:
+    os.environ["VNEST_OFFLINE"], os.environ["VNEST_OFFLINE_DIR"] = "1", _mirror
+    try:
+        (Path(_mirror) / "data/v2").mkdir(parents=True); (Path(_mirror) / "data/v2/x.txt").write_text("hi")
+        assert wc.hf_download("data/v2/x.txt", _work).read_text() == "hi"
+        assert wc.hf_download("data/v2/missing.txt", _work) is None
+        st = wc.Stages("b2-test-offline", {}, set(), _work)
+        assert st.should_run("generate")
+        st.mark_done("generate", {"ok": 1})       # written locally only ("[offline] not uploaded")
+        assert not st.should_run("generate")       # ...and found again: resume works offline
+        assert wc.whoami() == wc.HF_USER
+    finally:
+        del os.environ["VNEST_OFFLINE"], os.environ["VNEST_OFFLINE_DIR"]
+print("offline mode: no uploads, mirror + own-file downloads, stage markers resume locally")
 print("ALL CHECKS PASSED, module", wc.VERSION)

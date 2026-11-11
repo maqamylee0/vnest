@@ -115,6 +115,7 @@ status after every run. Notebooks that produced results are never edited: fork t
 | NB | File | Purpose | Forked from | Status | Runs (W&B id / HF repo) | Log entry |
 |---|---|---|---|---|---|---|
 | 2.01 | `notebooks/marimo/2_evaluation/01_baseline_qwen25_untuned.py` | Baseline: untuned Qwen2.5-1.5B-Instruct on validation + test, long/short prompt × schema/free decoding, automatic scores | – | **done** 2026-11-10 (RTX PRO 6000, ~2 min generation); output export `2_evaluation/baseline_qwen_untuned_results.ipynb` | run `b1-qwen25-1.5b-instruct-untuned` (W&B id = run name); outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 5 |
+| 2.02 | `notebooks/marimo/2_evaluation/02_baseline_llama32_1b_untuned_parts.py` | Baseline b2: untuned Llama-3.2-1B-Instruct on dataset v2 (one question per request), validation + test, protocols **forced** (reference earlier answers, greedy) and **chain** (the app's way: own answers, ≤ 3 tries/part, temperature 0.3, seed 20261111) × decodings schema (app JSON rule) / free; module 1.1.1 | NB 2.01 (+ stop-token fix from `notes/nb2.02_stop_token_fix.patch`) | ready (embedded 1.1.1, all 44 `wc.*` names defined, compiles, marimo check: formatting warnings only); local offline smoke test running; to be run by the user on Marimo 2026-11-11 | run `b2-llama32-1b-instruct-untuned`; outputs in `emmilly/vnest-exercise-llm-outputs` | Entry 10 (pending) |
 
 Status values: `draft` → `ready (offline checks pass)` → `running` → `done` / `failed` / `superseded by NB x`.
 
@@ -502,6 +503,10 @@ review_sample.csv, GENERATION.md), HF commit `a7bee66af14c2eaf9665e4284022533288
 - Offline checks (`python -I common/test_vnest_common.py .`) pass: system line/fields/tries/token limit read from `llm_service.dart` and identical;
   all 4,155 v2 prompts rebuilt identically and every reference accepted; all phone failures of Entry 8 rejected with the right reason;
   chain matches the app (complete / retried / give up after 3 / who == what). `DATA_VERSION` = "v2".
+
+**Module 1.1.1** (for NB 2.02): offline mode (`VNEST_OFFLINE=1`: no uploads, downloads from `VNEST_OFFLINE_DIR` or the run's own files, local stage markers),
+`summarise(..., metrics=...)`, `chain_items_from_split`, `CHAIN_METRICS`, `stop_token_ids` (generation config + tokenizer eos + `<|eot_id|>`/`<|im_end|>`/`<|end_of_text|>`).
+Offline checks pass (incl. offline mode and resume).
 
 **Not fixed:** repetitive wrong options (small pools) and weak v1 sentences (e.g. "the farmer milks the job") → therapist review of `out_v2/review_sample.csv`.
 **Next:** scorer for the per-part format; baseline b2 (untuned Llama-3.2-1B, same protocol); fine-tuning.

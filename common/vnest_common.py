@@ -10,6 +10,8 @@ Changelog
   PART_SYSTEM_PROMPT, PART_SCHEMA, part_prompt, part_accept (port of Scenario.partFromModel + checkContent),
   part_items_from_split, score_part, score_chain (the app's 3 tries per part, who != what), PART_METRICS.
   DATA_VERSION -> "v2". Whole-exercise functions (app_accept, score_output, ...) unchanged.
+- 1.1.1 (2026-11-11): offline mode (VNEST_OFFLINE=1: no uploads; downloads from VNEST_OFFLINE_DIR or this run's own files),
+  summarise(..., metrics=...), chain_items_from_split, CHAIN_METRICS, stop_token_ids. For NB 2_evaluation/02 (baseline b2).
 """
 from __future__ import annotations
 
@@ -23,7 +25,7 @@ import socket
 import time
 from pathlib import Path
 
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 
 # ---------------------------------------------------------------------------------------------------------------
 # Project constants (decided 2026-11-10, see RESEARCH_LOG.md §4)
@@ -457,6 +459,40 @@ def score_chain(attempts: dict, verb: str, refs: dict) -> dict:
     out["fail_reason"] = ""
     return out
 
+CHAIN_METRICS = ["exercise_accepted"]
+
+def chain_items_from_split(rows: list[dict], split: str) -> list[dict]:
+    """One item per EXERCISE of a v2 split (the 5 examples of one sentence/variant), for the chained protocol: the model writes
+    who, then what given its own who, and so on, as the app does. 'avoid' comes from the exercise's "who" prompt."""
+    items, by = [], {}
+    for r in rows:
+        m = r["meta"]
+        key = (m["sentence_id"], m.get("variant", 0))
+        if key not in by:
+            by[key] = {"split": split, "exercise_id": f"{split}:{m['sentence_id']}#{m.get('variant', 0)}", "verb": m["verb"],
+                       "sentence_id": m["sentence_id"], "variant": m.get("variant", 0), "avoid": [], "ref": {},
+                       "ref_agent": m["agent"], "ref_patient": m["patient"]}
+            items.append(by[key])
+        it = by[key]
+        it["ref"][m["part"]] = clean_option(json.loads(r["messages"][2]["content"])["answer"])
+        if m["part"] == "who":
+            it["avoid"] = avoid_from_part_prompt(r["messages"][1]["content"])
+    for it in items:
+        assert set(it["ref"]) == set(QUESTIONS), it["exercise_id"]
+    return items
+
+def stop_token_ids(tokenizer, generation_eos=None) -> list[int]:
+    """Every end-of-turn token the model may use, passed to generate() explicitly so stopping never relies on defaults:
+    the generation config's eos ids, the tokenizer's eos, and <|eot_id|> (Llama 3), <|im_end|> (Qwen), <|end_of_text|>
+    when the vocabulary has them. (From the NB 2.02 stop-token note, notes/nb2.02_stop_token_fix.patch.)"""
+    ids = set(generation_eos if isinstance(generation_eos, (list, tuple, set)) else [generation_eos] if generation_eos is not None else [])
+    ids.add(getattr(tokenizer, "eos_token_id", None))
+    vocab = tokenizer.get_vocab() if hasattr(tokenizer, "get_vocab") else {}
+    for t in ("<|eot_id|>", "<|im_end|>", "<|end_of_text|>"):
+        if t in vocab:
+            ids.add(vocab[t])
+    return sorted(i for i in ids if isinstance(i, int))
+
 def bootstrap_ci(values, groups, n_boot: int = 2000, seed: int = 0, alpha: float = 0.05):
     """Mean with a CI that resamples GROUPS (verbs), not items. Returns (mean, lo, hi)."""
     import numpy as np
@@ -474,8 +510,8 @@ def bootstrap_ci(values, groups, n_boot: int = 2000, seed: int = 0, alpha: float
     lo, hi = np.quantile(means, [alpha / 2, 1 - alpha / 2])
     return float(v.mean()), float(lo), float(hi)
 
-def summarise(df, by: list[str], group_col: str = "verb"):
-    """One row per group in `by`: n, and for each metric mean % with a verb-resampled 95% CI."""
+def summarise(df, by: list[str], group_col: str = "verb", metrics: list[str] | None = None):
+    """One row per group in `by`: n, and for each metric (default METRICS) mean % with a verb-resampled 95% CI."""
     import pandas as pd
     out = []
     for keys, sub in df.groupby(by, dropna=False):
@@ -483,7 +519,7 @@ def summarise(df, by: list[str], group_col: str = "verb"):
         row = dict(zip(by, keys))
         row["n"] = len(sub)
         row["n_verbs"] = sub[group_col].nunique()
-        for m in METRICS:
+        for m in (metrics or METRICS):
             mean, lo, hi = bootstrap_ci(sub[m].astype(float).values, sub[group_col].values)
             row[f"{m}_pct"] = round(100 * mean, 1)
             row[f"{m}_ci"] = f"{100 * lo:.1f}-{100 * hi:.1f}"
@@ -510,17 +546,26 @@ def _retry(fn, what: str, tries: int = 6):
             time.sleep(delay)
             delay = min(delay * 2, 120)
 
+def offline() -> bool:
+    """VNEST_OFFLINE=1: nothing is uploaded; downloads come from VNEST_OFFLINE_DIR (a local mirror of the outputs repo) or
+    from files this run already wrote. For local smoke tests that must not write into the real outputs repo."""
+    return os.environ.get("VNEST_OFFLINE") == "1"
+
 def hf_api(token: str | None = None):
     from huggingface_hub import HfApi
     return HfApi(token=token or os.environ.get("HF_TOKEN") or None)
 
 def whoami(token: str | None = None) -> str:
+    if offline():
+        return HF_USER
     try:
         return hf_api(token).whoami()["name"]
     except Exception as e:
         return f"(unknown: {str(e)[:80]})"
 
 def ensure_outputs_repo(token=None):
+    if offline():
+        return
     api = hf_api(token)
     _retry(lambda: api.create_repo(OUTPUTS_REPO, repo_type="dataset", private=OUTPUTS_PRIVATE, exist_ok=True), "create repo")
 
@@ -533,6 +578,16 @@ def hf_exists(path_in_repo: str, token=None) -> bool:
 
 def hf_download(path_in_repo: str, local_dir, token=None):
     """Download one file from the outputs repo into local_dir (keeping its path). Returns the local Path or None."""
+    if offline():
+        import shutil
+        local = Path(local_dir) / path_in_repo
+        mirror = Path(os.environ.get("VNEST_OFFLINE_DIR", "")) / path_in_repo if os.environ.get("VNEST_OFFLINE_DIR") else None
+        if mirror is not None and mirror.is_file():
+            local.parent.mkdir(parents=True, exist_ok=True)
+            if mirror.resolve() != local.resolve():
+                shutil.copyfile(mirror, local)
+            return local
+        return local if local.is_file() else None
     from huggingface_hub import hf_hub_download
     try:
         p = _retry(lambda: hf_hub_download(OUTPUTS_REPO, path_in_repo, repo_type="dataset", local_dir=str(local_dir),
@@ -544,6 +599,9 @@ def hf_download(path_in_repo: str, local_dir, token=None):
         raise
 
 def hf_upload(local_path, path_in_repo: str, message: str, token=None):
+    if offline():
+        print(f"[offline] not uploaded: {path_in_repo}", flush=True)
+        return
     api = hf_api(token)
     _retry(lambda: api.upload_file(path_or_fileobj=str(local_path), path_in_repo=path_in_repo, repo_id=OUTPUTS_REPO,
                                    repo_type="dataset", commit_message=message), f"upload {path_in_repo}")
