@@ -665,6 +665,23 @@ app without the JSON rule for f1 (expected ≈ 7 s per question, ≈ 35 s per ex
   per chore-type verb, more people per verb, more "not these people" examples, larger wrong-option pools, odd pairings removed) and an f1-vs-f2 comparison with new
   measures (distinct people/places per verb, gender balance of "who", sense judged on a sample).
 
+### [2026-11-11] Entry 13: Phone build of f1 released publicly on Hugging Face
+**Goal:** Let others use the exact model the app runs, without access to the private training repo.
+
+**Repo:** [`emmilly/Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0-MLC`](https://huggingface.co/emmilly/Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0-MLC) (**public**).
+Contents: the 27 files of the local phone build `models/mlc/Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0/` (704.5 MB; local `sha256sum -c SHA256SUMS` passed and
+its `SHA256SUMS` is identical to the private repo's `mlc-q4f16_0/`; every LFS file's SHA-256 on the Hub checked against the local file after upload),
+plus `README.md` (model card) and `LICENSE.txt` (Llama 3.2 Community License, from `meta-llama/Llama-3.2-1B-Instruct`).
+The private training repo (merged model, LoRA epochs, optimizer state) is unchanged and stays private; the dataset stays private.
+
+**Licence (Llama 3.2 §1.b.i):** copy of the licence included; "Built with Llama" shown on the model card; name starts with "Llama".
+**Model card:** exact system prompt and the five per-part prompts as in `vnest_app/lib/services/llm_service.dart` (`partSystemPrompt`, `partPrompt`, `partSchema`,
+48 tokens, 3 tries); needs an MLC engine with the Llama-3.2-1B `q4f16_0` model library (same as `mlc-ai/Llama-3.2-1B-Instruct-q4f16_0-MLC`); held-out and
+Note10 results (Entries 11–12); known problems (sense errors, little variety, gender bias); research use only, not reviewed by a speech-language pathologist.
+
+**Upload:** one commit with all files failed (many parallel uploads, `Connection reset by peer` on the laptop's slow link); uploaded one file per commit with
+retries instead (see §8).
+
 ---
 
 ## 8. What Failed / Dead Ends
@@ -687,6 +704,7 @@ app without the JSON rule for f1 (expected ≈ 7 s per question, ≈ 35 s per ex
 | 2026-11-11 | Restarting the phone guard with `pkill -f phone_hang_guard.sh` in the same command | The pattern matched the command itself: it killed the new guard before it started and left an orphaned `adb logcat` | Stop processes by PID; never `pkill -f` a pattern that appears in the same command line |
 | 2026-11-11 | Phone export of a model saved by transformers 5.x (tokenizer files taken from the merged model) | `tokenizer.json` stores BPE merges as pairs; the engine's 2024 Rust tokenizer panics on it → the app closed while loading, no error message | Ship the reference model's tokenizer files after proving the content is identical; compare every exported file against a known-good reference, not just the weights |
 | 2026-11-10 | `huggingface_hub` 2.2.0 downloads from this laptop (private outputs repo and public MLC repo) | Hung with no output; `curl` to the same repo works. **Cause (2026-11-11): HF's Xet transfer backend** | Set `HF_HUB_DISABLE_XET=1` (uploads and downloads then work from the laptop); or `curl` from `resolve/<revision>/` and pin the revision |
+| 2026-11-11 | Uploading the 705 MB phone build from the laptop in one `create_commit` (all files in parallel) | `Connection reset by peer` on many files at 0.1–0.7 MB/s; one file ran out of retries and the whole commit was lost | Upload large sets from the laptop one file per commit with retries, skipping files whose SHA-256 is already on the Hub; verify hashes afterwards |
 
 ---
 
