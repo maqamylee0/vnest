@@ -73,6 +73,10 @@ same architecture, tensor names, shapes and quantisation as the stock
 values differ, so **any engine that already runs the stock Llama-3.2-1B `q4f16_0` model runs this one**. Point it at these
 weights instead.
 
+**Ready-made engine.** The engine the VNeST app uses (MLC LLM 2024, arm64, OpenCL) is a download on the
+[engine-mlc2024-v1 release](https://github.com/maqamylee0/vnest/releases/tag/engine-mlc2024-v1): `libtvm4j_runtime_packed.so`
+plus `tvm4j_core.jar`. It already contains the `llama1b_q4f16_0` library, so you can skip the compile step below.
+
 To build the library yourself (MLC 2024, from source), compile from the model's own config with the same limits the app uses:
 
 ```bash

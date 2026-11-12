@@ -30,7 +30,9 @@ app's code checks every model reply and every patient answer, so feedback never 
 | `logs/` | Phone test logs |
 | `docs/`, `presentations/` | Reports, guide, slides |
 
-Model weights and checkpoints are on Hugging Face, not in git.
+Model weights and checkpoints are on Hugging Face, not in git. The compiled Android engine (`libtvm4j_runtime_packed.so`,
+109 MB) is a download on the [engine-mlc2024-v1 release](https://github.com/maqamylee0/vnest/releases/tag/engine-mlc2024-v1):
+put it in `vnest_app/android/app/src/main/jniLibs/arm64-v8a/` before building the app.
 
 ## Data notes
 
