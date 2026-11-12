@@ -672,7 +672,9 @@ app without the JSON rule for f1 (expected ≈ 7 s per question, ≈ 35 s per ex
 Contents: the 27 files of the local phone build `models/mlc/Llama-3.2-1B-Instruct-VNeST-f1-q4f16_0/` (704.5 MB; local `sha256sum -c SHA256SUMS` passed and
 its `SHA256SUMS` is identical to the private repo's `mlc-q4f16_0/`; every LFS file's SHA-256 on the Hub checked against the local file after upload),
 plus `README.md` (model card) and `LICENSE.txt` (Llama 3.2 Community License, from `meta-llama/Llama-3.2-1B-Instruct`).
-The private training repo (merged model, LoRA epochs, optimizer state) is unchanged and stays private; the dataset stays private.
+The private training repo (merged model, LoRA epochs, optimizer state) is unchanged and stays private.
+**2026-11-12:** this git repo (code, app, dataset v1 + v2, log, docs) pushed publicly to [github.com/maqamylee0/vnest](https://github.com/maqamylee0/vnest)
+(user decision: everything public, history included); the model card now links to it. Dataset v1 still holds the 2 offensive sentences (Entry 9); the README says so.
 
 **Licence (Llama 3.2 §1.b.i):** copy of the licence included; "Built with Llama" shown on the model card; name starts with "Llama".
 **Model card:** exact system prompt and the five per-part prompts as in `vnest_app/lib/services/llm_service.dart` (`partSystemPrompt`, `partPrompt`, `partSchema`,
